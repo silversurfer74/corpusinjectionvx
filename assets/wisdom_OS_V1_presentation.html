@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WISDOM OS V1 - Présentation Complète</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=IBM+Plex+Mono:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wisdom-purple: #4a148c;
+            --wisdom-deep-blue: #0a1929;
+            --wisdom-cyan: #00e5ff;
+            --wisdom-gold: #ffd700;
+            --wisdom-emerald: #00bfa5;
+            --wisdom-rose: #e91e63;
+            --wisdom-amber: #ff6f00;
+            --text-primary: #1a1a2e;
+            --text-light: #4a5568;
+            --glass-white: rgba(255, 255, 255, 0.92);
+            --glass-light: rgba(255, 255, 255, 0.75);
+            --shadow-soft: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --gradient-wisdom: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --gradient-neural: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: 
+                radial-gradient(ellipse at top, rgba(102, 126, 234, 0.15), transparent),
+                radial-gradient(ellipse at bottom, rgba(118, 75, 162, 0.12), transparent),
+                linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 11pt;
+            overflow-x: hidden;
+        }
+
+        .wisdom-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        /* Hero Section with Animated Background */
+        .hero-section {
+            position: relative;
+            background: linear-gradient(135deg, rgba(74, 20, 140, 0.95), rgba(10, 25, 41, 0.98)),
+                        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            padding: 100px 60px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 60px;
+            box-shadow: 0 30px 60px var(--shadow-medium);
+            overflow: hidden;
+            animation: heroGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes heroGlow {
+            0%, 100% { box-shadow: 0 30px 60px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 30px 80px rgba(118, 75, 162, 0.4); }
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.25);
+            border: 2px solid var(--wisdom-gold);
+            color: var(--wisdom-gold);
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10pt;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 72pt;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            line-height: 1.2;
+        }
+
+        .hero-acronym {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14pt;
+            color: var(--wisdom-cyan);
+            margin-bottom: 30px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 229, 255, 0.5);
+        }
+
+        .hero-description {
+            font-size: 16pt;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 900px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .hero-version {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--wisdom-rose), var(--wisdom-amber));
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12pt;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        /* Glass Card System */
+        .glass-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 50px var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 70px var(--shadow-medium);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-wisdom);
+        }
+
+        /* Section Headers */
+        .section-header {
+            font-family: 'Playfair Display', serif;
+            font-size: 36pt;
+            font-weight: 700;
+            color: var(--wisdom-purple);
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 80%;
+            background: var(--gradient-wisdom);
+            border-radius: 4px;
+        }
+
+        .section-number {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14pt;
+            color: var(--wisdom-cyan);
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 16pt;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        /* Typography */
+        .lead-paragraph {
+            font-size: 13pt;
+            line-height: 1.9;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 111, 0, 0.08));
+            border-left: 5px solid var(--wisdom-gold);
+            padding: 25px 30px;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.15);
+        }
+
+        .highlight-box strong {
+            color: var(--wisdom-amber);
+            font-size: 14pt;
+        }
+
+        /* Architecture Diagram */
+        .architecture-diagram {
+            background: var(--wisdom-deep-blue);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
+            overflow-x: auto;
+            box-shadow: 0 15px 40px rgba(10, 25, 41, 0.4);
+        }
+
+        .architecture-diagram pre {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9.5pt;
+            color: var(--wisdom-cyan);
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+        }
+
+        /* Advanced Table Styling */
+        .wisdom-table-container {
+            overflow-x: auto;
+            margin: 40px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-soft);
+        }
+
+        .wisdom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            font-size: 10.5pt;
+        }
+
+        .wisdom-table thead {
+            background: linear-gradient(135deg, var(--wisdom-purple), var(--wisdom-deep-blue));
+            color: white;
+        }
+
+        .wisdom-table thead th {
+            padding: 20px 15px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 9.5pt;
+            text-align: left;
+            border-bottom: 3px solid var(--wisdom-cyan);
+        }
+
+        .wisdom-table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .wisdom-table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+            transform: scale(1.01);
+        }
+
+        .wisdom-table tbody td {
+            padding: 18px 15px;
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        .wisdom-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Module Status Badges */
+        .status-active {
+            display: inline-block;
+            background: linear-gradient(135deg, #00e676, #00bfa5);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9pt;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0, 230, 118, 0.3);
+        }
+
+        .status-standby {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff9800, #ff6f00);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9pt;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+        }
+
+        .module-name {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 700;
+            font-size: 11pt;
+            color: var(--wisdom-purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subsystem-tag {
+            display: inline-block;
+            background: rgba(74, 20, 140, 0.1);
+            color: var(--wisdom-purple);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 8.5pt;
+            font-weight: 500;
+            border: 1px solid rgba(74, 20, 140, 0.3);
+        }
+
+        /* Interface Grid */
+        .interface-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .interface-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interface-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-wisdom);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .interface-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .interface-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px var(--shadow-medium);
+            border-color: var(--wisdom-purple);
+        }
+
+        .interface-card.standby {
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.05), rgba(255, 111, 0, 0.03));
+            border-color: var(--wisdom-amber);
+        }
+
+        .interface-card-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 16pt;
+            font-weight: 700;
+            color: var(--wisdom-purple);
+            margin: 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .interface-card-emoji {
+            font-size: 48pt;
+            margin-bottom: 10px;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        .interface-card-description {
+            font-size: 11pt;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .interface-card-activation {
+            font-size: 9.5pt;
+            color: var(--wisdom-cyan);
+            font-family: 'IBM Plex Mono', monospace;
+            background: rgba(0, 229, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        /* Toolkit Cards */
+        .toolkit-grid {
+            display: grid;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .toolkit-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 10px 30px var(--shadow-soft);
+            border-left: 5px solid var(--wisdom-emerald);
+            transition: all 0.3s ease;
+        }
+
+        .toolkit-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 15px 40px var(--shadow-medium);
+        }
+
+        .toolkit-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20pt;
+            color: var(--wisdom-purple);
+            margin-bottom: 10px;
+        }
+
+        .toolkit-card h4 {
+            font-size: 13pt;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .toolkit-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toolkit-card li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .toolkit-card li::before {
+            content: '⚡';
+            position: absolute;
+            left: 0;
+            color: var(--wisdom-emerald);
+            font-size: 14pt;
+        }
+
+        .toolkit-card strong {
+            color: var(--wisdom-purple);
+            font-weight: 600;
+        }
+
+        /* Claims Section */
+        .claims-container {
+            margin: 40px 0;
+        }
+
+        .claim-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px var(--shadow-soft);
+            border-left: 5px solid var(--wisdom-rose);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .claim-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px var(--shadow-medium);
+        }
+
+        .claim-number {
+            position: absolute;
+            top: 20px;
+            left: -20px;
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-wisdom);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 700;
+            font-size: 14pt;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+        }
+
+        .claim-box strong {
+            color: var(--wisdom-purple);
+        }
+
+        /* Footer */
+        .wisdom-footer {
+            text-align: center;
+            padding: 50px 20px;
+            margin-top: 80px;
+            background: linear-gradient(135deg, rgba(74, 20, 140, 0.05), rgba(10, 25, 41, 0.03));
+            border-radius: 20px;
+            border-top: 3px solid var(--wisdom-gold);
+        }
+
+        .wisdom-footer p {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10pt;
+            color: var(--text-light);
+            margin: 10px 0;
+        }
+
+        .classification-tag {
+            display: inline-block;
+            background: var(--wisdom-deep-blue);
+            color: var(--wisdom-cyan);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9pt;
+            margin-top: 15px;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .wisdom-container {
+                padding: 40px 20px;
+            }
+
+            .hero-section {
+                padding: 60px 30px;
+            }
+
+            .hero-title {
+                font-size: 42pt;
+                letter-spacing: 4px;
+            }
+
+            .section-header {
+                font-size: 24pt;
+            }
+
+            .glass-card {
+                padding: 30px 25px;
+            }
+
+            .interface-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-wisdom);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .glass-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+
+            .hero-section {
+                background: var(--wisdom-purple);
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wisdom-container">
+        
+        <!-- HERO SECTION -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <div class="hero-badge">Brevet d'Invention</div>
+                <h1 class="hero-title">Wisdom OS</h1>
+                <div class="hero-acronym">Wise Interface for Sensory Omnidirectional Multidimensional Operating System</div>
+                <p class="hero-description">
+                    Système d'Exploitation Informatique à Interface Sensorielle Multidimensionnelle — Une Architecture Paradigmatique Révolutionnant l'Interaction Homme-Machine par Transduction Synaptique des Six Modalités Perceptuelles
+                </p>
+                <div class="hero-version">VERSION 1.0</div>
+            </div>
+        </div>
+
+        <!-- SECTION 1: DOMAINE TECHNIQUE -->
+        <div class="glass-card">
+            <div class="section-number">SECTION 01</div>
+            <h2 class="section-header">Domaine Technique</h2>
+            <p class="lead-paragraph">
+                La présente invention concerne le domaine des <strong>systèmes d'exploitation informatiques</strong>, et plus particulièrement un OS (Operating System) révolutionnaire basé sur une <strong>architecture sémantique sensorielle</strong>, intégrant six modalités perceptuelles (vue, ouïe, parole, toucher, odorat, holographie) plus une <strong>Boîte à Outils Système Universelle</strong>, permettant une interaction homme-machine par <strong>transduction multidimensionnelle</strong>.
+            </p>
+            <p class="lead-paragraph">
+                Wisdom OS représente une rupture paradigmatique avec les interfaces conventionnelles WIMP (Windows, Icons, Menus, Pointer), en proposant une architecture kernel biomimétique inspirée du fonctionnement neuronal du cerveau humain, où chaque sens possède son propre module fonctionnel interconnecté via un <strong>SYNAPSE BUS</strong> central.
+            </p>
+        </div>
+
+        <!-- SECTION 2: ART ANTÉRIEUR -->
+        <div class="glass-card">
+            <div class="section-number">SECTION 02</div>
+            <h2 class="section-header">Art Antérieur et Problèmes Posés</h2>
+            <p class="lead-paragraph">
+                Les systèmes d'exploitation classiques (Windows, macOS, Linux, iOS, Android) reposent sur une métaphore de bureau ou d'applications datant des années 1980-2000. Ces interfaces sont fondamentalement limitées à :
+            </p>
+            <ul style="margin: 20px 0 20px 40px; line-height: 1.9;">
+                <li><strong>Deux dimensions spatiales (2D)</strong> : affichage plan sur écrans plats</li>
+                <li><strong>Deux modalités d'entrée primaires</strong> : clavier et dispositif de pointage (souris, trackpad, tactile)</li>
+                <li><strong>Deux sens exploités</strong> : vue (affichage graphique) et ouïe (sons système limités)</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>Problème Fondamental :</strong> Aucun système existant ne propose une intégration native et systémique des cinq sens humains (vue, ouïe, parole, toucher, odorat) augmentée d'une dimension holographique temporelle (3D+T), ni de mécanisme de transmutation sensorielle permettant la conversion bidirectionnelle entre modalités perceptuelles.
+            </div>
+
+            <p class="lead-paragraph">
+                Les limitations actuelles incluent notamment :
+            </p>
+            <ul style="margin: 20px 0 20px 40px; line-height: 1.9;">
+                <li>Absence de <strong>partition swap sensorielle</strong> : impossible de transmettre des textures tactiles ou des odeurs via le système d'exploitation</li>
+                <li>Pas de <strong>moteur de transmutation universelle</strong> : les formats de fichiers restent cloisonnés par type (image, son, texte) sans métadonnées sensorielles croisées</li>
+                <li>Dépendance aux moteurs de recherche externes pour l'intelligence artificielle, compromettant confidentialité et latence</li>
+                <li>Interface utilisateur figée dans le paradigme menu/fenêtre, non adaptée aux interactions multimodales</li>
+            </ul>
+        </div>
+
+        <!-- SECTION 3: RÉSUMÉ DE L'INVENTION -->
+        <div class="glass-card">
+            <div class="section-number">SECTION 03</div>
+            <h2 class="section-header">Résumé de l'Invention</h2>
+            <p class="lead-paragraph">
+                <strong>Wisdom OS</strong> propose une architecture kernel innovante nommée <strong>SYNAPSE BUS</strong>, interconnectant six sous-systèmes sensoriels majeurs (OCULUS, HOLIS, LOGOS, TACTUS, HOLFAR, HYPERCUBE) et une <strong>Boîte à Outils Centrale</strong> comprenant trois modules fondamentaux (MDR, MTU, IND).
+            </p>
+
+            <div class="highlight-box">
+                <strong>Innovation Majeure :</strong> Les modules <strong>TACTUS</strong> (toucher) et <strong>HOLFAR</strong> (odorat) fonctionnent en mode <em>standby</em> avec un mécanisme révolutionnaire de <strong>Partition Swap Analogique</strong>, permettant la transmutation de descriptions textuelles (via LOGOS) ou de formules chimiques en stimuli physiques via des appareils périphériques dédiés (gants haptiques, diffuseurs olfactifs modulaires).
+            </div>
+
+            <p class="lead-paragraph">
+                L'interface ergonomique élimine radicalement le menu démarrer conventionnel au profit de <strong>six rubriques sémantiques sensitives</strong>, activables indifféremment par :
+            </p>
+            <ul style="margin: 20px 0 20px 40px; line-height: 1.9;">
+                <li><strong>Contact tactile direct</strong> sur écran capacitif ou geste holographique</li>
+                <li><strong>Commande vocale</strong> via reconnaissance locale (sans cloud externe)</li>
+                <li><strong>Activation contextuelle automatique</strong> lors de la détection de périphériques compatibles</li>
+            </ul>
+
+            <p class="lead-paragraph">
+                Le système introduit également le format de fichier universel <strong>.wdm</strong> (Wisdom Data Meta), capable d'encapsuler simultanément les six dimensions sensorielles d'une même donnée, permettant par exemple qu'une image contienne son profil sonore, sa description textuelle, sa texture tactile simulée, son empreinte olfactive et sa projection holographique 4D.
+            </p>
+        </div>
+
+        <!-- SECTION 4: ARCHITECTURE DÉTAILLÉE -->
+        <div class="glass-card">
+            <div class="section-number">SECTION 04</div>
+            <h2 class="section-header">Architecture Kernel et Organigramme Structurel</h2>
+            <p class="section-subtitle">Description du SYNAPSE BUS et des Six Modules Sensoriels</p>
+
+            <div class="architecture-diagram">
+                <pre>
+                         ┌─────────────────────────────────────────┐
+                         │         SENS-OS KERNEL (Noyau)          │
+                         │    Gestionnaire Spatio-Temporel 3D+T    │
+                         └──────────────────┬──────────────────────┘
+                                            │
+               ┌────────────────────────────┼────────────────────────────┐
+               │                            │                            │
+               ▼                            ▼                            ▼
+       ┌───────────────┐            ┌───────────────┐            ┌───────────────┐
+       │    OCULUS     │            │     HOLIS     │            │    LOGOS      │
+       │     (Vue)     │            │    (Ouïe)     │            │   (Parole)    │
+       │ Interface Vis │            │ Interface Aud │            │ Interface Ling│
+       └───────┬───────┘            └───────┬───────┘            └───────┬───────┘
+               │                            │                            │
+               └────────────────────────────┼────────────────────────────┘
+                                           │
+                              ┌────────────┴────────────┐
+                              │      SYNAPSE BUS        │
+                              │   (Fusion Sensorielle)  │
+                              │    Barycentre Neural    │
+                              └────────────┬────────────┘
+                                           │
+                ┌──────────────────────────┼──────────────────────────┐
+                │                          │                          │
+                ▼                          ▼                          ▼
+       ┌────────────────┐        ┌────────────────┐          ┌────────────────┐
+       │   HYPERCUBE    │        │    TACTUS      │          │    HOLFAR      │
+       │   (6e Sens)    │        │  (Toucher)     │          │   (Odorat)     │
+       │Holographie 4D+T│        │ PARTITION SWAP │          │ PARTITION SWAP │
+       │ Projection ND  │        │Texte→Haptique  │          │Chimie→Olfactif │
+       └───────┬────────┘        └───────┬────────┘          └───────┬────────┘
+               │                         │                           │
+               │                         ▼                           ▼
+               │                ┌─────────────────┐         ┌─────────────────┐
+               │                │ APPAREIL TACTILE│         │ SYNTHÉTISEUR    │
+               │                │ • Gants haptiques        │ • Diffuseur molé│
+               │                │ • Écran résistif         │ • Cartouches base│
+               │                │ • Feedback thermique     │ • Mixage chimique│
+               │                └─────────────────┘         └─────────────────┘
+               └───────────────────────────┬───────────────────────────┘
+                                           │
+                              ┌────────────┴────────────┐
+                              │   BOÎTE À OUTILS        │
+                              │      (Toolkit)          │
+                              │  • MDR • MTU • IND      │
+                              └─────────────────────────┘
+                </pre>
+            </div>
+
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 20pt; color: var(--wisdom-purple); margin-top: 50px; margin-bottom: 25px;">
+                Tableau Détaillé des Six Modules Sensoriels
+            </h3>
+
+            <div class="wisdom-table-container">
+                <table class="wisdom-table">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Rubrique UI</th>
+                            <th>Subsystem</th>
+                            <th>État</th>
+                            <th>Mécanisme d'Entrée</th>
+                            <th>Processus de Transmutation</th>
+                            <th>Output Physique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td><span class="module-name">OCULUS</span></td>
+                            <td><span class="subsystem-tag">OCULUS-KERNEL</span></td>
+                            <td><span class="status-active">ACTIF</span></td>
+                            <td>Flux vidéo RAW, Rendu 3D, Réalité Augmentée, Entrée oculométrique (eye-tracking)</td>
+                            <td>Traitement rétinien algorithmique, Pipeline de rendu GPU accéléré, Synchronisation temporelle T</td>
+                            <td>Affichage stéréoscopique haute résolution, Hologrammes projetés, Interface graphique adaptative</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2</strong></td>
+                            <td><span class="module-name">HOLIS</span></td>
+                            <td><span class="subsystem-tag">AURIS-CORE</span></td>
+                            <td><span class="status-active">ACTIF</span></td>
+                            <td>Ondes acoustiques multicanales, Signaux vibratoires, Commandes vocales raw audio</td>
+                            <td>Spatialisation HRTF (Head-Related Transfer Function), Analyse fréquentielle temps réel, Filtrage adaptatif</td>
+                            <td>Son 3D binaural immersif, Rétroaction vibratoire synchrone, Alertes sonores contextuelles</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3</strong></td>
+                            <td><span class="module-name">LOGOS</span></td>
+                            <td><span class="subsystem-tag">LINGUA-ENGINE</span></td>
+                            <td><span class="status-active">ACTIF</span></td>
+                            <td>Texte naturel (NLP), Dictée vocale continue, Commandes syntaxiques structurées</td>
+                            <td>NLP profond (transformers locaux), Parsing sémantique contextuel, TTS/STT bidirectionnel en temps réel</td>
+                            <td>Narration synthétique multilingue, Sous-titres contextuels automatiques, Transcription intelligente</td>
+                        </tr>
+                        <tr style="background: rgba(255, 152, 0, 0.05);">
+                            <td><strong>4</strong></td>
+                            <td><span class="module-name">TACTUS</span></td>
+                            <td><span class="subsystem-tag">HAPTIC-SWAP</span></td>
+                            <td><span class="status-standby">STANDBY</span></td>
+                            <td>
+                                <strong>Partition Swap Active :</strong><br>
+                                • Descriptions textuelles via Logos<br>
+                                • Adjectifs tactiles : "rugueux", "lisse", "velouté", "adhérant", "froid", "chaud"<br>
+                                • Profils haptiques vectoriels prédéfinis<br>
+                                • Données thermiques analogiques (gradients T°)
+                            </td>
+                            <td>
+                                <strong>Algorithme de Transmutation :</strong><br>
+                                1. Parsing NLP des descripteurs tactiles<br>
+                                2. Mapping vers Bibliothèque de Textures Physiques (BTP)<br>
+                                3. Calcul profil frictionnel micro-résistif<br>
+                                4. Génération signal haptique temporel<br>
+                                5. Routage vers périphérique actif (USB-C/Bluetooth)
+                            </td>
+                            <td>
+                                <strong>Rétroaction Tactile :</strong><br>
+                                • Résistance variable mécano-électrique<br>
+                                • Micro-vibrations piezo-électriques (10-500Hz)<br>
+                                • Gradient thermique contrôlé (5°-45°C)<br>
+                                • Texture simulée (matériaux virtuels)
+                            </td>
+                        </tr>
+                        <tr style="background: rgba(255, 152, 0, 0.05);">
+                            <td><strong>5</strong></td>
+                            <td><span class="module-name">HOLFAR</span></td>
+                            <td><span class="subsystem-tag">OLFA-SWAP</span></td>
+                            <td><span class="status-standby">STANDBY</span></td>
+                            <td>
+                                <strong>Partition Swap Active :</strong><br>
+                                • Formules chimiques (SMILES, IUPAC, CAS)<br>
+                                • Index sémantiques ("parfum de rose", "odeur café", "fumée de bois")<br>
+                                • Base de données gustatives/olfactives (MOL-REF)<br>
+                                • Profils moléculaires streamés
+                            </td>
+                            <td>
+                                <strong>Algorithme de Transmutation :</strong><br>
+                                1. Résolution nom → Formule chimique (DB MOL-REF)<br>
+                                2. Décomposition en molécules de base (terpènes, alcools, esters, aldéhydes)<br>
+                                3. Calcul ratio de mélange optimal<br>
+                                4. Activation cartouches chimiques modulaires<br>
+                                5. Diffusion contrôlée temporelle (T) avec dissipation programmée
+                            </td>
+                            <td>
+                                <strong>Synthèse Olfactive :</strong><br>
+                                • Émission moléculaire précise (ppb - parties par milliard)<br>
+                                • Mélanges dynamiques (jusqu'à 16 bases olfactives)<br>
+                                • Diffusion localisée personnelle (rayon 50cm)<br>
+                                • Dissipation programmée temporelle pour éviter saturation
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>6</strong></td>
+                            <td><span class="module-name">HYPECUBE</span></td>
+                            <td><span class="subsystem-tag">HYPER-RENDER</span></td>
+                            <td><span class="status-active">ACTIF</span></td>
+                            <td>Topologies mathématiques 4D+, Projections géodésiques complexes, Données temporelles multidimensionnelles</td>
+                            <td>Projection dimensionnelle (slicing 4D→3D), Rotation hyperspatiale interactive, Warping temporel, Calculs tensoriels</td>
+                            <td>Visualisation tesseract (hypercube 4D), Formes impossibles rendues en 3D, Espace-temps manipulable interactivement</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECTION 5: INTERFACE ERGONOMIQUE -->
+        <div class="glass-card">
+            <div class="section-number">SECTION 05</div>
+            <h2 class="section-header">Interface Ergonomique et Modèle d'Interaction</h2>
+            <p class="section-subtitle">Principe d'Affichage Sémantique — Absence de Menu Démarrer</p>
+
+            <p class="lead-paragraph">
+                Contrairement aux systèmes conventionnels utilisant une barre de tâches ou un menu démarrer, <strong>Wisdom OS</strong> présente une interface révolutionnaire organisée en <strong>hexagone sensoriel centralisé</strong> ou en <strong>disposition linéaire adaptative</strong>, affichant les six <strong>Rubriques Sensorielles Principales</strong> accompagnées d'une <strong>Boîte à Outils Centrale</strong> accessible en permanence.
+            </p>
+
+            <div class="highlight-box">
+                <strong>Innovation Interface :</strong> L'utilisateur n'accède plus aux applications via des icônes ou menus hiérarchiques, mais via des <strong>portails sensoriels</strong> qui organisent les fonctionnalités selon la modalité perceptuelle dominante. Par exemple, tout ce qui concerne la création visuelle se trouve dans OCULUS, tout ce qui concerne l'audio dans HOLIS, etc.
+            </div>
+
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 20pt; color: var(--wisdom-purple); margin-top: 50px; margin-bottom: 25px;">
+                Les Six Rubriques Sensorielles Interactives
+            </h3>
+
+            <div class="interface-grid">
+                <div class="interface-card">
+                    <span class="interface-card-emoji">👁</span>
+                    <h4 class="interface-card-title">OCULUS</h4>
+                    <p class="interface-card-description">
+                        <strong>Vision & Affichage</strong><br>
+                        Création graphique, visualisation 3D, montage vidéo, réalité augmentée, navigation visuelle
+                    </p>
+                    <div class="interface-card-activation">
+                        👆 Clic tactile / 🎤 "Oculus"
+                    </div>
+                </div>
+
+                <div class="interface-card">
+                    <span class="interface-card-emoji">🔊</span>
+                    <h4 class="interface-card-title">HOLIS</h4>
+                    <p class="interface-card-description">
+                        <strong>Audition & Sons</strong><br>
+                        Production audio, musique, podcasts, spatialisation sonore 3D, mastering acoustique
+                    </p>
+                    <div class="interface-card-activation">
+                        👆 Clic tactile / 🎤 "Holis"
+                    </div>
+                </div>
+
+                <div class="interface-card">
+                    <span class="interface-card-emoji">💬</span>
+                    <h4 class="interface-card-title">LOGOS</h4>
+                    <p class="interface-card-description">
+                        <strong>Parole & Texte</strong><br>
+                        Traitement de texte, commandes vocales, transcription, traduction multilingue, NLP
+                    </p>
+                    <div class="interface-card-activation">
+                        👆 Clic tactile / 🎤 "Logos"
+                    </div>
+                </div>
+
+                <div class="interface-card standby">
+                    <span class="interface-card-emoji">✋</span>
+                    <h4 class="interface-card-title">TACTUS</h4>
+                    <p class="interface-card-description">
+                        <strong>Toucher & Texture</strong><br>
+                        <em>(Mode Partition Swap)</em><br>
+                        Simulation haptique, retours tactiles, création de textures virtuelles
+                    </p>
+                    <div class="interface-card-activation">
+                        👆 Clic tactile / 🎤 "Tactus"
+                    </div>
+                </div>
+
+                <div class="interface-card standby">
+                    <span class="interface-card-emoji">👃</span>
+                    <h4 class="interface-card-title">HOLFAR</h4>
+                    <p class="interface-card-description">
+                        <strong>Odorat & Chimie</strong><br>
+                        <em>(Mode Partition Swap)</em><br>
+                        Synthèse olfactive, création de parfums, simulation d'ambiances odorantes
+                    </p>
+                    <div class="interface-card-activation">
+                        👆 Clic tactile / 🎤 "Holfar"
+                    </div>
+                </div>
+
+                <div class="interface-card">
+                    <span class="interface-card-emoji">🔷</span>
+                    <h4 class="interface-card-title">HYPECUBE</h4>
+                    <p class="interface-card-description">
+                        <strong>Holographie 4D</strong><br>
+                        Visualisation multidimensionnelle, projection holographique, manipulation espace-temps
+                    </p>
+                    <div class="interface-card-activation">
+                        👆 Clic tactile / 🎤 "Hypecube"
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 20pt; color: var(--wisdom-purple); margin-top: 50px; margin-bottom: 25px;">
+                Modalités d'Activation des Rubriques
+            </h3>
+
+            <div class="toolkit-grid">
+                <div class="toolkit-card" style="border-left-color: var(--wisdom-purple);">
+                    <h3>a) Activation Tactile</h3>
+                    <p class="lead-paragraph">
+                        Contact direct sur la rubrique sensorielle via écran capacitif multi-touch, ou geste holographique dans le champ de projection OCULUS. Le système détecte la pression, la durée et les gestes complexes (pincement, rotation, glissement multi-doigts).
+                    </p>
+                </div>
+
+                <div class="toolkit-card" style="border-left-color: var(--wisdom-cyan);">
+                    <h3>b) Activation Vocale</h3>
+                    <p class="lead-paragraph">
+                        Commande par mot-clé dédié via reconnaissance vocale locale (LOGOS module) <strong>sans cloud externe</strong>. Le microphone système reste en écoute permanente avec filtrage strict de vie privée (détection vocale locale uniquement, aucune transmission externe). Mots-clés : "Oculus", "Holis", "Logos", "Tactus", "Holfar", "Hypecube", "Toolkit".
+                    </p>
+                </div>
+
+                <div class="toolkit-card" style="border-left-color: var(--wisdom-amber);">
+                    <h3>c) Activation Contextuelle</h3>
+                    <p class="lead-paragraph">
+                        Les modules <strong>TACTUS</strong> et <strong>HOLFAR</strong>, normalement en mode <em>standby</em>, passent automatiquement à l'état <em>actif</em> lorsqu'un périphérique compatible est détecté (connexion USB-C de gants haptiques, branchement de diffuseur olfactif) ou lorsqu'une requête de transmutation sensorielle est initiée depuis la Boîte à Outils.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 6: BOÎTE À OUTILS -->
+        <div class="glass-card">
+            <div class="section-number">SECTION 06</div>
+            <h2 class="section-header">Boîte à Outils Système (System Toolkit)</h2>
+            <p class="section-subtitle">Le Septième Module Fonctionnel — Cœur Opérationnel de Wisdom OS</p>
+
+            <p class="lead-paragraph">
+                Élément central et indispensable de l'architecture, la <strong>Boîte à Outils</strong> constitue le <strong>septième module fonctionnel</strong> de Wisdom OS. Accessible via une icône centrale permanente (⚙️⧉) ou par commande vocale <em>"Toolkit"</em>, elle regroupe trois sous-systèmes fondamentaux qui gèrent l'intégrité, la conversion universelle et l'intelligence artificielle du système.
+            </p>
+
+            <div class="toolkit-grid">
+                <div class="toolkit-card">
+                    <h3>6.1 Module de Diagnostic et Résolution Auto-Régulée (MDR)</h3>
+                    <h4>Fonction : Résolution des problèmes liés à Wisdom OS</h4>
+                    <ul>
+                        <li><strong>Détection prédictive :</strong> Algorithmes d'intégrité kernel vérifiant en temps réel la cohérence du <em>Synapse Bus</em> et l'état des partitions swap. Surveillance continue des six modules sensoriels avec prédiction des défaillances potentielles avant qu'elles ne surviennent.</li>
+                        
+                        <li><strong>Auto-réparation :</strong> Moteur de correction automatique des drivers sensoriels avec système de <em>rollback transactionnel</em> en cas d'échec de mise à jour (OCULUS, HOLIS, ou autres modules). Reconstruction automatique des partitions corrompues.</li>
+                        
+                        <li><strong>Isolation incrémentale :</strong> Si un module sensoriel défaille (ex: surcharge du module TACTUS par surutilisation haptique), le système opère une dérivation automatique vers les canaux redondants (ex: HOLIS pour substitution audio des alertes tactiles manquantes).</li>
+                        
+                        <li><strong>SAV intégré :</strong> Base de connaissances interne complète (sans connexion externe requise) pour troubleshooting guidé par IA locale. Documentation contextuelle et assistance pas-à-pas pour résolution de problèmes complexes.</li>
+                    </ul>
+                </div>
+
+                <div class="toolkit-card">
+                    <h3>6.2 Moteur de Transmutation Universelle (MTU)</h3>
+                    <h4>Fonction : Conversion de n'importe quelle extension vers n'importe quelle extension ou vers le Standard Universel</h4>
+                    <ul>
+                        <li><strong>Rasterisation sémantique :</strong> Analyse du contenu sémantique profond (pas seulement de la structure binaire) permettant une conversion contextuelle intelligente. Le MTU "comprend" le contenu pour optimiser la conversion.</li>
+                        
+                        <li><strong>Standard Wisdom Universel (SWU) :</strong> Format métadonnées natif <strong>.wdm</strong> (Wisdom Data Meta) permettant l'encapsulation simultanée des six dimensions sensorielles. Une donnée WDM peut contenir sa représentation visuelle (OCULUS), sonore (HOLIS), textuelle (LOGOS), tactile (TACTUS), olfactive (HOLFAR) et holographique (HYPERCUBE).</li>
+                        
+                        <li><strong>Trans-codage bidirectionnel :</strong> Import depuis tout format propriétaire (docx, pdf, psd, ai, mp3, wav, obj, fbx, etc.) vers SWU, et export vers tout format cible tout en préservant les métadonnées sensorielles enrichies. Exemple : une image JPEG peut être exportée avec son profil olfactif HOLFAR embarqué.</li>
+                        
+                        <li><strong>Intégration Swap :</strong> Conversion automatique des descriptions textuelles en profils TACTUS/HOLFAR activables. Exemple : écrire "sensation de velours rouge parfumé à la rose" génère automatiquement le profil tactile et olfactif correspondant.</li>
+                    </ul>
+                </div>
+
+                <div class="toolkit-card">
+                    <h3>6.3 Interface Neuronale Directe (IND) — REAL TIME AI</h3>
+                    <h4>Fonction : Interaction directe avec différents modèles d'IA en temps réel, sans Google ni Meta-Search Engine</h4>
+                    <ul>
+                        <li><strong>Large Sensory Models (LSM) embarqués :</strong> Réseaux de neurones propres au système (aucune API externe), gravés dans le noyau kernel, traitant toutes les données localement sur la machine hôte. Garantie de confidentialité absolue et latence minimale.</li>
+                        
+                        <li><strong>Architecture Multi-Modale Native :</strong> Les LSM comprennent des modèles spécialisés pour chaque sens (Vision-LMM pour OCULUS, Audio-LMM pour HOLIS, Text-LMM pour LOGOS, Haptic-LMM pour TACTUS, Olfactory-LMM pour HOLFAR, Spatial-LMM pour HYPERCUBE) plus un modèle de fusion synaptique central qui coordonne l'ensemble.</li>
+                        
+                        <li><strong>Zero External Query :</strong> Aucune requête HTTP vers des serveurs tiers (Google Search, Bing, ChatGPT API, etc.). Toutes les inférences IA se font localement via le <em>Synapse Bus</em>, garantissant une latence inférieure à 50ms et une confidentialité totale des données utilisateur.</li>
+                        
+                        <li><strong>Génération procédurale :</strong> Capacité à générer du contenu entièrement nouveau (images via OCULUS-AI, compositions sonores via HOLIS-AI, parfums inédits via HOLFAR-AI) sans base de données externe, par dérivation algorithmique des entrées utilisateur et apprentissage continu local.</li>
+                        
+                        <li><strong>Mode Apprentissage Continuel :</strong> L'IA s'adapte progressivement aux habitudes sensorielles personnelles de l'utilisateur (préférences pour certaines textures TACTUS, certaines notes olfactives HOLFAR, certains styles visuels OCULUS) et affine ses modèles locaux en temps réel sans jamais transmettre de données personnelles à l'extérieur.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 7: REVENDICATIONS -->
+        <div class="glass-card">
+            <div class="section-number">SECTION 07</div>
+            <h2 class="section-header">Revendications de Brevet</h2>
+            <p class="section-subtitle">Éléments Protégés par la Propriété Intellectuelle</p>
+
+            <div class="claims-container">
+                <div class="claim-box">
+                    <div class="claim-number">1</div>
+                    <p style="margin-left: 30px;">
+                        Système d'exploitation informatique caractérisé en ce qu'il comprend une architecture kernel <strong>SYNAPSE BUS</strong> interconnectant six sous-systèmes sensoriels (OCULUS pour la vue, HOLIS pour l'ouïe, LOGOS pour la parole, TACTUS pour le toucher, HOLFAR pour l'odorat, HYPERCUBE pour l'holographie), deux desdits sous-systèmes (TACTUS et HOLFAR) fonctionnant en mode standby avec mécanisme de <strong>partition swap analogique</strong> permettant la transmutation de données textuelles/chimiques en stimuli physiques via des appareils périphériques dédiés.
+                    </p>
+                </div>
+
+                <div class="claim-box">
+                    <div class="claim-number">2</div>
+                    <p style="margin-left: 30px;">
+                        Système selon la revendication 1, caractérisé en ce que l'<strong>interface ergonomique</strong> élimine le menu démarrer conventionnel pour présenter six rubriques sémantiques interactives (Oculus, Holis, Logos, Tactus, Holfar, Hypecube) activables indifféremment par contact tactile ou commande vocale via microphone intégré avec reconnaissance locale sans cloud externe.
+                    </p>
+                </div>
+
+                <div class="claim-box">
+                    <div class="claim-number">3</div>
+                    <p style="margin-left: 30px;">
+                        Système selon l'une des revendications précédentes, caractérisé en ce qu'il comprend une <strong>Boîte à Outils</strong> intégrant :
+                    </p>
+                    <ul style="margin-left: 60px; margin-top: 15px; line-height: 1.8;">
+                        <li>un <strong>Module de Diagnostic et Résolution (MDR)</strong> pour l'auto-réparation du système avec détection prédictive et isolation incrémentale,</li>
+                        <li>un <strong>Moteur de Transmutation Universelle (MTU)</strong> pour la conversion de tout format de fichier vers un Standard Universel Wisdom (.wdm) encapsulant les six dimensions sensorielles,</li>
+                        <li>une <strong>Interface Neuronale Directe (IND)</strong> permettant l'interaction temps réel avec des modèles d'IA locaux (LSM) sans recours à des moteurs de recherche externes.</li>
+                    </ul>
+                </div>
+
+                <div class="claim-box">
+                    <div class="claim-number">4</div>
+                    <p style="margin-left: 30px;">
+                        Système selon la revendication 1, caractérisé en ce que le mécanisme de <strong>partition swap du module TACTUS</strong> comprend les étapes de : parsing NLP de descriptions textuelles tactiles, mapping vers une Bibliothèque de Textures Physiques (BTP), calcul de profils frictionnels micro-résistifs, génération de signaux haptiques temporels, et routage vers périphériques (gants, écrans) restituant résistances variables, micro-vibrations piezo-électriques et gradients thermiques contrôlés.
+                    </p>
+                </div>
+
+                <div class="claim-box">
+                    <div class="claim-number">5</div>
+                    <p style="margin-left: 30px;">
+                        Système selon la revendication 1, caractérisé en ce que le mécanisme de <strong>partition swap du module HOLFAR</strong> comprend les étapes de : résolution de noms sémantiques ou formules chimiques (SMILES, IUPAC, CAS) vers des structures moléculaires, décomposition en bases olfactives (terpènes, esters, alcools, aldéhydes), calcul de ratios de mélange optimal, activation de cartouches chimiques modulaires, et diffusion contrôlée temporelle avec dissipation programmée pour synthèse physique d'odeurs localisées.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="wisdom-footer">
+            <p><strong>Document de Présentation Complète — Wisdom OS Version 1.0</strong></p>
+            <p>Système d'Exploitation à Interface Sensorielle Multidimensionnelle</p>
+            <p style="margin-top: 20px; font-size: 9pt; opacity: 0.7;">
+                © Tous droits réservés — Brevet en cours de dépôt
+            </p>
+            <div class="classification-tag">
+                Classification IPC : G06F 3/01 • G06F 9/44 • G06F 3/16
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Smooth scroll animation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(30px)';
+                    entry.target.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.glass-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Interactive hover effects for interface cards
+        document.querySelectorAll('.interface-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+
+        // Add print functionality
+        function printDocument() {
+            window.print();
+        }
+
+        // Console easter egg
+        console.log('%c🧠 WISDOM OS V1.0', 'font-size: 24px; font-weight: bold; color: #667eea;');
+        console.log('%cWise Interface for Sensory Omnidirectional Multidimensional Operating System', 'font-size: 12px; color: #764ba2;');
+        console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #00e5ff;');
+    </script>
+</body>
+</html>

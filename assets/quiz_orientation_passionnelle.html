@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌟 Orientation Passionnelle - Triple Quiz SRG</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<style>
+/* --- Styles unifiés des deux fichiers --- */
+:root {
+    --bg1: #0f172a;
+    --bg2: #1e293b;
+    --accent: #87CEFA; /* Changé d'indigo à bleu ciel */
+    --text: #e2e8f0;
+    --glass: rgba(135, 206, 250, 0.1); /* Adapté au bleu ciel */
+    --glass-dark: rgba(0, 0, 0, 0.2);
+    --success: #34d399;
+    --error: #ef4444;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text);
+    background: var(--bg1);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+header {
+  background: var(--glass-dark);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(135, 206, 250, 0.05); /* Adapté au bleu ciel */
+  padding: 30px 0;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+}
+
+header h1 {
+  color: var(--accent); /* Utilise la variable bleu ciel */
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  color: rgba(135, 206, 250, 0.7); /* Adapté au bleu ciel */
+  font-size: 1.7rem;
+  font-weight: 300;
+}
+
+nav {
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  margin: 20px auto;
+  display: flex;
+  width: fit-content;
+  overflow: hidden;
+  border: 1px solid var(--glass);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+nav button {
+  padding: 15px 30px;
+  border: none;
+  background: transparent;
+  color: rgba(135, 206, 250, 0.7); /* Adapté au bleu ciel */
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+nav button:last-child {
+  border-right: none;
+}
+
+nav button:hover {
+  color: var(--accent); /* Bleu ciel pur */
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+nav button.active {
+  background: rgba(135, 206, 250, 0.15); /* Adapté au bleu ciel */
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+section {
+  display: none;
+  padding: 40px 0;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card, .question-card, .results-section {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 50px;
+  text-align: center;
+  border: 1px solid var(--glass-dark);
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card h2 {
+  color: var(--accent); /* Bleu ciel */
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.card p {
+  color: rgba(135, 206, 250, 0.8); /* Adapté au bleu ciel */
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.user-selector, .quiz-selector {
+  background: var(--glass-dark);
+  border: 2px solid var(--glass);
+  border-radius: 15px;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  color: var(--text);
+  width: 300px;
+  margin: 10px auto;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+}
+
+.user-selector:focus, .quiz-selector:focus {
+  outline: none;
+  border-color: rgba(135, 206, 250, 0.5); /* Adapté au bleu ciel */
+  transform: scale(1.05);
+}
+
+.user-selector option, .quiz-selector option {
+  background: var(--bg2);
+  color: var(--text);
+}
+
+#welcomeMessage {
+  color: var(--accent);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+#welcomeMessage.show {
+  opacity: 1;
+}
+
+/* Nouveau style pour le sélecteur de quiz */
+#quizSelection {
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 1px solid var(--glass);
+    display: none; /* Caché par défaut */
+}
+
+#quizSelection h3 {
+    color: var(--accent);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.quiz-choice-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.quiz-choice {
+    padding: 15px 30px;
+    border: 2px solid var(--glass);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--glass-dark);
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 500;
+    min-width: 200px;
+    text-align: center;
+}
+
+.quiz-choice:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.quiz-choice.active-choice {
+    background: rgba(135, 206, 250, 0.2); /* Adapté au bleu ciel */
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(135, 206, 250, 0.4); /* Adapté au bleu ciel */
+}
+
+.quiz-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.quiz-header h2 {
+  color: var(--text);
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.quiz-header .progress-bar {
+  background: var(--glass);
+  height: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.quiz-header .progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #5D8AA8); /* Dégradé avec bleu ciel */
+  width: 0%;
+  transition: width 0.5s ease;
+  border-radius: 10px;
+}
+
+.question-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 40px;
+  margin-bottom: 30px;
+  border: 1px solid var(--glass-dark);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.question-card h3 {
+  color: var(--accent);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.question-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  background: var(--accent);
+  color: var(--bg1);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  margin-right: 15px;
+  font-weight: 700;
+}
+
+.question-card p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 25px;
+  text-align: justify;
+}
+
+.option {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.option label {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  padding: 15px 20px;
+  background: var(--glass);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.option label:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(10px);
+}
+
+.option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  margin-top: 2px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.option label:has(input:checked) {
+  background: rgba(135, 206, 250, 0.2); /* Adapté au bleu ciel */
+  border-color: var(--accent);
+  transform: translateX(10px);
+}
+
+.actions {
+  text-align: center;
+  margin: 60px 0 40px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 18px 35px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg1);
+  border: 2px solid var(--accent);
+}
+
+.btn-secondary {
+  background: var(--glass-dark);
+  color: var(--text);
+  border: 2px solid var(--accent);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+#validationMessage {
+    color: var(--error);
+    margin-top: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: none;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.results-section {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 50px;
+  border: 1px solid var(--glass-dark);
+  text-align: center;
+}
+
+.results-section h2 {
+  color: var(--text);
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+.results-card {
+  background: var(--glass);
+  border-radius: 20px;
+  padding: 40px;
+  margin-top: 30px;
+  border: 1px solid var(--glass-dark);
+}
+
+.results-card h3 {
+  color: var(--accent);
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.results-card p {
+  color: rgba(135, 206, 250, 0.8); /* Adapté au bleu ciel */
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.results-list {
+  list-style: none;
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.result-item {
+  background: var(--glass-dark);
+  border-radius: 15px;
+  padding: 20px 25px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+  border: 1px solid var(--glass);
+  animation: slideInUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.result-item:hover {
+  background: var(--glass);
+  transform: translateX(10px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes slideInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.item-name {
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.item-score {
+  background: var(--accent);
+  color: var(--bg1);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.progress-bar-item {
+  width: 100%;
+  height: 10px;
+  background: var(--glass);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.attributes-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.attribute-tag {
+  background: var(--glass-dark);
+  color: var(--text);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid var(--glass);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 15px; }
+  header h1 { font-size: 2rem; }
+  nav { flex-direction: column; width: 90%; }
+  nav button { padding: 12px 20px; }
+  .card, .question-card, .results-section { padding: 30px 20px; border-radius: 20px; }
+  .question-card h3 { font-size: 1.3rem; }
+  .question-card p { font-size: 1rem; }
+  .user-selector { width: 100%; max-width: 300px; }
+  .actions { flex-direction: column; align-items: center; }
+  .btn { width: 100%; max-width: 250px; }
+  .quiz-choice-container { flex-direction: column; }
+  .quiz-choice { min-width: auto; }
+}
+
+/* Texte bleu ciel uniquement pour la section Accueil */
+#accueil, #accueil h1, #accueil h2, #accueil h3, #accueil p, #accueil span, #accueil .user-card, #accueil .user-card * { color: rgb(135, 206, 250) !important; /* Bleu Ciel */ }
+</style>
+</head>
+<body>
+<div id="particles-js"></div>
+<header>
+    <div class="container">
+        <h1>Quiz Orientation Passionnelle</h1>
+        <p class="subtitle">Découvrez votre Score de Résonance Globale</p>
+    </div>
+</header>
+<div class="container">
+    <nav>
+        <button onclick="showSection('accueil')" class="active" id="nav-accueil">Accueil</button>
+        <button onclick="showSection('quiz')" id="nav-quiz" style="display:none;">Questions</button>
+        <button onclick="showSection('srg')" id="nav-srg" style="display:none;">Résultats</button>
+        <button onclick="showSection('analyse')" id="nav-analyse" style="display:none;">Analyse SRG</button>
+    </nav>
+
+    <section id="accueil" class="active">
+        <div class="card">
+            <h2>Bienvenue dans votre parcours d'orientation</h2>
+            <p>« Ce voyage interactif vous invite à explorer les profondeurs de votre personnalité à travers soixante situations professionnelles soigneusement choisies. Choisissez votre nom, puis le quiz que vous souhaitez passer. »</p>
+            <select id="userSelect" class="user-selector" onchange="selectUser()">
+                <option value="">-- Choisir un utilisateur --</option>
+                <option value="Rachid">Rachid</option>
+                <option value="Maria">Maria</option>
+                <option value="Léa">Léa</option>
+                <option value="Salma">Salma</option>
+                <option value="Dina">Dina</option>
+                <option value="Vladimir">Vladimir</option>
+            </select>
+            <p id="welcomeMessage"></p>
+            
+            <div id="quizSelection">
+                <h3>Choisissez votre Quiz</h3>
+                <div class="quiz-choice-container">
+                    <div class="quiz-choice" onclick="selectQuiz('quiz1')">Quiz 1: Dilemmes Originaux</div>
+                    <div class="quiz-choice" onclick="selectQuiz('quiz2')">Quiz 2: Scénarios Professionnels</div>
+                    <div class="quiz-choice" onclick="selectQuiz('quiz3')">Quiz 3: Nouveaux Défis</div>
+                </div>
+            </div>
+            <p id="quizStatus" style="color: var(--success); margin-top: 15px; font-weight: 500; display: none;"></p>
+        </div>
+    </section>
+
+    <section id="quiz">
+        <div class="quiz-header">
+            <h2 id="quizTitle"></h2>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-top: 10px;">Répondez aux situations suivantes selon votre instinct</p>
+            <p id="validationMessage">Veuillez sélectionner une option avant de continuer.</p>
+        </div>
+        <div id="quizContainer">
+            </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="nextQuestion()" id="nextButton">Question Suivante (1/20)</button>
+            <button class="btn btn-secondary" onclick="prevQuestion()" id="prevButton" style="display:none;">Question Précédente</button>
+        </div>
+    </section>
+
+    <section id="srg">
+        <div class="results-section">
+            <h2>Résultats du Quiz: Score de Résonance Globale</h2>
+            <p id="srgMessage" style="color: var(--accent); font-size: 1.3rem;">Calcul de votre profil en cours...</p>
+            
+            <div class="results-card" id="srgResultsCard" style="display:none;">
+                <h3>Votre Top 3 de Résonance Professionnelle</h3>
+                <p>Ces domaines correspondent le mieux à vos choix, indiquant une forte résonance avec votre personnalité et vos intérêts.</p>
+                <ul class="results-list" id="srgProfessionsList">
+                    </ul>
+                <p id="srgScore" style="color: var(--text); font-size: 1.5rem; margin-top: 30px;"></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="analyse">
+        <div class="results-section">
+            <h2>Explication et Analyse de votre Profil SRG</h2>
+            <div class="results-card">
+                <h3>Comprendre votre Profil SRG : Science, Relationnel et Garantie</h3>
+                <p>Le **Quiz d'Orientation Passionnelle** vise à mesurer l'équilibre de vos instincts face à des dilemmes éthiques et professionnels, en les classant selon trois attributs fondamentaux (SRG) :</p>
+                <ul style="list-style:disc; text-align:left; max-width:800px; margin:0 auto 30px auto; padding-left:20px;">
+                    <li style="margin-bottom:10px;">**S (Science / Logique)** : Votre tendance à analyser objectivement les faits, les coûts, les risques, et à privilégier la solution la plus efficace ou rationnelle.</li>
+                    <li style="margin-bottom:10px;">**R (Relationnel / Émotion)** : Votre inclination à considérer l'impact humain, l'intégrité, la communication et les valeurs personnelles ou collectives.</li>
+                    <li style="margin-bottom:10px;">**G (Garantie / Règle)** : Votre besoin d'appliquer strictement les règles, de garantir la sécurité ou l'intégrité sans compromis, quel qu'en soit le coût immédiat.</li>
+                </ul>
+                
+                <h3>Le Mécanisme de Relais de Fichier (Pondération Avancée)</h3>
+                <p>Le système utilise une **Formule de Résonance Globale (SRG)** sophistiquée qui va au-delà du simple comptage :</p>
+                <ul style="list-style:disc; text-align:left; max-width:800px; margin:0 auto 30px auto; padding-left:20px;">
+                    <li style="margin-bottom:10px;">**Pondération Discriminante (W)** : Vos réponses sont analysées en donnant **plus de poids** aux attributs qui **différencient** le mieux les professions, assurant une orientation plus précise.</li>
+                    <li style="margin-bottom:10px;">**Facteur de Diversité** : Les profils utilisateurs plus équilibrés reçoivent un léger *boost* contrôlé, encourageant la polyvalence.</li>
+                    <li style="margin-bottom:10px;">**Facteur de Dominance** : Le score est également ajusté pour vérifier si vos **forces dominantes** (vos meilleurs scores S, R, G) correspondent aux **exigences prioritaires** des professions cibles.</li>
+                </ul>
+                <p>Ce calcul complexe est votre **Relais de Fichier** : il transforme vos choix bruts en un score pondéré qui révèle votre profil dominant et vos forces d'orientation.</p>
+                <ul class="attributes-list" id="attributesList">
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+// --- Variables Globales ---
+const MAX_QUESTIONS = 20;
+const USERS = ["Rachid", "Maria", "Léa", "Salma", "Dina", "Vladimir"];
+const ATTRIBUTES = ['S', 'R', 'G']; // Science, Relationnel, Garantie
+let currentUser = null;
+let currentQuizType = null;
+let currentQuestionIndex = 0;
+let topAttributes = []; // Pour stocker les meilleurs attributs
+let userStates = JSON.parse(localStorage.getItem('userStates')) || {};
+
+// --- Paramètres et Données pour la Formule SRG (Pondération Avancée) ---
+const PROFESSIONS_DATA = [
+    { name: "Analyste Stratégique", P: [9, 3, 7] },
+    { name: "Coach / DRH", P: [4, 9, 5] },
+    { name: "Audit & Conformité", P: [7, 4, 9] },
+    { name: "Entrepreneur Tech", P: [8, 6, 4] },
+    { name: "Travailleur Social", P: [2, 10, 3] },
+    { name: "Gestion de Crise", P: [6, 7, 8] },
+    { name: "Recherche Scientifique", P: [10, 2, 5] },
+    { name: "Avocat / Juge", P: [5, 5, 10] },
+    { name: "Designer Éthique", P: [3, 8, 6] },
+    { name: "Marketing Data", P: [8, 5, 3] },
+];
+
+const QUIZ_SCORING_MAPPING = {
+    // Quiz 1: Dilemmes Originaux
+    'quiz1': [
+        { A: 'S', B: 'R', C: 'G' }, // Q1: Le Dilemme du Pont
+        { A: 'S', B: 'R', C: 'G' }, // Q2: L'Artiste en Herbe
+        { A: 'S', B: 'R', C: 'G' }, // Q3: Le Nouveau Chef d'Équipe
+        { A: 'S', B: 'R', C: 'G' }, // Q4: Le Vrai Chef
+        { A: 'S', B: 'R', C: 'G' }, // Q5: Le Débat sur la Liberté d'Expression
+        { A: 'S', B: 'R', C: 'G' }, // Q6: Le Vol des Idées
+        { A: 'S', B: 'R', C: 'G' }, // Q7: La Crise Éthique
+        { A: 'S', B: 'R', C: 'G' }, // Q8: Le Dilemme du Bénévolat
+        { A: 'S', B: 'R', C: 'G' }, // Q9: La Critique Constructive
+        { A: 'S', B: 'R', C: 'G' }, // Q10: Le Partenaire en Doute
+        { A: 'S', B: 'R', C: 'G' }, // Q11: Le Conflit d'Intérêt
+        { A: 'S', B: 'R', C: 'G' }, // Q12: L'Influence Nocive
+        { A: 'S', B: 'R', C: 'G' }, // Q13: Le Nouveau Code de Conduite
+        { A: 'S', B: 'R', C: 'G' }, // Q14: Le Changement de Carrière (Réseau)
+        { A: 'S', B: 'R', C: 'G' }, // Q15: Le Sauvetage
+        { A: 'S', B: 'R', C: 'G' }, // Q16: Le Développeur de l'Ombre
+        { A: 'S', B: 'R', C: 'G' }, // Q17: Le Militant Pacifique
+        { A: 'S', B: 'R', C: 'G' }, // Q18: La Banquière et le Client
+        { A: 'S', B: 'R', C: 'G' }, // Q19: Le Changement de Carrière (Échec)
+        { A: 'S', B: 'R', C: 'G' }  // Q20: Le Scientifique de l'Espace
+    ],
+    // Quiz 2: Scénarios Professionnels
+    'quiz2': [
+        { A: 'S', B: 'R', C: 'G' }, // Q1: Le Bug Critique
+        { A: 'S', B: 'R', C: 'G' }, // Q2: Le Concours de Design
+        { A: 'S', B: 'R', C: 'G' }, // Q3: Le Projet Bénévole
+        { A: 'S', B: 'R', C: 'G' }, // Q4: Le Dossier Confidentiel
+        { A: 'S', B: 'R', C: 'G' }, // Q5: L'Offre Douteuse
+        { A: 'S', B: 'R', C: 'G' }, // Q6: L'Erreur de Facturation
+        { A: 'S', B: 'R', C: 'G' }, // Q7: Le Conflit Familial
+        { A: 'S', B: 'R', C: 'G' }, // Q8: La Découverte Scientifique
+        { A: 'S', B: 'R', C: 'G' }, // Q9: Le Produit Révolutionnaire... Mais Inutile ?
+        { A: 'S', B: 'R', C: 'G' }, // Q10: Le Choix du Stagiaire
+        { A: 'S', B: 'R', C: 'G' }, // Q11: La Rumeur
+        { A: 'S', B: 'R', C: 'G' }, // Q12: Le Partenariat Stratégique
+        { A: 'S', B: 'R', C: 'G' }, // Q13: L'Héritage Culturel
+        { A: 'S', B: 'R', C: 'G' }, // Q14: Le Délai Impossible
+        { A: 'S', B: 'R', C: 'G' }, // Q15: Le Whistleblower
+        { A: 'S', B: 'R', C: 'G' }, // Q16: Le Choix du Cadeau
+        { A: 'S', B: 'R', C: 'G' }, // Q17: L'IA Génératrice
+        { A: 'S', B: 'R', C: 'G' }, // Q18: Le Mauvais Numéro
+        { A: 'S', B: 'R', C: 'G' }, // Q19: Le Changement de Cap
+        { A: 'S', B: 'R', C: 'G' }  // Q20: Le Test Réussi... ou Presque
+    ],
+    // Quiz 3: Nouveaux Défis
+    'quiz3': [
+        { A: 'S', B: 'R', C: 'G' }, // Q1: Le Projet en Péril
+        { A: 'S', B: 'R', C: 'G' }, // Q2: Le Cadeau Empoisonné
+        { A: 'S', B: 'R', C: 'G' }, // Q3: Le Code de la Concurrence
+        { A: 'S', B: 'R', C: 'G' }, // Q4: L'Avantage Injuste
+        { A: 'S', B: 'R', C: 'G' }, // Q5: Le Dilemme Écologique
+        { A: 'S', B: 'R', C: 'G' }, // Q6: Le Conflit d'Intérêts
+        { A: 'S', B: 'R', C: 'G' }, // Q7: La Promesse Non Contractuelle
+        { A: 'S', B: 'R', C: 'G' }, // Q8: L'Innovation Risquée
+        { A: 'S', B: 'R', C: 'G' }, // Q9: Le Salarié en Difficulté
+        { A: 'S', B: 'R', C: 'G' }, // Q10: L'Erreur d'un Subalterne
+        { A: 'S', B: 'R', C: 'G' }, // Q11: La Décision Impopulaire
+        { A: 'S', B: 'R', C: 'G' }, // Q12: Le Brevet Contestable
+        { A: 'S', B: 'R', C: 'G' }, // Q13: Le Choix du Fournisseur
+        { A: 'S', B: 'R', C: 'G' }, // Q14: L'Heure Supplémentaire Obligatoire
+        { A: 'S', B: 'R', C: 'G' }, // Q15: La Critique Publique
+        { A: 'S', B: 'R', C: 'G' }, // Q16: La Découverte Fortuite
+        { A: 'S', B: 'R', C: 'G' }, // Q17: L'Ordre Contraire à l'Éthique
+        { A: 'S', B: 'R', C: 'G' }, // Q18: Le Pari Technologique
+        { A: 'S', B: 'R', C: 'G' }, // Q19: Le Mauvais Exemple
+        { A: 'S', B: 'R', C: 'G' }  // Q20: L'Équilibre Vie Pro/Vie Perso
+    ]
+};
+
+const QUIZ_DATA = {
+    'quiz1': [
+        { question: "Le Dilemme du Pont - Situation : Vous êtes ingénieur·e sur un chantier. Un pont s'effondre partiellement alors que votre équipe est en pause. Vous êtes le/la seul·e à voir qu'une remorque chargée de matériaux roule droit vers la section affaiblie. Le chauffeur ne répond pas à son radio. Vous avez le temps de déclencher une charge d'explosifs contrôlés pour faire s'effondrer complètement le pont et bloquer la route, sacrifiant l'ouvrage mais sauvant potentiellement le chauffeur. Ou de courir prévenir l'équipe en contrebas, au risque que la remorque arrive avant vous.", options: { A: "Analyse et Raisonnement - Vous calculez mentalement le temps disponible, la trajectoire, la masse de la remorque et la probabilité de succès de chaque scénario avant d'agir.", B: "Empathie et Collaboration - Vous criez immédiatement pour alerter tout le monde en même temps, espérant que quelqu'un entende et puisse aider, tout en agitant les bras pour tenter d'arrêter le chauffeur.", C: "Éthique et Intégrité - Vous déclenchez les explosifs. Votre serment d'ingénieur est de protéger des vies, pas des structures. Vous assumez la responsabilité de la destruction du pont." }},
+        { question: "L'Artiste en Herbe - Situation : Vous avez toujours rêvé de devenir céramiste. Vos parents, inquiets pour votre avenir, ont sacrifié leurs économies pour vous payer des études d'informatique, un domaine \"porteur\". Vous venez de décrocher un CDI bien payé dans une grande entreprise. Un soir, un maître artisan vous propose une place rare et non rémunérée dans son atelier pour six mois.", options: { A: "Analyse et Raisonnement - Vous négociez avec votre employeur pour passer à 80% et prenez des congés sans solde pour tester l'atelier sans brûler vos ponts.", B: "Empathie et Collaboration - Vous parlez à vos parents de cette opportunité, en leur promettant que vous garderez votre emploi stable tout en explorant votre passion pour les rassurer.", C: "Éthique et Intégrité - Vous démissionnez. Travailler dans l'informatique par obligation serait vous trahir vous-même et tromper votre employeur sur vos véritables motivations." }},
+        { question: "Le Nouveau Chef d'Équipe - Situation : Vous êtes promu·e pour manager une équipe soudée et talentueuse qui regrettait son ancien manager, parti récemment. Lors de votre première réunion, vous sentez une froideur polie et une résistance passive.", options: { A: "Analyse et Raisonnement - Vous analysez d'abord les forces et faiblesses de chaque membre, les processus en place et les performances passées pour identifier les leviers d'amélioration objectifs.", B: "Empathie et Collaboration - Vous organisez un déjeuner informel pour apprendre à les connaître, écouter leurs attentes et leur exprimer votre respect pour le travail accompli avec votre prédécesseur.", C: "Éthique et Intégrité - Vous déclarez ouvertement en réunion : \"Je sais que ma nomination peut être déstabilisante. Je vous promets transparence et équité. Mon seul objectif est notre succès collectif.\"" }},
+        { question: "Le Vrai Chef - Situation : Votre équipe doit compiler manuellement 500 pages de données brutes, une tâche fastidieuse et error-prone. La motivation est au plus bas.", options: { A: "Analyse et Raisonnement - Vous passez la nuit à écrire un script qui automatise 80% de la tâche. Le lendemain, vous présentez la solution et répartissez le travail restant, bien plus light.", B: "Empathie et Collaboration - Vous lancez un \"challenge\" d'équipe avec des petits objectifs quotidiens et une récompense collective à la clé. Vous roulez aussi vos manches pour compiler vous-même une partie des données.", C: "Éthique et Intégrité - Vous allez voir la direction pour leur expliquer que cette méthode est inefficace et démoralisante, et vous plaidez pour l'acquisition d'un logiciel ou l'embauche d'un prestataire spécialisé." }},
+        { question: "Le Débat sur la Liberté d'Expression - Situation : Lors d'une réunion publique, une personne prend la parole pour tenir des propos profondément xénophobes, basés sur de fausses statistiques.", options: { A: "Analyse et Raisonnement - Vous prenez la parole à votre tour pour démonter point par point, calmement et avec des sources vérifiables, chaque argument avancé.", B: "Empathie et Collaboration - Vous intervenez pour recentrer le débat sur les valeurs humaines et le vivre-ensemble, en demandant à l'assistance de partager des expériences positives de diversité.", C: "Éthique et Intégrité - Vous demandez au modérateur d'intervenir pour rappeler le règlement qui interdit les discours de haine, estimant que certaines limites ne doivent pas être franchies." }},
+        { question: "Le Vol des Idées - Situation : Lors d'une réunion importante, un collègue présente *votre* idée de projet comme étant la sienne, sous les félicitations du boss.", options: { A: "Analyse et Raisonnement - Vous attendez la fin de la réunion. Vous rassemblez calmement les preuves de votre paternité (emails, brouillons datés) et allez en parler au boss en privé.", B: "Empathie et Collaboration - Vous abordez votre collègue en privé après la réunion : \"J'ai été surpris que tu présentes notre idée comme ça. Parlons-en pour qu'on puisse la porter ensemble.\"", C: "Éthique et Intégrité - Vous intervenez immédiatement en réunion, de manière polie mais ferme : \"Je suis ravi que mon idée, que j'ai partagée avec [collègue] hier, soit si bien accueillie. Je suis impatient de développer les détails.\"" }},
+        { question: "La Crise Éthique - Situation : Votre entreprise de agro-alimentaire a dissimulé une contamination dans un lot de produits. Le scandale éclate. Vous devez gérer la com.", options: { A: "Analyse et Raisonnement - Vous communiquez uniquement sur les faits : numéros de lots concernés, mesures de rappel précises, processus mis en place pour éviter la récidive. Froid et technique.", B: "Empathie et Collaboration - Vous présentez des excuses publiques et humaines, vous mettez à disposition une aide psychologique et médicale pour les clients inquiets, et montrez les équipes qui travaillent à résoudre le problème.", C: "Éthique et Intégrité - Vous annoncez une enquête interne transparente, la suspension des responsables ayant dissimulé l'information et la mise en place d'un comité éthique indépendant." }},
+        { question: "Le Dilemme du Bénévolat - Situation : Une association de protection de l'enfance que vous admirez a besoin de bénévoles pour tenir un stand lors d'un week-end crucial. Votre agenda est surchargé par un important projet professionnel et des obligations familiales.", options: { A: "Analyse et Raisonnement - Vous estimez que vous ne pouvez pas vous engager sans compromettre la qualité de votre travail ou votre santé. Vous faites un don financier à la place.", B: "Empathie et Collaboration - Vous proposez de donner 2 heures sur le week-end plutôt qu'une journée, ou de les aider en amont avec la préparation (graphisme, logistique) depuis chez vous.", C: "Éthique et Intégrité - Vous vous engagez pour la journée complète. Vous estimez que certaines causes sont trop importantes et que tenir ses engagements, même difficiles, est primordial." }},
+        { question: "La Critique Constructive - Situation : Votre manager vous fait un retour très sévère mais juste sur une présentation que vous pensiez avoir réussie.", options: { A: "Analyse et Raisonnement - Vous prenez des notes précises, posez des questions pour bien comprendre chaque point d'amélioration et demandez des exemples concrets.", B: "Empathie et Collaboration - Vous remerciez votre manager pour son honnêteté et lui demandez des conseils ou des ressources pour vous améliorer, en reconnaissant que vous avez encore des choses à apprendre.", C: "Éthique et Intégrité - Vous reconnaissez immédiatement et sans vous justifier les erreurs pointées du doigt et vous vous engagez formellement à présenter une version corrigée sous 24h." }},
+        { question: "Le Partenaire en Doute - Situation : Votre associé·e, qui est aussi un ami proche, a des doutes sur la viabilité de votre startup commune et envisage de tout arrêter.", options: { A: "Analyse et Raisonnement - Vous proposez de réaliser une analyse SWOT complète (Forces, Faiblesses, Opportunités, Menaces) ensemble, basée sur des données marché, pour prendre une décision éclairée.", B: "Empathie et Collaboration - Vous l'écoutez longuement ventiler ses craintes et son stress sans l'interrompre. Vous partagez ensuite vos propres doutes pour créer un espace de vulnérabilité et de soutien mutuel.", C: "Éthique et Intégrité - Vous lui dites : \"Si ton cœur n'y est plus, il est plus honnête de s'arrêter maintenant. Notre amitié est plus importante que ce business.\"" }},
+        { question: "Le Conflit d'Intérêt - Situation : Un collègue ami vous supplie de modifier légèrement les résultats d'un test pour que son projet, sur lequel il a beaucoup investi, soit validé.", options: { A: "Analyse et Raisonnement - Vous lui proposez de l'aider à analyser *pourquoi* le test a échoué et à trouver des solutions techniques ou des arguments pour demander une dérogation fondée.", B: "Empathie et Collaboration - Vous reconnaissez sa déception et son investissement, mais vous refusez en expliquant les risques pour l'entreprise, l'équipe et pour lui-même si la fraude était découverte.", C: "Éthique et Intégrité - Vous refusez catégoriquement et l'avertissez que vous seriez dans l'obligation de signaler toute tentative de falsification, pour protéger l'intégrité des données." }},
+        { question: "L'Influence Nocive - Situation : Un collègue très populaire et brillant se plaint constamment, ridiculise les objectifs de l'entreprise et encourage subtilement l'oisiveté. La motivation de l'équipe chute.", options: { A: "Analyse et Raisonnement - Vous collectez des données objectives sur la baisse de productivité de l'équipe depuis son arrivée et allez en parler au manager avec ces faits, sans attaques personnelles.", B: "Empathie et Collaboration - Vous essayez de comprendre les raisons de son amertume. Vous l'invitez à café pour discuter et tenter de le reconnecter positivement au projet d'équipe.", C: "Éthique et Intégrité - Vous confrontez le collègue directement mais en privé : \"Ton attitude a un impact négatif sur l'équipe. Soit tu changes de comportement, soit je serai obligé d'en parler.\"" }},
+        { question: "Le Nouveau Code de Conduite - Situation : On vous charge de rédiger le nouveau code de conduite de l'entreprise.", options: { A: "Analyse et Raisonnement - Vous basez votre travail sur une étude comparative des codes des leaders du secteur, des lois en vigueur et des risques juridiques identifiés.", B: "Empathie et Collaboration - Vous organisez des ateliers avec des employés de tous niveaux et services pour recueillir leurs avis et préoccupations sur ce qui devrait y figurer.", C: "Éthique et Intégrité - Vous faites des valeurs fondamentales comme le respect, l'équité et la transparence les piliers absolus du document, avec des procédures de signalement claires et protectrices." }},
+        { question: "Le Changement de Carrière (Réseau) - Situation : Vous vous reconvertissez dans la permaculture. Vous avez l'opportunité de travailler sur une ferme extraordinaire, mais vous ne connaissez personne dans ce milieu pour vous recommander.", options: { A: "Analyse et Raisonnement - Vous étudiez en détail le site web et les activités de la ferme. Vous rédigez une lettre de motivation ciblée qui montre comment vos compétences *uniques* (ex: gestion de projet, webmarket) peuvent leur être utiles.", B: "Empathie et Collaboration - Vous commencez par suivre la ferme sur les réseaux sociaux, commentez ses posts avec pertinence, et essayez d'entrer en contact informel avec ses employés pour apprendre d'eux avant de postuler.", C: "Éthique et Intégrité - Vous postulez en étant totalement transparent·e sur votre manque d'expérience directe, mais en mettant en avant votre passion brute, votre volonté d'apprendre et votre ethos de travail." }},
+        { question: "Le Sauvetage - Situation : (Scénario hypothétique) Vous êtes médecin en zone sinistrée. Deux patients nécessitent un traitement urgent avec le seul dose de médicament disponible. Un enfant de 8 ans et une chercheuse qui est sur le point de trouver un remède contre la maladie qui a causé la catastrophe.", options: { A: "Analyse et Raisonnement - Vous basez votre décision sur des critères médicaux stricts (probabilité de survie, espérance de vie, temps nécessaire au traitement) et/ou l'utilitarisme (sauver le plus de vies à long terme).", B: "Empathie et Collaboration - Vous rassemblez les autres médecins ou infirmiers présents pour prendre la décision de manière collective et partager le poids moral de ce choix.", C: "Éthique et Intégrité - Vous suivez le protocole éthique standard (ex: tirage au sort) ou votre serment (\"soigner sans distinction\") pour éviter de jouer à Dieu et de faire un choix basé sur la valeur subjective d'une vie." }},
+        { question: "Le Développeur de l'Ombre - Situation : Votre chef vous demande explicitement de signer votre nom sur le code d'un projet critique, alors que c'est une stagiaire timide et talentueuse qui a fait 95% du travail. Il argue qu'un \"nom senior\" rassurera le client.", options: { A: "Analyse et Raisonnement - Vous proposez un compromis : votre nom est sur le projet en tant que \"responsable technique\", mais la stagiaire est clairement créditée comme \"développeuse principale\" dans la documentation et les commits.", B: "Empathie et Collaboration - Vous allez en parler à la stagiaire pour connaître son opinion. Vous la rassurez sur son travail et lui proposez de la co-présenter au client pour qu'elle ait la reconnaissance qu'elle mérite.", C: "Éthique et Intégrité - Vous refusez catégoriquement. Vous exigez que le crédit aille intégralement à la stagiaire et vous proposez de défendre cette position auprès du client ensemble." }},
+        { question: "Le Militant Pacifique - Situation : Votre mouvement non-violent pour le climat est accusé à tort dans les médias d'avoir vandalisé une œuvre d'art lors d'une manifestation.", options: { A: "Analyse et Raisonnement - Vous mobilisez immédiatement votre équipe pour rassembler des preuves contraires (vidéos de surveillance, témoignages, alibis) et engagez un avocat pour une mise au point juridique et une demande de droit de réponse.", B: "Empathie et Collaboration - Vous organisez une conférence de presse avec des figures respectées et apolitiques (scientifiques, artistes) pour défendre la réputation du mouvement et réaffirmer son engagement pour la non-violence.", C: "Éthique et Intégrité - Vous publiez un communiqué ferme et clair : \"Nous condamnons sans équivoque cet acte. Il est contraire à nos valeurs. Nous n'avons aucun lien avec ses auteurs et collaborons avec la police pour les identifier.\"" }},
+        { question: "La Banquière et le Client - Situation : Un client âgé, récemment veuf et fragile émotionnellement, veut investir toutes ses économies dans une cryptomonnaie très spéculative promue par un influenceur qu'il admire.", options: { A: "Analyse et Raisonnement - Vous lui présentez un dossier détaillé avec l'historique de volatilité de l'actif, les risques techniques, et une simulation des pertes potentielles basée sur des scénarios stressants.", B: "Empathie et Collaboration - Vous prenez le temps de comprendre son besoin (se sentir en contrôle, préparer l'avenir) et lui proposez de rencontrer un conseiller en patrimoine avec lui pour explorer des options plus sûres et adaptées.", C: "Éthique et Intégrité - Vous refusez d'exécuter l'ordre. Vous estimez que cela irait à l'encontre de votre devoir de conseil et de protection d'un client vulnérable, même s'il insiste." }},
+        { question: "Le Changement de Carrière (Échec) - Situation : Votre première tentative de création d'entreprise dans votre nouveau domaine se solde par un échec cuisant et coûteux.", options: { A: "Analyse et Raisonnement - Vous passez des semaines à analyser post-mortem ce qui a échoué : le business model, le produit, le timing, la communication. Vous listez les leçons apprises.", B: "Empathie et Collaboration - Vous contactez votre réseau, y compris ceux qui ont échoué avant vous, pour partager votre expérience, demander du soutien et des conseils pour rebondir.", C: "Éthique et Intégrité - Vous assurez d'abord et prioritairement le règlement de toutes vos dettes envers les fournisseurs et partenaires, même si cela prend du temps, pour partir sur des bases saines et honorables." }},
+        { question: "Le Scientifique de l'Espace - Situation : On vous propose de piloter le premier vaisseau vers un nouveau système stellaire. Le voyage est sans retour et le taux de succès est estimé à 50%. La gloire éternelle vous attend en cas de succès.", options: { A: "Analyse et Raisonnement - Vous demandez à avoir un accès illimité aux données techniques, aux simulations et au profil psychologique des précédents candidats pour évaluer objectivement vos chances de survie et de succès.", B: "Empathie et Collaboration - Vous consultez longuement votre famille et vos proches. Votre décision finale sera largement influencée par leur capacité à accepter et supporter votre départ forever.", C: "Éthique et Intégrité - Vous acceptez (ou refusez) en fonction de l'alignement de cette mission avec votre purpose de vie le plus profond, au-delà de la peur ou de la gloire. \"C'est ma destinée\" ou \"Ce n'est pas ce pour quoi je suis fait\"." }}
+    ],
+    'quiz2': [
+        { question: "Le Bug Critique - Situation : Vous êtes développeur·euse sur une application de banque en ligne. Vous découvrez un bug critique qui expose brièvement les données de connexion de certains clients. Le corriger prendrait 4 heures de maintenance non prévue, très coûteuse. Le risque d'exploitation du bug est considéré comme très faible par votre manager.", options: { A: "Vous estimez la probabilité d'une exploitation du bug, le coût potentiel d'une fuite de données versus le coût de la maintenance, et proposez un plan de correction durant les heures de plus faible trafic.", B: "Vous proposez d'envoyer un message préventif et transparent aux utilisateurs potentiellement touchés pour les alerter et leur recommander de changer leur mot de passe, tout en planifiant la correction.", C: "Vous insistez pour que le bug soit corrigé immédiatement, arguant que la sécurité des clients n'a pas de prix et ne peut être compromise, quels que soient les coûts." }},
+        { question: "Le Concours de Design - Situation : Vous participez à un concours de design important. Un ami vous envoie par erreur son projet, bien plus innovant que le vôtre. Vous avez juste le temps de vous en inspirer avant qu'il ne réalise son erreur et ne retire le fichier.", options: { A: "Vous analysez objectivement les forces de son concept et essayez de repousser les limites de votre propre projet original sans le copier, pour rester compétitif.", B: "Vous prévenez immédiatement votre ami de son erreur et lui proposez de brainstormer ensemble pour vous aider à améliorer votre projet de manière légitime.", C: "Vous fermez le fichier sans le regarder et confirmez à votre ami que vous ne l'avez pas ouvert, préférant perdre avec intégrité que gagner par la malhonnêteté." }},
+        { question: "Le Projet Bénévole - Situation : Vous dirigez une équipe de bénévoles pour un festival. L'un d'eux, très enthousiaste mais désorganisé, oublie souvent ses tâches, ce qui pénalise le groupe. Les autres bénévoles commencent à râler.", options: { A: "Vous créez un système de check-lists et de rappels automatisés pour tout le monde, aidant le bénévole en difficulté sans le stigmatiser et en améliorant l'efficacité globale.", B: "Vous prenez le bénévole à part pour lui demander s'il va bien et s'il a besoin d'aide, et proposez au groupe de se répartir différemment les tâches en fonction des forces de chacun.", C: "Vous parlez franchement au bénévole de l'impact de ses oublis sur l'équipe et lui proposez un ultimatum : s'améliorer avec votre soutien, ou quitter l'équipe pour ne pas nuire à la cause." }},
+        { question: "Le Dossier Confidentiel - Situation : En travaillant sur le serveur partagé, vous tombez par accident sur le dossier de licenciement préparatoire d'un collègue et ami proche. Personne n'est au courant que vous avez vu cela.", options: { A: "Vous n'en parlez à personne. Vous analysez froidement la situation et commencez discrètement à documenter tout votre travail commun pour éviter tout impact sur vos propres projets.", B: "Vous allez voir votre ami de manière discrète et lui dit que vous avez senti \"une mauvaise ambiance\" autour de son projet, lui conseillant de se rapprocher de la RH ou de son manager pour faire le point.", C: "Vous allez voir votre manager pour lui dire que vous avez accidentellement vu ce dossier, exprimant votre inquiétude et demandant comment soutenir au mieux votre collègue durant cette période difficile." }},
+        { question: "L'Offre Douteuse - Situation : Un fournisseur potentiel vous propose un contrat très avantageux pour votre entreprise, mais il glisse lors du dîner qu'un \"cadeau\" substantiel vous attend personnellement si le contrat est signé.", options: { A: "Vous faites immédiatement des recherches approfondies sur ce fournisseur et ses pratiques passées pour évaluer les risques juridiques et réputationnels potentiels pour votre entreprise.", B: "Vous lui expliquez calmement que de telles pratiques mettent both of you en danger et proposez de poursuivre les négociations sur la seule base de la qualité et du prix de son offre.", C: "Vous mettez fin immédiatement aux négociations et signalez la proposition à votre département de compliance ou à votre supérieur hiérarchique." }},
+        { question: "L'Erreur de Facturation - Situation : Vous réalisez que votre entreprise a facturé par erreur 10 000 € de trop à un petit client. Corriger l'erreur impactera négativement les résultats de votre département ce trimestre.", options: { A: "Vous calculez l'impact financier de la correction, estimez le risque que le client découvre l'erreur plus tard et les potentielles pénalités ou perte de confiance associées.", B: "Vous contactez le client pour vous excuser de l'erreur, vous lui expliquez la situation et lui proposez un plan de remboursement ou un crédit sur sa prochaine facture.", C: "Vous corrigez immédiatement l'erreur et informez votre responsable financier, assumant la responsabilité de l'impact sur les résultats au nom de l'honnêteté." }},
+        { question: "Le Conflit Familial - Situation : Vous devez choisir le successeur pour diriger l'entreprise familiale. Votre enfant aîné·e s'y attend et est compétent·e. Votre cadet·te est bien plus talentueux·euse et passionné·e, mais ne s'attend pas à être choisi·e.", options: { A: "Vous organisez une série de tests pratiques et d'entretiens pour les deux candidats, en vous basant sur des critères objectifs de compétences et de vision pour l'entreprise.", B: "Vous réunissez toute la famille pour une discussion ouverte sur les aspirations de chacun et la future direction de l'entreprise, cherchant un consensus.", C: "Vous choisissez l'enfant le plus compétent et passionné pour le poste, expliquant à l'aîné·e que la santé future de l'entreprise dont dépend la famille doit passer avant toute autre considération." }},
+        { question: "La Découverte Scientifique - Situation : Vous êtes chercheur·euse. Vous avez fait une découverte majeure, mais vos résultats sont basés sur une méthode expérimentale non conventionnelle qui pourrait être facilement critiquée. Un concurrent annonce une conférence de presse pour présenter des résultats similaires dans une semaine.", options: { A: "Vous passez la semaine à réaliser une nouvelle batterie de tests avec une méthode standard pour corroborer vos résultats avant toute publication.", B: "Vous contactez directement votre concurrent pour lui proposer de comparer vos données et peut-être publier un article conjoint, renforçant la crédibilité des deux découvertes.", C: "Vous publiez immédiatement vos résultats en preprint en toute transparence sur votre méthode, estimant que la vérité scientifique doit être accessible à tous, quels que soient les risques pour votre réputation." }},
+        { question: "Le Produit Révolutionnaire... Mais Inutile ? - Situation : Votre équipe a développé un produit technologiquement brillant et innovant. Cependant, les tests marché montrent clairement qu'il ne répond à aucun besoin réel et a peu de chances de succès commercial.", options: { A: "Vous analysez froidement les données de test et recommandez d'arrêter le projet pour réallouer les ressources vers des idées plus prometteuses, malgré l'attachement de l'équipe.", B: "Vous organisez un séminaire avec l'équipe et le marketing pour brainstormer sur d'éventuels usages ou marchés alternatifs qui n'avaient pas été envisagés.", C: "Vous plaidez pour l'arrêt du projet, arguant qu'il est contraire à l'éthique de l'entreprise de mettre sur le marché un produit dont on sait qu'il n'apporte aucune valeur aux clients." }},
+        { question: "Le Choix du Stagiaire - Situation : Vous devez choisir un·e stagiaire entre deux candidats. Le premier a des compétences techniques légèrement supérieures. Le second a moins d'expérience mais a surmonté des obstacles personnels importants pour en arriver là et fait preuve d'une motivation exceptionnelle.", options: { A: "Vous basez votre décision sur les résultats à des tests techniques standardisés et sur la correspondance exacte des compétences avec les besoins du poste.", B: "Vous organisez un deuxième entretien informel avec chacun pour mieux comprendre leur parcours et leur personnalité, et voir lequel s'intégrerait le mieux dans l'équipe.", C: "Vous choisissez le second candidat, estimant que donner sa chance à quelqu'un qui a fait preuve de tant de persévérance est juste et aligné avec les valeurs d'égalité des chances de l'entreprise." }},
+        { question: "La Rumeur - Situation : Une rumeur négative et infondée sur un collègue que vous n'appréciez pas personnellement commence à circuler dans l'open space. Son moral en prend un coup.", options: { A: "Vous ignorez la rumeur mais documentez ses impacts sur l'ambiance de travail au cas où vous seriez convoqué pour en parler par la direction.", B: "Vous allez voir votre collègue pour lui dire que vous avez entendu des choses et lui demander comment il va, lui offrant votre soutien même si vous n'êtes pas proches.", C: "Vous confrontez la personne à l'origine de la rumeur et exigez qu'elle cesse, et vous corrigez publiquement les informations erronées lorsque vous les entendez." }},
+        { question: "Le Partenariat Stratégique - Situation : Votre startup a l'opportunité de former un partenariat stratégique avec un géant du secteur. Cependant, leur culture d'entreprise (agressive, compétitive) est aux antipodes de la vôtre (collaborative, bienveillante).", options: { A: "Vous listez les avantages business concrets (accès au marché, ressources) et les risques culturels, et proposez un contrat très précis pour protéger votre culture.", B: "Vous organisez des ateliers communs avec des membres des deux entreprises pour voir si un terrain d'entente et un respect mutuel peuvent être trouvés avant de signer.", C: "Vous déclinez l'offre, estimant que préserver l'âme et le bien-être de vos employés est plus important que la croissance à tout prix." }},
+        { question: "L'Héritage Culturel - Situation : Vous êtes architecte. On vous demande de rénover un bâtiment historique emblématique en y ajoutant une extension moderne. La famille de l'architecte original s'oppose farouchement à tout changement.", options: { A: "Vous réalisez une modélisation 3D précise de plusieurs propositions d'extensions pour visualiser l'impact et choisir l'option la plus harmonieuse et respectueuse de la structure originale.", B: "Vous invitez la famille à participer à des réunions de conception pour comprendre leurs craintes et incorporer leurs idées dans le projet, cherchant un compromis.", C: "Vous proposez une conception qui ne modifie en rien le bâtiment original mais crée une nouvelle structure souterraine ou indépendante reliée de façon subtile, respectant ainsi l'intégrité de l'œuvre initiale." }},
+        { question: "Le Délai Impossible - Situation : Votre client vous demande de livrer un projet crucial une semaine avant la date convenue contractuellement. C'est techniquement possible mais cela imposera des heures supplémentaires non payées et un burn-out certain à votre petite équipe.", options: { A: "Vous calculez le coût exact des heures supplémentaires, l'impact sur la qualité et les risques d'épuisement, et proposez une date de livraison intermédiaire plus réaliste.", B: "Vous expliquez la situation à votre équipe et leur demande s'ils sont prêts à faire cet effort exceptionnel, en leur promettant des jours de repos compensatoires et une prime si le client accepte de payer un rush.", C: "Vous refusez poliment mais fermement, expliquant que vous vous engagez à respecter le bien-être de vos employés et que vous ne pouvez pas accepter des conditions de travail aussi délétères." }},
+        { question: "Le Whistleblower - Situation : Vous avez des preuves concrètes que votre entreprise rejette illégalement des déchets toxiques. Signaler cela détruira l'entreprise et des centaines d'emplois. Se taire permet de préserver les emplois mais nuit à l'environnement et à la santé publique.", options: { A: "Vous rassemblez secrètement toutes les preuves et consultez un avocat pour évaluer les implications juridiques pour vous et l'entreprise, et les procédures de signalement protégé.", B: "Vous allez confronter la direction en privé avec vos preuves, en leur donnant un ultimatum pour arrêter et nettoyer, sous peine de tout révéler, pour tenter de sauver à la fois l'emploi et l'environnement.", C: "Vous signalez immédiatement les agissements aux autorités compétentes, estimant que la protection de l'environnement et de la santé publique est une obligation qui transcende toute autre considération." }},
+        { question: "Le Choix du Cadeau - Situation : Vous devez choisir un cadeau corporate pour tous les clients. Votre responsable marketing veut un objet high-tech et cher pour impressionner. Votre responsable RSE propose un cadeau éco-responsable, fait localement, mais moins tape-à-l'œil.", options: { A: "Vous commandez une étude rapide pour savoir quel type de cadeau a le meilleur taux de rétention et de perception positive auprès de votre cible clientèle.", B: "Vous organisez un vote parmi un panel de clients fidèles pour choisir entre plusieurs options, les impliquant dans la décision.", C: "Vous choisissez l'option éco-responsable, aligné avec les valeurs affichées de l'entreprise, même si elle est moins prestigieuse, pour être cohérent." }},
+        { question: "L'IA Génératrice - Situation : Vous êtes artiste. Un client vous commande une illustration \"dans votre style\". Utiliser une IA vous permettrait de la produire en 10 minutes au lieu de 10 heures. Le client ne saura jamais la différence.", options: { A: "Vous testez l'IA pour générer une base, puis vous passez des heures à la retravailler manuellement pour lui donner une âme et corriger les défauts, en rationalisant le processus sans le tromper.", B: "Vous expliquez au client les possibilités et limites de l'IA et lui proposez deux tarifs : un pour une œuvre 100% manuelle, un autre moins cher pour une œuvre assistée par IA.", C: "Vous déclinez l'utilisation de l'IA et créez l'œuvre manuellement, estimant que vendre une image générée par IA comme étant de \"votre main\" est une tromperie sur la marchandise." }},
+        { question: "Le Mauvais Numéro - Situation : Vous recevez un SMS qui n'était pas destiné à vous, contenant des informations personnelles et potentiellement gênantes sur un inconnu. La personne qui a envoyé le message réalise son erreur et vous supplie de tout effacer.", options: { A: "Vous évaluez le niveau de sensibilité des informations. Si c'est bénin, vous effacez. Si c'est grave (ex: fraude), vous conservez une preuve avant de répondre.", B: "Vous répondez à la personne pour la rassurer, lui confirmer que vous avez effacé le message et que son secret est en sécurité avec vous.", C: "Vous effacez immédiatement le message sans le lire en entier et répondez \"Message reçu par erreur, effacé. Bonne journée.\" pour respecter la vie privée sans ambiguïté." }},
+        { question: "Le Changement de Cap - Situation : Votre entreprise de jouets en bois artisanaux connaît un succès modéré. Un grand distributeur propose une commande massive, mais exige que vous passiez à une production industrialisée en plastique pour baisser les coûts.", options: { A: "Vous calculez si le volume de la commande permettrait de garder une production artisanale en bois à plus grande échelle tout en restant rentable, et proposez ce compromis.", B: "Vous consultez vos employés et vos clients fidèles pour connaître leur avis sur ce changement radical d'identité et de valeurs.", C: "Vous refusez l'offre, expliquant que l'artisanat, le bois et la qualité sont l'ADN de votre marque, et que vous préférez rester fidèle à votre mission initiale." }},
+        { question: "Le Test Réussi... ou Presque - Situation : Vous êtes enseignant·e. Vous surprenez votre meilleur élève, normalement très honnête, en train de tricher à une interrogation. Il vient de vivre un drame familial et cette note est cruciale pour son orientation.", options: { A: "Vous lui mettez un 0 pour la copie, mais vous lui proposez un devoir supplémentaire ou un oral de rattrapage pour lui permettre de sauver sa moyenne sans valider la triche.", B: "Vous le prenez à part après le cours pour en discuter, comprendre ses raisons, et trouver ensemble une solution qui préserve sa dignité et son avenir tout en reconnaissant son erreur.", C: "Vous lui mettez la note de 0 sans possibilité de rattrapage, comme le stipule le règlement intérieur, estimant que les circonstances atténuantes ne peuvent excuser un acte de malhonnêteté académique." }}
+    ],
+    'quiz3': [
+        { question: "Le Projet en Péril - Situation : Vous êtes chef de projet. Un de vos meilleurs éléments, sur qui repose la livraison d'un projet crucial, vous annonce qu'il doit s'absenter pour une durée indéterminée pour une urgence familiale. Le délai est inflexible.", options: { A: "Vous évaluez immédiatement les compétences restantes dans l'équipe, identifiez les tâches critiques et proposez une redistribution réaliste des responsabilités en reportant les tâches non essentielles.", B: "Vous réunissez l'équipe pour expliquer la situation, leur demander leur avis et voir qui serait prêt et capable de prendre en charge une partie supplémentaire du travail, en promettant votre soutien total.", C: "Vous contactez le client pour lui expliquer la situation avec transparence, lui proposer un nouveau calendrier réaliste et assumer les éventuels pénalités de retard stipulées au contrat." }},
+        { question: "Le Cadeau Empoisonné - Situation : Lors d'un séminaire, un partenaire d'affaires très influent vous offre un cadeau d'une valeur bien supérieure à celle autorisée par la charte anti-corruption de votre entreprise.", options: { A: "Vous acceptez le cadeau pour ne pas l'offenser sur le moment, puis vous le déclarez immédiatement au service de compliance de votre entreprise pour qu'ils décident de la marche à suivre.", B: "Vous le remerciez chaleureusement pour sa pensée mais vous refusez poliment le cadeau en lui expliquant les strictes règles de votre entreprise, afin de protéger sa réputation et la vôtre.", C: "Vous refusez catégoriquement le cadeau en citant directement l'article de la charte éthique qui l'interdit, et vous signalez l'incident par écrit à votre supérieur hiérarchique." }},
+        { question: "Le Code de la Concurrence - Situation : Lors d'une conférence, un concurrent ivre vous révèle par inadvertance la stratégie de lancement de son prochain produit phare, qui est très similaire au vôtre prévu dans 6 mois.", options: { A: "Vous notez mentalement les informations mais n'agissez pas immédiatement. Vous planifiez une réunion d'urgence avec votre équipe pour réévaluer votre propre planning et stratégie à la lumière de ces informations.", B: "Vous aidez le concurrent à regagner sa chambre d'hôtel. Le lendemain, vous l'appelez pour vous assurer qu'il va bien et lui faire discrètement part de sa confidence de la veille, sans exploiter l'information.", C: "Vous choisissez d'ignorer complètement l'information. Vous prévenez même le concurrent, une fois sobriété retrouvée, qu'il a été imprudent, pour garantir une compétition loyale." }},
+        { question: "L'Avantage Injuste - Situation : Vous participez à un appel d'offres très important. Par une erreur de l'organisateur, vous recevez par email les propositions techniques de tous les autres concurrents.", options: { A: "Vous n'ouvrez pas les pièces jointes et vous contactez immédiatement l'organisateur pour lui signaler la fuite, en lui demandant des instructions claires sur la procédure à suivre pour garantir l'équité.", B: "Vous contactez directement les principaux concurrents que vous connaissez pour les avertir de la fuite, leur permettant de se repositionner si nécessaire, et ensemble vous alertez l'organisateur.", C: "Vous supprimez immédiatement l'email sans enregistrer les pièces jointes et vous continuez à préparer votre proposition comme si de rien n'était, basant votre succès uniquement sur votre propre travail." }},
+        { question: "Le Dilemme Écologique - Situation : Votre usine respecte toutes les normes environnementales légales. Cependant, une nouvelle technologie coûteuse mais non obligatoire permettrait de réduire vos émissions de CO² de 90%. Son investissement mettrait en péril la rentabilité du site.", options: { A: "Vous calculez le coût total de l'investissement, les économies à long terme sur les taxes carbones et l'impact potentiel sur l'image de marque, pour présenter une proposition business complète.", B: "Vous consultez les employés de l'usine et les habitants de la localité pour connaître leur opinion et voir s'ils sont prêts à soutenir des efforts qui pourraient impacter l'emploi local.", C: "Vous décidez d'investir dans la technologie, estimant que le respect de l'environnement dépasse le cadre légal et que c'est la responsabilité morale de l'entreprise, malgré le risque financier." }},
+        { question: "Le Conflit d'Intérêts - Situation : Vous devez choisir un sous-traitant pour un gros marché. Votre cousin, que vous appréciez beaucoup, soumissionne. Sa proposition est bonne, mais pas la meilleure.", options: { A: "Vous demandez à un collègue neutre de reprendre l'analyse des offres en aveugle, sans les noms, pour prendre une décision purement objective dont vous serez simplement l'exécutant.", B: "Vous expliquez la situation à votre cousin en privé, lui montrant en quoi son offre est moins competitive, et vous l'aidez à retravailler sa proposition pour de futurs appels d'offres.", C: "Vous choisissez l'offre objectivement la meilleure et vous déclarez officiellement votre lien de parenté avec l'un des soumissionnaires au service achats pour éviter tout conflit d'intérêts." }},
+        { question: "La Promesse Non Contractuelle - Situation : Un client important vous rappelle une promesse orale que vous lui avez faite lors d'une négociation il y a 6 mois, mais qui n'a pas été intégrée au contrat signé. Tenir sa promesse vous coûterait cher.", options: { A: "Vous revisitez les emails et notes de meeting pour trouver une trace écrite de cette promesse. Si rien n'existe, vous évaluez le coût de la satisfaction du client versus le risque de le perdre.", B: "Vous rencontrez le client pour reconnaître votre parole et lui proposer un compromis : honorer une partie de la promesse sur ce contrat et intégrer le reste dans le prochain.", C: "Vous décidez d'honorer intégralement votre parole, même si elle n'est pas contractuelle, estimant que votre intégrité et la confiance à long terme avec ce client valent plus que le coût immédiat." }},
+        { question: "L'Innovation Risquée - Situation : Votre équipe R&D a développé une innovation de rupture qui pourrait rendre obsolète le produit principal et le plus rentable de votre entreprise.", options: { A: "Vous commandez une étude de marché poussée pour modéliser le cannibalisation potentielle du produit existant et le nouveau marché que l'innovation pourrait créer.", B: "Vous organisez des ateliers avec les équipes des deux produits pour créer une roadmap commune et une stratégie de transition qui valorise les deux technologies.", C: "Vous présentez l'innovation au conseil d'administration sans ambages, arguant que ne pas le faire nuirait à l'avenir de l'entreprise et trahirait sa mission d'innovation." }},
+        { question: "Le Salarié en Difficulté - Situation : Un membre de votre équipe, performant depuis des années, voit sa productivité chuter brutalement depuis quelques semaines. Vous suspectez un problème personnel.", options: { A: "Vous analysez objectivement l'impact de sa baisse de performance sur les projets en cours et préparez un plan de redistribution temporaire des tâches pour limiter les dégâts.", B: "Vous l'invitez à prendre un café pour lui demander comment il va, en lui offrant une écoute bienveillante et votre soutien, sans le presser de parler.", C: "Vous lui rappelez ses objectifs et responsabilités, mais vous lui proposez immédiatement de prendre quelques jours de congé ou de consulter le médecin du travail pour faire le point, en insistant sur l'importance de son bien-être." }},
+        { question: "L'Erreur d'un Subalterne - Situation : Un membre junior de votre équipe a commis une erreur qui a coûté 15 000 € à l'entreprise. Votre propre manager vous demande des explications.", options: { A: "Vous présentez à votre manager une analyse factuelle de l'erreur, son impact financier, et un plan détaillé pour éviter que cela ne se reproduise, sans mentionner le nom du junior.", B: "Vous assumez la responsabilité collective de l'erreur avec le junior, vous présentez des excuses à votre manager et vous proposez un plan de formation pour toute l'équipe.", C: "Vous nommez le responsable de l'erreur à votre manager, mais vous défendez le junior en expliquant son manque d'expérience et en proposant que vous partagiez la sanction pour avoir mal supervisé." }},
+        { question: "La Décision Impopulaire - Situation : La direction décide une restructuration qui entraînera des suppressions de postes dans votre service. Vous devez annoncer la nouvelle à votre équipe.", options: { A: "Vous préparez une présentation claire avec les raisons économiques derrière la décision, le processus de sélection et le plan de support pour les personnes concernées (outplacement, etc.).", B: "Vous annoncez la nouvelle avec empathie, vous laissez un temps pour les questions et les émotions, et vous proposez des entretiens individuels immédiats pour chacun des membres de l'équipe.", C: "Vous annoncez la décision en assumant pleinement votre rôle de manager, vous exprimez votre désaccord si vous n'êtes pas d'accord avec elle, et vous vous engagez personnellement à accompagner chacun vers la meilleure issue possible." }},
+        { question: "Le Brevet Contestable - Situation : En déposant un brevet, votre service juridique s'aperçoit que votre invention s'inspire fortement d'un concept open source mal documenté. Poursuivre le dépôt pourrait mener à un litige.", options: { A: "Vous mandatez une recherche antérieure approfondie pour cartographier précisément l'antériorité de l'idée et évaluer le risque réel et le coût potentiel d'un éventuel litige.", B: "Vous contactez les mainteneurs du projet open source pour leur proposer un partenariat ou une licence commune, reconnaissant leur contribution initiale.", C: "Vous abandonnez le dépôt du brevet et vous publiez votre innovation en open source à votre tour, estimant que c'est la manière la plus juste de rendre à la communauté." }},
+        { question: "Le Choix du Fournisseur - Situation : Vous devez choisir entre un fournisseur local plus cher mais qui emploie des personnes en réinsertion, et un fournisseur étranger moins cher aux pratiques sociales opaques.", options: { A: "Vous calculez le surcoût exact du fournisseur local et évaluez son impact sur le prix de vente final et la compétitivité du produit.", B: "Vous visitez les deux fournisseurs pour vous faire une idée concrète de leurs conditions de travail et vous consultez vos employés sur le choix qui correspond le mieux aux valeurs de l'entreprise.", C: "Vous choisissez le fournisseur local, alignant la décision d'achat sur la politique RSE de l'entreprise, même si cela réduit la marge bénéficiaire à court terme." }},
+        { question: "L'Heure Supplémentaire Obligatoire - Situation : Pour respecter un délai, vous devez demander à votre équipe de faire des heures supplémentaires non payées (au forfait) ce week-end. Ils sont déjà fatigués.", options: { A: "Vous listez les tâches absolument critiques pour la livraison et proposez de ne faire des heures que sur ces points précis, en reportant le reste.", B: "Vous organisez une réunion pour expliquer la situation critique et leur demander s'ils sont d'accord pour un effort exceptionnel, en promettant des jours de récupération la semaine suivante.", C: "Vous refusez d'imposer des heures non payées. Vous négociez avec le client un délai supplémentaire ou une pénalité réduite, ou vous assumez de payer les heures supplémentaires de votre poche (si possible) pour respecter le bien-être de l'équipe." }},
+        { question: "La Critique Publique - Situation : Lors d'une réunion publique, un client critique violemment et injustement le travail d'un membre de votre équipe, présent dans la salle.", options: { A: "Vous intervenez pour recentrer le débat sur les faits et les données, en proposant de reprendre la discussion en privé après la réunion pour trouver une solution constructive.", B: "Vous défendez immédiatement votre collaborateur en public, en reconnaissant son travail et son expertise, et vous invitez le client à exprimer ses frustrations de manière plus respectueuse.", C: "Vous interrompez poliment mais fermement le client pour condamner son ton irrespectueux, en affirmant que le dialogue within votre entreprise se fait dans le respect de chacun, et vous proposez de faire une pause." }},
+        { question: "La Découverte Fortuite - Situation : En testant un logiciel, vous découvrez par hasard une faille de sécurité majeure dans un produit très populaire d'un autre éditeur. La divulguer pourrait faire votre réputation de white hat hacker, mais aussi causer des problèmes avant qu'un correctif ne soit prêt.", options: { A: "Vous documentez scrupuleusement la faille et vous contactez discrètement l'éditeur concerné en lui donnant un délai raisonnable pour corriger le problème avant toute publication.", B: "Vous proposez vos services à l'éditeur comme consultant pour les aider à corriger la faille rapidement et efficacement, contre rémunération.", C: "Vous publiez immédiatement la faille en mode \"full disclosure\" pour forcer une correction rapide et protéger immédiatement les utilisateurs, au risque de nuire à l'éditeur." }},
+        { question: "L'Ordre Contraire à l'Éthique - Situation : Votre supérieur hiérarchique vous ordonne explicitement de minimiser un défaut de conception dans votre rapport au client, un défaut qui pourrait avoir des conséquences sécurité à long terme.", options: { A: "Vous rédigez un email à votre supérieur (pour trace écrite) résumant son instruction et lui demandant confirmation, en listant les risques potentiels que vous avez identifiés.", B: "Vous allez en parler à votre supérieur pour comprendre la pression qu'il subit et vous lui proposez de co-écrire un rapport qui dit la vérité tout en proposant un plan d'action pour mitiger le problème.", C: "Vous incluez toutes les informations sur le défaut dans votre rapport final, en copiant si nécessaire le service qualité ou l'éthique de l'entreprise, et vous assumez les potentielles conséquences pour avoir désobéi." }},
+        { question: "Le Pari Technologique - Situation : Votre entreprise doit migrer vers un nouveau système logiciel. Vous avez le choix entre une solution éprouvée mais ancienne, et une nouvelle solution disruptive mais non testée à grande échelle.", options: { A: "Vous organisez un Proof of Concept (POC) pour tester la nouvelle solution sur un périmètre limité et non critique, afin de recueillir des données tangibles pour la décision.", B: "Vous consultez les équipes qui utiliseront le système au quotidien pour connaître leurs préférences, leurs craintes et leur appétence pour le risque et le changement.", C: "Vous recommandez la solution éprouvée, arguant que la prudence est de mise pour ne pas mettre en péril la stabilité opérationnelle de l'entreprise et la sécurité des données." }},
+        { question: "Le Mauvais Exemple - Situation : Vous surprenez un manager très respecté et performant dans l'entreprise en train de mentir à un client au téléphone pour sauver une vente.", options: { A: "Vous notez la date, l'heure et le contenu du mensonge. Vous attendez d'avoir des preuves solides et un contexte plus large avant d'envisager toute action.", B: "Vous allez en parler avec le manager en privé plus tard, pour lui exprimer votre malaise et l'encourager à trouver une solution plus honnête avec le client.", C: "Vous signalez l'incident à la direction ou au service de compliance, car le comportement d'un manager senior envoie un message inacceptable sur la culture de l'entreprise." }},
+        { question: "L'Équilibre Vie Pro/Vie Perso - Situation : Un employé modèle, toujours le premier à arriver et le dernier à partir, commence à montrer des signes d'épuisement (irritabilité, erreurs). Il refuse d'admettre être surmené.", options: { A: "Vous analysez sa charge de travail et imposez une redistribution objective de certaines de ses tâches à d'autres membres de l'équipe pour alléger son volume, sans son accord préalable.", B: "Vous lui offrez votre écoute sans jugement, vous partagez peut-être une expérience personnelle similaire, et vous lui proposez de l'aide pour mieux prioriser ou de consulter un coach.", C: "Vous utilisez votre autorité de manager pour lui ordonner de prendre une semaine de congé obligatoire pour se reposer et revenir avec un avis médical, priorisant sa santé sur son consentement immédiat." }}
+    ]
+};
+
+/**
+ * Normalise et charge l'état de l'utilisateur depuis localStorage.
+ * Initialise l'état si l'utilisateur est nouveau.
+ */
+function loadUserState() {
+    if (!userStates[currentUser]) {
+        userStates[currentUser] = {
+            quiz1: { answers: Array(MAX_QUESTIONS).fill(null), score: null, quizCompleted: false, quizType: 'quiz1' },
+            quiz2: { answers: Array(MAX_QUESTIONS).fill(null), score: null, quizCompleted: false, quizType: 'quiz2' },
+            quiz3: { answers: Array(MAX_QUESTIONS).fill(null), score: null, quizCompleted: false, quizType: 'quiz3' }
+        };
+    }
+}
+
+/**
+ * Sauvegarde l'état actuel de l'utilisateur dans localStorage.
+ */
+function saveUserState() {
+    localStorage.setItem('userStates', JSON.stringify(userStates));
+}
+
+/**
+ * Sélectionne l'utilisateur et met à jour l'interface.
+ */
+function selectUser() {
+    const userSelect = document.getElementById('userSelect');
+    currentUser = userSelect.value;
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const quizSelection = document.getElementById('quizSelection');
+    const quizStatus = document.getElementById('quizStatus');
+    
+    if (currentUser) {
+        loadUserState();
+        welcomeMessage.textContent = `Bienvenue, ${currentUser} !`;
+        welcomeMessage.classList.add('show');
+        quizSelection.style.display = 'block';
+
+        const quiz1State = userStates[currentUser].quiz1;
+        const quiz2State = userStates[currentUser].quiz2;
+        const quiz3State = userStates[currentUser].quiz3;
+
+        document.querySelectorAll('.quiz-choice').forEach(btn => btn.classList.remove('active-choice'));
+        quizStatus.style.display = 'none';
+        
+        let preferredQuiz = null;
+
+        // Vérifier l'état de chaque quiz pour déterminer le quiz préféré
+        if (quiz1State.quizCompleted || quiz1State.answers.some(a => a !== null)) {
+            preferredQuiz = 'quiz1';
+        } else if (quiz2State.quizCompleted || quiz2State.answers.some(a => a !== null)) {
+            preferredQuiz = 'quiz2';
+        } else if (quiz3State.quizCompleted || quiz3State.answers.some(a => a !== null)) {
+            preferredQuiz = 'quiz3';
+        }
+
+        if (preferredQuiz) {
+            currentQuizType = preferredQuiz;
+            document.querySelector(`.quiz-choice[onclick="selectQuiz('${preferredQuiz}')"]`).classList.add('active-choice');
+            updateQuizStatusMessage();
+            updateNavigationButtons(true);
+        } else {
+            currentQuizType = null;
+            updateNavigationButtons(false);
+        }
+
+    } else {
+        welcomeMessage.classList.remove('show');
+        quizSelection.style.display = 'none';
+        quizStatus.style.display = 'none';
+        updateNavigationButtons(false);
+    }
+    
+    showSection('accueil');
+}
+
+/**
+ * Met à jour le message d'état du quiz et l'état des boutons de navigation.
+ */
+function updateQuizStatusMessage() {
+    if (!currentUser || !currentQuizType) return;
+    
+    const quizState = userStates[currentUser][currentQuizType];
+    const quizStatus = document.getElementById('quizStatus');
+    const navQuiz = document.getElementById('nav-quiz');
+    const navSrg = document.getElementById('nav-srg');
+    const navAnalyse = document.getElementById('nav-analyse');
+    const currentQuizData = QUIZ_DATA[currentQuizType];
+
+    quizStatus.style.display = 'block';
+
+    if (quizState.quizCompleted) {
+        quizStatus.textContent = `Quiz ${currentQuizType.slice(-1)} terminé. Vous pouvez voir vos résultats ou le refaire.`;
+        navQuiz.style.display = 'block';
+        navSrg.style.display = 'block';
+        navAnalyse.style.display = 'block';
+        navQuiz.textContent = 'Refaire le Quiz';
+    } else {
+        const answeredCount = quizState.answers.filter(a => a !== null).length;
+        if (answeredCount > 0) {
+            quizStatus.textContent = `Quiz ${currentQuizType.slice(-1)} en cours : ${answeredCount} / ${currentQuizData.length} questions répondues.`;
+        } else {
+            quizStatus.textContent = `Quiz ${currentQuizType.slice(-1)} prêt. Cliquez sur "Questions" pour commencer.`;
+        }
+        navQuiz.style.display = 'block';
+        navSrg.style.display = 'none';
+        navAnalyse.style.display = 'block';
+        navQuiz.textContent = 'Questions';
+    }
+}
+
+/**
+ * Sélectionne le type de quiz.
+ */
+function selectQuiz(quizType) {
+    currentQuizType = quizType;
+    document.querySelectorAll('.quiz-choice').forEach(btn => btn.classList.remove('active-choice'));
+    document.querySelector(`.quiz-choice[onclick="selectQuiz('${quizType}')"]`).classList.add('active-choice');
+    
+    if (currentUser) {
+        updateQuizStatusMessage();
+        updateNavigationButtons(true);
+    }
+}
+
+/**
+ * Affiche la section spécifiée et met à jour la navigation.
+ */
+function showSection(sectionId) {
+    document.querySelectorAll('section').forEach(section => section.classList.remove('active'));
+    document.getElementById(sectionId).classList.add('active');
+
+    document.querySelectorAll('nav button').forEach(button => button.classList.remove('active'));
+    document.getElementById(`nav-${sectionId}`).classList.add('active');
+
+    if (sectionId === 'quiz') {
+        renderQuiz();
+    } else if (sectionId === 'srg' && userStates[currentUser][currentQuizType].quizCompleted) {
+        // Recalculer et afficher les résultats (important pour l'affichage)
+        const results = calculateSRGScore();
+        if (results) {
+            displaySRGResults(results.finalResults);
+            topAttributes = results.topAttributes;
+            displayAnalyseResults();
+        }
+    } else if (sectionId === 'analyse') {
+        displayAnalyseResults();
+    }
+}
+
+/**
+ * Affiche la question actuelle dans le conteneur du quiz.
+ */
+function renderQuiz() {
+    if (!currentUser || !currentQuizType || !QUIZ_DATA[currentQuizType]) return;
+
+    const quizContainer = document.getElementById('quizContainer');
+    const nextButton = document.getElementById('nextButton');
+    const prevButton = document.getElementById('prevButton');
+    const quizState = userStates[currentUser][currentQuizType];
+    const currentQuizData = QUIZ_DATA[currentQuizType];
+    
+    if (quizState.quizCompleted) {
+        // Redémarrer si le quiz est terminé
+        currentQuestionIndex = 0;
+        quizState.answers = Array(MAX_QUESTIONS).fill(null);
+        quizState.quizCompleted = false;
+        saveUserState();
+        updateQuizStatusMessage();
+    }
+
+    currentQuestionIndex = Math.max(0, quizState.answers.findIndex(a => a === null));
+
+    if (currentQuestionIndex >= currentQuizData.length) {
+        currentQuestionIndex = currentQuizData.length - 1;
+    }
+
+    const question = currentQuizData[currentQuestionIndex];
+    const questionNumber = currentQuestionIndex + 1;
+    const answeredValue = quizState.answers[currentQuestionIndex];
+    
+    document.getElementById('quizTitle').textContent = `Quiz ${currentQuizType.slice(-1)} : Question ${questionNumber}`;
+    
+    let html = `
+        <div class="question-card">
+            <h3><span class="question-number">${questionNumber}</span>Situation</h3>
+            <p>${question.question}</p>
+    `;
+    
+    Object.keys(question.options).forEach(key => {
+        const optionText = question.options[key];
+        const checked = (key === answeredValue) ? 'checked' : '';
+        html += `
+            <div class="option">
+                <label>
+                    <input type="radio" name="q${questionNumber}" value="${key}" ${checked} onchange="saveAnswer('${key}')">
+                    <span>${optionText}</span>
+                </label>
+            </div>
+        `;
+    });
+
+    html += `</div>`;
+    quizContainer.innerHTML = html;
+
+    // Mettre à jour la barre de progression
+    const answeredCount = quizState.answers.filter(a => a !== null).length;
+    document.getElementById('progressBar').style.width = `${(answeredCount / MAX_QUESTIONS) * 100}%`;
+
+    // Mettre à jour les boutons de navigation
+    nextButton.textContent = (questionNumber < MAX_QUESTIONS) ? `Question Suivante (${answeredCount + 1}/${MAX_QUESTIONS})` : 'Calculer Mon Score SRG';
+    nextButton.onclick = (questionNumber < MAX_QUESTIONS) ? nextQuestion : submitQuiz;
+    prevButton.style.display = (questionNumber > 0 && currentQuestionIndex > 0) ? 'inline-block' : 'none';
+}
+
+/**
+ * Enregistre la réponse sélectionnée pour la question actuelle.
+ */
+function saveAnswer(value) {
+    userStates[currentUser][currentQuizType].answers[currentQuestionIndex] = value;
+    saveUserState();
+    document.getElementById('validationMessage').style.display = 'none';
+    
+    const answeredCount = userStates[currentUser][currentQuizType].answers.filter(a => a !== null).length;
+    document.getElementById('progressBar').style.width = `${(answeredCount / MAX_QUESTIONS) * 100}%`;
+    document.getElementById('nextButton').textContent = (currentQuestionIndex < MAX_QUESTIONS - 1) ? `Question Suivante (${answeredCount + 1}/${MAX_QUESTIONS})` : 'Calculer Mon Score SRG';
+}
+
+/**
+ * Passe à la question suivante (avec validation).
+ */
+function nextQuestion() {
+    const quizState = userStates[currentUser][currentQuizType];
+    const currentQuestionName = `q${currentQuestionIndex + 1}`;
+    const selected = document.querySelector(`input[name="${currentQuestionName}"]:checked`);
+    const validationMessage = document.getElementById('validationMessage');
+
+    // --- Validation du Non-Choix ---
+    if (!selected) {
+        validationMessage.style.display = 'block';
+        return;
+    }
+
+    validationMessage.style.display = 'none';
+    
+    if (currentQuestionIndex < MAX_QUESTIONS - 1) {
+        currentQuestionIndex++;
+        renderQuiz();
+    }
+}
+
+/**
+ * Passe à la question précédente.
+ */
+function prevQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuiz();
+    }
+}
+
+/**
+ * Soumet le quiz, calcule le score et affiche les résultats.
+ */
+function submitQuiz() {
+    const quizState = userStates[currentUser][currentQuizType];
+    const currentQuestionName = `q${currentQuestionIndex + 1}`;
+    const selected = document.querySelector(`input[name="${currentQuestionName}"]:checked`);
+    const validationMessage = document.getElementById('validationMessage');
+
+    // Validation finale
+    if (!selected) {
+        validationMessage.style.display = 'block';
+        return;
+    }
+    
+    validationMessage.style.display = 'none';
+
+    // Marquer comme terminé et sauvegarder
+    quizState.quizCompleted = true;
+    saveUserState();
+    updateQuizStatusMessage();
+
+    // Calcul du score et affichage
+    const results = calculateSRGScore();
+    if (results) {
+        displaySRGResults(results.finalResults);
+        topAttributes = results.topAttributes;
+        displayAnalyseResults();
+    }
+    showSection('srg');
+}
+
+// --- Fonctions Mathématiques pour la Formule SRG Avancée ---
+
+/** Calcule la variance d'un tableau de nombres. */
+function variance(arr) {
+    if (arr.length === 0) return 0;
+    const mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+    return arr.map(x => (x - mean) ** 2).reduce((a, b) => a + b, 0) / arr.length;
+}
+
+/** Calcule le produit scalaire pondéré <u, p_j>_W. */
+function weightedDotProduct(u, p_j, W) {
+    return u.reduce((sum, u_i, i) => sum + u_i * p_j[i] * W[i] ** 2, 0);
+}
+
+/** Calcule la norme pondérée ||v||_W. */
+function weightedNorm(v, W) {
+    return Math.sqrt(v.reduce((sum, v_i, i) => sum + v_i ** 2 * W[i] ** 2, 0));
+}
+
+/** Calcule le Coefficient de Variation (CV) pour le facteur de diversité. */
+function coefficientOfVariation(u, epsilon) {
+    const mean = u.reduce((a, b) => a + b, 0) / u.length;
+    if (Math.abs(mean) < epsilon) return 0;
+    const stdDev = Math.sqrt(variance(u));
+    return stdDev / (mean + epsilon);
+}
+
+/** Calcule le facteur de dominance (alignement top-k). */
+function dominanceFactor(u, p_j, k, L) {
+    // Trier u et p_j pour obtenir les indices des top k et top L
+    const userIndices = u.map((score, i) => ({ score, i })).sort((a, b) => b.score - a.score).slice(0, k).map(item => item.i);
+    const profIndices = p_j.map((score, i) => ({ score, i })).sort((a, b) => b.score - a.score).slice(0, L).map(item => item.i);
+
+    // Compter le chevauchement (overlap)
+    const overlap = userIndices.filter(i => profIndices.includes(i)).length;
+
+    // Dominance alignment score: |Tu intersect Tpj| / min(k, L)
+    const alignment = overlap / Math.min(k, L);
+    return alignment;
+}
+
+
+/**
+ * Calcule le Score de Résonance Globale (SRG) en utilisant la formule de pondération avancée.
+ */
+function calculateSRGScore() {
+    const quizState = userStates[currentUser][currentQuizType];
+    const currentQuizMapping = QUIZ_SCORING_MAPPING[currentQuizType];
+
+    if (!quizState.quizCompleted) return null;
+
+    // 1. Calculer le Vecteur de Score Utilisateur (u)
+    let userScores = { 'S': 0, 'R': 0, 'G': 0 };
+    quizState.answers.forEach((answer, index) => {
+        if (answer && currentQuizMapping[index] && currentQuizMapping[index][answer]) {
+            const attr = currentQuizMapping[index][answer];
+            userScores[attr] += 1;
+        }
+    });
+
+    const u = ATTRIBUTES.map(attr => userScores[attr]); // u = [u_S, u_R, u_G]
+
+    // --- Constantes Mathématiques (Ajustables) ---
+    const ALPHA = 0.55; // Poids du Log dans Diversité
+    const BETA = 0.35;  // Plafonnement du Log dans Diversité
+    const GAMMA = 0.28; // Poids du Facteur de Dominance
+    const EPSILON = 1e-8; // Stabilité numérique
+    const NORM_MIN = 30; // Min score de normalisation [a]
+    const NORM_MAX = 100; // Max score de normalisation [b]
+    const K_DOMINANCE = 2; // Top K attributs pour l'utilisateur
+    const L_DOMINANCE = 2; // Top L attributs pour la profession
+
+    // --- 2. Calculer le Vecteur de Poids Discriminant (W) ---
+    const professionVectors = PROFESSIONS_DATA.map(p => p.P);
+    const W = ATTRIBUTES.map((_, i) => {
+        const attributeScores = professionVectors.map(p => p[i]);
+        return Math.sqrt(variance(attributeScores));
+    });
+
+    let rawScores = [];
+
+    // --- 3. Facteur de Diversité (B_div) ---
+    // B_div = 1 + min(BETA, ALPHA * log(1 + CV(u)))
+    const CV_u = coefficientOfVariation(u, EPSILON);
+    const B_div_raw = ALPHA * Math.log(1 + CV_u);
+    const B_div_term = Math.min(BETA, B_div_raw);
+    const B_div = 1 + B_div_term;
+
+    PROFESSIONS_DATA.forEach(p_j_data => {
+        const p_j = p_j_data.P; // Vecteur de la profession [p_jS, p_jR, p_jG]
+
+        // --- 4. Similarité Cosinus Pondérée (S_j) ---
+        const weightedDot = weightedDotProduct(u, p_j, W);
+        const norm_u = weightedNorm(u, W);
+        const norm_p_j = weightedNorm(p_j, W);
+        
+        let S_j = 0;
+        if (norm_u > EPSILON && norm_p_j > EPSILON) {
+            S_j = weightedDot / (norm_u * norm_p_j);
+            S_j = Math.max(-1, Math.min(1, S_j)); // Clip for stability
+        }
+
+        // Rescale S_j de [-1, 1] à [0, 1] pour la combinaison
+        const S_j_rescaled = (S_j + 1) / 2;
+
+        // --- 5. Facteur de Dominance (D_j) ---
+        const D_j = dominanceFactor(u, p_j, K_DOMINANCE, L_DOMINANCE);
+
+        // --- 6. Score SRG Brut (SRG_raw) ---
+        // SRG_raw = (1 - GAMMA) * S_j_rescaled * B_div + GAMMA * D_j
+        const SRG_raw = (1 - GAMMA) * S_j_rescaled * B_div + GAMMA * D_j;
+
+        rawScores.push({
+            name: p_j_data.name,
+            score: SRG_raw
+        });
+    });
+
+    // --- 7. Normalisation Finale (SRG_j) ---
+    const minRaw = Math.min(...rawScores.map(r => r.score));
+    const maxRaw = Math.max(...rawScores.map(r => r.score));
+    const rangeRaw = maxRaw - minRaw;
+    
+    // Normalisation linéaire sur [NORM_MIN, NORM_MAX]
+    const finalResults = rawScores.map(result => {
+        let normalizedScore;
+        if (rangeRaw < EPSILON) {
+            normalizedScore = (NORM_MAX + NORM_MIN) / 2;
+        } else {
+            normalizedScore = NORM_MIN + (NORM_MAX - NORM_MIN) * (result.score - minRaw) / rangeRaw;
+        }
+        
+        return {
+            name: result.name,
+            score: parseFloat(normalizedScore.toFixed(1))
+        };
+    }).sort((a, b) => b.score - a.score); // Tri décroissant
+
+    // Calcul des attributs dominants (simple comptage)
+    const attrCounts = [
+        { name: 'Science/Logique (S)', count: userScores.S },
+        { name: 'Relationnel/Émotion (R)', count: userScores.R },
+        { name: 'Garantie/Règle (G)', count: userScores.G }
+    ];
+    const topAttributesList = attrCounts.sort((a, b) => b.count - a.count).slice(0, 3).map(a => a.name);
+
+    return { finalResults, topAttributes: topAttributesList, userScores };
+}
+
+/**
+ * Affiche les résultats SRG triés.
+ */
+function displaySRGResults(results) {
+    const srgProfessionsList = document.getElementById('srgProfessionsList');
+    srgProfessionsList.innerHTML = '';
+    
+    results.forEach((result, index) => {
+        const li = document.createElement("li");
+        li.className = "result-item";
+        li.style.animationDelay = `${index * 0.1}s`;
+        li.innerHTML = `
+          <div class="item-header">
+            <span class="item-name">${result.name}</span>
+            <span class="item-score">${result.score}%</span>
+          </div>
+          <div class="progress-bar-item">
+            <div class="progress-fill" style="width: ${result.score}%"></div>
+          </div>
+        `;
+        srgProfessionsList.appendChild(li);
+    });
+
+    document.getElementById('srgMessage').style.display = 'none';
+    document.getElementById('srgResultsCard').style.display = 'block';
+}
+
+/**
+ * Affiche les attributs dominants dans la section Analyse.
+ */
+function displayAnalyseResults() {
+    const attributesList = document.getElementById('attributesList');
+    attributesList.innerHTML = '';
+    
+    // Si le quiz est complété, utiliser les résultats calculés.
+    if(userStates[currentUser] && userStates[currentUser][currentQuizType] && userStates[currentUser][currentQuizType].quizCompleted) {
+        // La variable globale topAttributes a été mise à jour par submitQuiz/showSection('srg')
+        if (topAttributes.length > 0) {
+            topAttributes.forEach((attr, index) => {
+                const li = document.createElement("li");
+                li.className = "attribute-tag";
+                li.style.animationDelay = `${index * 0.1}s`;
+                li.innerText = attr;
+                attributesList.appendChild(li);
+            });
+        } else {
+             attributesList.innerHTML = '<li class="attribute-tag" style="animation-delay: 0s;">Vos attributs dominants sont... en cours de calcul.</li>';
+        }
+    } else {
+        // Message si non complété
+        attributesList.innerHTML = '<li class="attribute-tag" style="animation-delay: 0s;">Veuillez compléter le quiz pour voir votre analyse.</li>';
+    }
+}
+
+/**
+ * Met à jour l'affichage des boutons de navigation (Questions et Résultats).
+ */
+function updateNavigationButtons(showQuizNav) {
+    const navQuiz = document.getElementById('nav-quiz');
+    const navSrg = document.getElementById('nav-srg');
+    const navAnalyse = document.getElementById('nav-analyse');
+    
+    navQuiz.style.display = showQuizNav ? 'block' : 'none';
+    navAnalyse.style.display = showQuizNav ? 'block' : 'none';
+
+    if (currentUser && currentQuizType && userStates[currentUser][currentQuizType].quizCompleted) {
+        navSrg.style.display = 'block';
+    } else {
+        navSrg.style.display = 'none';
+    }
+}
+
+// Initialisation de Particles.js
+document.addEventListener('DOMContentLoaded', () => {
+    particlesJS('particles-js', {
+        "particles": {
+          "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+          "color": { "value": "#ffffff" },
+          "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" }, "polygon": { "nb_sides": 5 } },
+          "opacity": { "value": 0.5, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } },
+          "size": { "value": 3, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } },
+          "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 },
+          "move": { "enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "move": 200, "rotateX": 600, "rotateY": 1200 } }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+          "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 200, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } }
+        },
+        "retina_detect": true
+    });
+});
+</script>
+
+</body>
+</html>

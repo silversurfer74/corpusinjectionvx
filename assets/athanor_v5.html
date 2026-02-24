@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ ATHANOR v5.0 — Intelligence Hybride</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c;
+  --gold-light: #f0d080;
+  --gold-pale: #fdeea0;
+  --deep: #07080f;
+  --midnight: #0d1020;
+  --navy: #111428;
+  --phi: #e8c96a;
+  --emerald: #2aff9a;
+  --crimson: #ff3a6e;
+  --sapphire: #5090ff;
+  --amethyst: #c060ff;
+  --glass: rgba(255,215,100,0.06);
+  --glass-border: rgba(255,215,100,0.18);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  background: var(--deep);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: #c8c0a8;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ══════════════════════════════
+   CANVAS PARTICULES φ
+══════════════════════════════ */
+#cosmos { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+/* ══════════════════════════════
+   LAYOUT PRINCIPAL
+══════════════════════════════ */
+.sanctum {
+  position: relative; z-index: 1;
+  max-width: 1280px; margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ══════════════════════════════
+   EN-TÊTE RITUEL
+══════════════════════════════ */
+.altar {
+  text-align: center;
+  padding: 3rem 2rem 2rem;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.altar::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 1px; height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+}
+
+.lineage {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 6px;
+  color: var(--gold);
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 1rem;
+  animation: fadeUp 1s ease both;
+}
+
+.crown {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #8a6010, #c9a84c, #f0d080, #c9a84c, #8a6010);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 4s ease-in-out infinite, fadeUp 1s 0.2s ease both;
+  letter-spacing: 3px;
+  line-height: 1.2;
+}
+
+@keyframes goldShimmer {
+  0%, 100% { background-position: 0%; }
+  50% { background-position: 100%; }
+}
+
+.subtitle-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem; margin: 1rem 0;
+  flex-wrap: wrap;
+  animation: fadeUp 1s 0.4s ease both;
+}
+
+.pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  padding: 0.3rem 1rem;
+  border-radius: 40px;
+  border: 1px solid;
+  letter-spacing: 2px;
+}
+
+.pill-green { border-color: var(--emerald); color: var(--emerald); background: rgba(42,255,154,0.08); }
+.pill-gold { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+.pill-blue { border-color: var(--sapphire); color: var(--sapphire); background: rgba(80,144,255,0.08); }
+
+.collab-line {
+  font-size: 0.9rem;
+  color: rgba(200,192,168,0.5);
+  font-style: italic;
+  letter-spacing: 1px;
+  animation: fadeUp 1s 0.6s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════
+   SÉPARATEUR ORNEMENTÉ
+══════════════════════════════ */
+.ornament {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 1.5rem 0;
+  opacity: 0.5;
+}
+.ornament::before, .ornament::after {
+  content: ''; flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+.ornament span { color: var(--gold); font-size: 1.2rem; }
+
+/* ══════════════════════════════
+   GRILLE PRINCIPALE
+══════════════════════════════ */
+.forge-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .forge-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════
+   PANNEAUX VERRE
+══════════════════════════════ */
+.panel {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 1s ease both;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.panel:hover {
+  border-color: rgba(255,215,100,0.35);
+  box-shadow: 0 0 40px rgba(201,168,76,0.12);
+}
+
+.panel::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.4;
+}
+
+.panel-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+
+/* ══════════════════════════════
+   FORMULAIRES
+══════════════════════════════ */
+label {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.6);
+  margin-bottom: 0.4rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+input, select, textarea {
+  width: 100%;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  color: var(--gold-pale);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  outline: none;
+  margin-bottom: 1.2rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  -webkit-appearance: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(201,168,76,0.15);
+}
+
+textarea { min-height: 90px; resize: vertical; font-size: 1.1rem; }
+
+select option { background: var(--midnight); color: #fff; }
+
+/* ══════════════════════════════
+   GRILLES GEMS & ROTORS
+══════════════════════════════ */
+.gem-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem; margin-bottom: 1.2rem;
+}
+
+.rotor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem; margin-bottom: 1.2rem;
+}
+
+.token {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 10px;
+  padding: 0.5rem 0.3rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-size: 0.8rem;
+  color: rgba(200,192,168,0.7);
+  user-select: none;
+}
+
+.token:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.1);
+  color: var(--gold-pale);
+  transform: translateY(-2px);
+}
+
+.token.on {
+  border-color: var(--phi);
+  background: rgba(201,168,76,0.2);
+  color: var(--phi);
+  box-shadow: 0 0 12px rgba(201,168,76,0.3);
+}
+
+.token .emoji { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+.token .name  { font-size: 0.65rem; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
+
+/* Couleurs gem */
+.token[data-gem="ruby"].on    { border-color: var(--crimson); background: rgba(255,58,110,0.15); color: #ff8fa8; box-shadow: 0 0 12px rgba(255,58,110,0.3); }
+.token[data-gem="sapphire"].on { border-color: var(--sapphire); background: rgba(80,144,255,0.15); color: #90b8ff; box-shadow: 0 0 12px rgba(80,144,255,0.3); }
+.token[data-gem="emerald"].on  { border-color: var(--emerald); background: rgba(42,255,154,0.12); color: #7affcc; box-shadow: 0 0 12px rgba(42,255,154,0.25); }
+.token[data-gem="amethyst"].on { border-color: var(--amethyst); background: rgba(192,96,255,0.15); color: #d898ff; box-shadow: 0 0 12px rgba(192,96,255,0.3); }
+.token[data-gem="topaz"].on    { border-color: #ffa040; background: rgba(255,160,64,0.15); color: #ffd090; box-shadow: 0 0 12px rgba(255,160,64,0.3); }
+.token[data-gem="onyx"].on     { border-color: #888; background: rgba(128,128,128,0.15); color: #bbb; box-shadow: 0 0 12px rgba(128,128,128,0.2); }
+.token[data-gem="opal"].on     { border-color: #ff80ff; background: rgba(255,128,255,0.12); color: #ffb8ff; box-shadow: 0 0 12px rgba(255,128,255,0.25); }
+.token[data-gem="diamond"].on  { border-color: #e0f0ff; background: rgba(224,240,255,0.1); color: #f0f8ff; box-shadow: 0 0 12px rgba(200,230,255,0.3); }
+
+/* ══════════════════════════════
+   PANEL SÉCURITÉ
+══════════════════════════════ */
+.security-row {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255,215,100,0.07);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+}
+
+.sec-badge {
+  min-width: 90px; padding: 0.2rem 0.8rem;
+  border-radius: 30px; border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold); font-size: 0.65rem; letter-spacing: 1px;
+  text-align: center;
+}
+
+.sec-val { color: rgba(200,192,168,0.8); }
+.sec-val.green { color: var(--emerald); }
+.sec-val.gold  { color: var(--phi); }
+
+.security-note {
+  margin-top: 1.2rem; padding: 1rem;
+  background: rgba(42,255,154,0.04);
+  border: 1px solid rgba(42,255,154,0.15);
+  border-radius: 12px;
+  font-size: 0.82rem; line-height: 1.6; color: rgba(160,255,192,0.8);
+}
+
+/* ══════════════════════════════
+   PANEL COLLABORATEURS
+══════════════════════════════ */
+.collab-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.6rem;
+}
+
+.collab-card {
+  text-align: center; padding: 0.8rem 0.4rem;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 14px;
+  transition: all 0.3s;
+}
+
+.collab-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(201,168,76,0.4);
+  background: rgba(201,168,76,0.07);
+}
+
+.collab-avatar { font-size: 1.6rem; display: block; margin-bottom: 0.3rem; }
+.collab-name { font-size: 0.62rem; letter-spacing: 1.5px; color: var(--gold); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
+.collab-role { font-size: 0.58rem; color: rgba(200,192,168,0.4); font-style: italic; margin-top: 0.2rem; }
+
+/* ══════════════════════════════
+   PIPELINE VISUEL
+══════════════════════════════ */
+.pipeline {
+  display: flex; align-items: center; gap: 0.3rem;
+  flex-wrap: wrap; margin: 0.8rem 0;
+}
+
+.pipe-step {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 1px;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  border: 1px solid rgba(201,168,76,0.25);
+  color: rgba(201,168,76,0.7);
+  background: rgba(201,168,76,0.05);
+}
+
+.pipe-arrow { color: rgba(201,168,76,0.3); font-size: 0.8rem; }
+
+/* ══════════════════════════════
+   BOUTON PRINCIPAL
+══════════════════════════════ */
+.transmute-wrap {
+  display: flex; gap: 1rem; margin: 1.5rem 0;
+}
+
+.btn-transmute {
+  flex: 3;
+  background: linear-gradient(135deg, #3a2800, #6a4800, #3a2800);
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  padding: 1.1rem 2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  position: relative; overflow: hidden;
+  transition: all 0.3s;
+}
+
+.btn-transmute::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,215,100,0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s;
+}
+
+.btn-transmute:hover::before { transform: translateX(100%); }
+.btn-transmute:hover {
+  box-shadow: 0 0 40px rgba(201,168,76,0.4), inset 0 0 20px rgba(201,168,76,0.1);
+  letter-spacing: 4px;
+}
+
+.btn-transmute.firing {
+  animation: fireRing 0.6s ease;
+}
+
+@keyframes fireRing {
+  0%   { box-shadow: 0 0 0 rgba(201,168,76,0.6); }
+  50%  { box-shadow: 0 0 60px rgba(201,168,76,0.8), 0 0 120px rgba(201,168,76,0.3); }
+  100% { box-shadow: 0 0 20px rgba(201,168,76,0.2); }
+}
+
+.btn-reset {
+  flex: 1;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(201,168,76,0.2);
+  color: rgba(201,168,76,0.5);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem; letter-spacing: 2px;
+  padding: 1rem;
+  border-radius: 50px; cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-reset:hover {
+  border-color: rgba(201,168,76,0.5);
+  color: var(--gold);
+}
+
+/* ══════════════════════════════
+   RÉSULTAT — CRYPTOGRAMME
+══════════════════════════════ */
+.cryptogram {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative; overflow: hidden;
+}
+
+.cryptogram::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.cryptogram.revealed::after { opacity: 1; }
+
+.crypto-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 3px;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 0.6rem; opacity: 0.7;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.crypto-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--gold-pale);
+  word-break: break-all;
+  line-height: 1.7;
+  min-height: 2em;
+  transition: all 0.3s;
+}
+
+.crypto-value.empty { color: rgba(201,168,76,0.2); font-style: italic; }
+
+.copy-btn {
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 20px;
+  padding: 0.2rem 0.8rem;
+  color: rgba(201,168,76,0.6);
+  font-size: 0.65rem; font-family: 'JetBrains Mono', monospace;
+  cursor: pointer; transition: all 0.2s; letter-spacing: 1px;
+}
+
+.copy-btn:hover { background: rgba(201,168,76,0.2); color: var(--gold); }
+.copy-btn.copied { background: rgba(42,255,154,0.15); border-color: var(--emerald); color: var(--emerald); }
+
+/* ══════════════════════════════
+   MÉTRIQUES DE SÉCURITÉ LIVE
+══════════════════════════════ */
+.metrics-bar {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.metric-card {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 14px;
+  padding: 0.9rem 0.6rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.metric-card.active {
+  border-color: var(--emerald);
+  background: rgba(42,255,154,0.05);
+}
+
+.metric-num {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.5rem;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.metric-card.active .metric-num { color: var(--emerald); }
+.metric-label { font-size: 0.6rem; letter-spacing: 2px; color: rgba(200,192,168,0.4); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
+
+/* ══════════════════════════════
+   HISTORIQUE
+══════════════════════════════ */
+.history-panel {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.history-panel::-webkit-scrollbar { width: 4px; }
+.history-panel::-webkit-scrollbar-track { background: transparent; }
+.history-panel::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+
+.history-entry {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(255,215,100,0.06);
+  display: flex; align-items: flex-start; gap: 0.8rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.h-time { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: rgba(201,168,76,0.4); min-width: 50px; padding-top: 0.1rem; }
+.h-msg  { font-size: 0.85rem; color: rgba(200,192,168,0.7); margin-bottom: 0.2rem; }
+.h-fp   { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: rgba(201,168,76,0.6); word-break: break-all; }
+.h-ctx  { font-size: 0.65rem; color: rgba(200,192,168,0.35); font-style: italic; }
+
+/* ══════════════════════════════
+   FOOTER ALCHIMIQUE
+══════════════════════════════ */
+.footer-seal {
+  text-align: center; padding: 2rem 0 0;
+  position: relative;
+}
+
+.footer-seal::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 200px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.seal-text {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.7rem; letter-spacing: 4px;
+  color: rgba(201,168,76,0.3);
+  text-transform: uppercase;
+}
+
+.phi-emblem {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #6a4800, #c9a84c, #f0d080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block; margin: 0.5rem auto;
+  animation: pulseGold 3s ease-in-out infinite;
+}
+
+@keyframes pulseGold {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.9; transform: scale(1.05); }
+}
+
+/* ══════════════════════════════
+   LOADING SPINNER
+══════════════════════════════ */
+.spinner {
+  display: inline-block; width: 20px; height: 20px;
+  border: 2px solid rgba(201,168,76,0.2);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle; margin-right: 8px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Mode sombre/clair */
+.strength-bar {
+  height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.05);
+  margin-top: 0.4rem; overflow: hidden;
+}
+
+.strength-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--crimson), var(--phi), var(--emerald));
+  transition: width 0.5s ease;
+}
+</style>
+</head>
+<body>
+
+<canvas id="cosmos"></canvas>
+
+<div class="sanctum">
+
+  <!-- ═══ EN-TÊTE ═══ -->
+  <div class="altar">
+    <div class="lineage">✦ Intelligence Hybride · Lignée Sacrée ✦</div>
+    <h1 class="crown">ATHANOR v5.0</h1>
+    <div class="subtitle-row">
+      <span class="pill pill-green">✅ 256 BITS POST-QUANTIQUE</span>
+      <span class="pill pill-gold">φ STRUCTUREL</span>
+      <span class="pill pill-blue">HKDF · HMAC-SHA256</span>
+    </div>
+    <div class="collab-line">
+      Né du débat entre Claude · DeepSeek · Gemini · ChatGPT · Rachid Azzouz
+    </div>
+  </div>
+
+  <div class="ornament"><span>✦</span></div>
+
+  <!-- ═══ COLLABORATEURS ═══ -->
+  <div class="panel" style="margin-bottom: 1.5rem; animation-delay: 0.1s;">
+    <div class="panel-title">⚗️ Intelligence Hybride — Lignée des Forgerons</div>
+    <div class="collab-grid">
+      <div class="collab-card">
+        <span class="collab-avatar">🦅</span>
+        <div class="collab-name">Rachid</div>
+        <div class="collab-role">Architecte · φ Vision</div>
+      </div>
+      <div class="collab-card">
+        <span class="collab-avatar">💙</span>
+        <div class="collab-name">Claude</div>
+        <div class="collab-role">Synthèse · Code</div>
+      </div>
+      <div class="collab-card">
+        <span class="collab-avatar">🔍</span>
+        <div class="collab-name">DeepSeek</div>
+        <div class="collab-role">Structure · Humilité</div>
+      </div>
+      <div class="collab-card">
+        <span class="collab-avatar">💎</span>
+        <div class="collab-name">Gemini</div>
+        <div class="collab-role">Intuition · Fibonacci</div>
+      </div>
+      <div class="collab-card">
+        <span class="collab-avatar">⚔️</span>
+        <div class="collab-name">ChatGPT</div>
+        <div class="collab-role">Rigueur · D_KL</div>
+      </div>
+    </div>
+    <div style="margin-top: 1rem;">
+      <div class="pipeline">
+        <span class="pipe-step">ENIGMA-φ v1</span>
+        <span class="pipe-arrow">→</span>
+        <span class="pipe-step">Débat 6 rounds</span>
+        <span class="pipe-arrow">→</span>
+        <span class="pipe-step">H(S) formalisé</span>
+        <span class="pipe-arrow">→</span>
+        <span class="pipe-step">D_KL (ChatGPT)</span>
+        <span class="pipe-arrow">→</span>
+        <span class="pipe-step">256 bits</span>
+        <span class="pipe-arrow">→</span>
+        <span class="pipe-step" style="border-color: var(--gold); color: var(--gold);">ATHANOR v5.0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MÉTRIQUES ═══ -->
+  <div class="metrics-bar">
+    <div class="metric-card" id="mc-bits">
+      <div class="metric-num">256</div>
+      <div class="metric-label">Bits Entropie</div>
+    </div>
+    <div class="metric-card" id="mc-pre">
+      <div class="metric-num">2²⁵⁶</div>
+      <div class="metric-label">Résistance Préimage</div>
+    </div>
+    <div class="metric-card" id="mc-coll">
+      <div class="metric-num">2¹²⁸</div>
+      <div class="metric-label">Résistance Collision</div>
+    </div>
+    <div class="metric-card" id="mc-ops">
+      <div class="metric-num" id="opsCount">0</div>
+      <div class="metric-label">Transmutations</div>
+    </div>
+  </div>
+
+  <!-- ═══ FORGE PRINCIPALE ═══ -->
+  <div class="forge-grid">
+
+    <!-- COLONNE GAUCHE : Configuration -->
+    <div>
+      <div class="panel" style="animation-delay: 0.2s;">
+        <div class="panel-title">🜂 Contexte Symbolique</div>
+
+        <label>Message à transmuter</label>
+        <textarea id="msgInput" placeholder="Entrez votre message...">Salma</textarea>
+
+        <label>Rune principale (séparateur de domaine)</label>
+        <select id="runeSelect">
+          <option value="phi" selected>φ — Nombre d'Or (1.6180…)</option>
+          <option value="pi">π — Pi (3.1415…)</option>
+          <option value="e">e — Euler (2.7182…)</option>
+          <option value="gamma">γ — Euler-Mascheroni (0.5772…)</option>
+          <option value="alpha">α — Structure Fine (1/137…)</option>
+          <option value="hbar">ℏ — Planck Réduite</option>
+          <option value="G">G — Gravitation Universelle</option>
+          <option value="kB">k_B — Boltzmann</option>
+          <option value="c">c — Vitesse Lumière</option>
+          <option value="sqrt5">√5 — (φ + 1/φ)</option>
+          <option value="zeta2">ζ(2) — π²/6</option>
+        </select>
+
+        <label>Gemme sacrée</label>
+        <div class="gem-grid">
+          <div class="token on" data-gem="ruby"><span class="emoji">🔴</span><span class="name">Ruby</span></div>
+          <div class="token" data-gem="sapphire"><span class="emoji">🔵</span><span class="name">Sapphire</span></div>
+          <div class="token" data-gem="emerald"><span class="emoji">🟢</span><span class="name">Emerald</span></div>
+          <div class="token" data-gem="amethyst"><span class="emoji">🟣</span><span class="name">Amethyst</span></div>
+          <div class="token" data-gem="topaz"><span class="emoji">🟠</span><span class="name">Topaz</span></div>
+          <div class="token" data-gem="onyx"><span class="emoji">⚫</span><span class="name">Onyx</span></div>
+          <div class="token" data-gem="opal"><span class="emoji">🌸</span><span class="name">Opal</span></div>
+          <div class="token" data-gem="diamond"><span class="emoji">💎</span><span class="name">Diamond</span></div>
+        </div>
+
+        <label>Rotors actifs (bases superposées)</label>
+        <div class="rotor-grid">
+          <div class="token" data-rotor="base2"><span class="emoji">⚙️</span><span class="name">Base 2</span></div>
+          <div class="token" data-rotor="basePhi"><span class="emoji">φ</span><span class="name">Base φ</span></div>
+          <div class="token" data-rotor="basePi"><span class="emoji">π</span><span class="name">Base π</span></div>
+          <div class="token" data-rotor="baseE"><span class="emoji">e</span><span class="name">Base e</span></div>
+          <div class="token" data-rotor="baseSqrt5"><span class="emoji">√</span><span class="name">Base √5</span></div>
+          <div class="token" data-rotor="baseZeta"><span class="emoji">ζ</span><span class="name">Base ζ</span></div>
+          <div class="token" data-rotor="fibonacci"><span class="emoji">🌀</span><span class="name">Fibonacci</span></div>
+          <div class="token" data-rotor="quantum"><span class="emoji">⚛️</span><span class="name">Quantum</span></div>
+          <div class="token" data-rotor="sacred"><span class="emoji">✦</span><span class="name">Sacré</span></div>
+        </div>
+
+        <label>Format de sortie</label>
+        <select id="baseSelect">
+          <option value="hex" selected>Hexadécimal (Base 16)</option>
+          <option value="base58">Base 58 (Bitcoin)</option>
+          <option value="base62">Base 62</option>
+          <option value="base64">Base 64</option>
+          <option value="phi_encoded">Encodage φ (symbolique)</option>
+        </select>
+
+      </div>
+    </div>
+
+    <!-- COLONNE DROITE : Sécurité -->
+    <div>
+      <div class="panel" style="animation-delay: 0.3s;">
+        <div class="panel-title">🔐 Garanties Cryptographiques</div>
+
+        <div class="security-row">
+          <span class="sec-badge">ENTROPIE</span>
+          <span class="sec-val green">256 bits · CSPRNG (OS-level)</span>
+        </div>
+        <div class="security-row">
+          <span class="sec-badge">KDF</span>
+          <span class="sec-val gold">HKDF (RFC 5869)</span>
+        </div>
+        <div class="security-row">
+          <span class="sec-badge">MAC</span>
+          <span class="sec-val">HMAC-SHA256 (FIPS 198)</span>
+        </div>
+        <div class="security-row">
+          <span class="sec-badge">SORTIE</span>
+          <span class="sec-val green">256 bits</span>
+        </div>
+        <div class="security-row">
+          <span class="sec-badge">PRÉIMAGE</span>
+          <span class="sec-val green">2²⁵⁶ (post-quantique)</span>
+        </div>
+        <div class="security-row">
+          <span class="sec-badge">COLLISION</span>
+          <span class="sec-val green">2¹²⁸ (standard moderne)</span>
+        </div>
+        <div class="security-row">
+          <span class="sec-badge">φ RÔLE</span>
+          <span class="sec-val gold">Séparateur de domaine HKDF</span>
+        </div>
+        <div class="security-row">
+          <span class="sec-badge">GEMS</span>
+          <span class="sec-val">Espace d'interprétation Ω</span>
+        </div>
+        <div class="security-row">
+          <span class="sec-badge">ROTORS</span>
+          <span class="sec-val">Superposition multi-bases</span>
+        </div>
+
+        <div class="security-note">
+          ⚡ La sécurité computationnelle repose sur HKDF + HMAC-SHA256.<br>
+          Les runes, gems et rotors créent la <strong>séparation de domaine</strong> :
+          φ n'est pas décoration — φ est le <em>sélecteur de l'espace cryptographique</em>.<br><br>
+          <strong>Synthèse des 6 rounds :</strong> ENIGMA-φ (intuition Rachid) + D_KL (ChatGPT) + Structure Fibonacci (Gemini) + Rigueur formelle (DeepSeek) = ATHANOR v5.0
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <label>Force contextuelle</label>
+          <div id="strengthText" style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: rgba(201,168,76,0.6); margin-bottom: 0.3rem;">
+            Sélectionnez des rotors pour augmenter la richesse symbolique
+          </div>
+          <div class="strength-bar">
+            <div class="strength-fill" id="strengthFill" style="width: 30%;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ BOUTON TRANSMUTER ═══ -->
+  <div class="transmute-wrap">
+    <button class="btn-transmute" id="transmuteBtn">🔥 TRANSMUTER</button>
+    <button class="btn-reset" id="resetBtn">↺ Réinitialiser</button>
+  </div>
+
+  <!-- ═══ RÉSULTATS ═══ -->
+  <div class="cryptogram" id="cryptoPanel">
+    <div class="crypto-label">
+      <span>✦ Empreinte Sacrée (256 bits)</span>
+      <button class="copy-btn" id="copyBtn" onclick="copyFingerprint()">Copier</button>
+    </div>
+    <div class="crypto-value empty" id="fingerprint">En attente de transmutation…</div>
+  </div>
+
+  <div class="cryptogram" id="ctxPanel">
+    <div class="crypto-label"><span>Contexte Symbolique (Domaine)</span></div>
+    <div class="crypto-value empty" id="contextDisplay">—</div>
+  </div>
+
+  <div class="cryptogram" id="pipePanel">
+    <div class="crypto-label"><span>Pipeline Cryptographique</span></div>
+    <div class="crypto-value empty" id="pipelineDisplay">—</div>
+  </div>
+
+  <!-- ═══ HISTORIQUE ═══ -->
+  <div class="panel" style="margin-top: 0;">
+    <div class="panel-title">📜 Historique des Transmutations</div>
+    <div class="history-panel" id="historyPanel">
+      <div style="text-align: center; color: rgba(201,168,76,0.2); font-style: italic; padding: 1rem; font-size: 0.85rem;">
+        Aucune transmutation encore réalisée…
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="footer-seal">
+    <div class="ornament"><span>◆</span></div>
+    <span class="phi-emblem">φ</span>
+    <div class="seal-text">ATHANOR v5.0 · Intelligence Hybride · 256 bits</div>
+    <div style="margin-top: 0.5rem; font-size: 0.7rem; color: rgba(201,168,76,0.2); font-family: 'JetBrains Mono', monospace; letter-spacing: 2px;">
+      Rachid · Claude · DeepSeek · Gemini · ChatGPT · 2026
+    </div>
+  </div>
+
+</div><!-- /sanctum -->
+
+<script>
+/* ══════════════════════════════════════════════════
+   ATHANOR v5.0 — Intelligence Hybride
+   256 bits · HKDF · HMAC-SHA256 · φ Structural
+   Rachid Azzouz × Claude × DeepSeek × Gemini × ChatGPT
+══════════════════════════════════════════════════ */
+
+const VERSION = "ATHANOR-V5.0-INTELLIGENCE-HYBRIDE";
+const enc = new TextEncoder();
+let ops = 0;
+let selectedGem = 'ruby';
+let selectedRotors = new Set();
+let history = [];
+
+/* ══ CANVAS PARTICULES φ ══ */
+(function initCosmos() {
+  const canvas = document.getElementById('cosmos');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  const PHI = 1.6180339887;
+  const PHI_SYMBOLS = ['φ', 'π', 'e', 'γ', 'α', '√5', 'ζ', 'ħ', '∞'];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initParticles() {
+    particles = [];
+    const n = Math.min(60, Math.floor(W * H / 18000));
+    for (let i = 0; i < n; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 11 + 8,
+        alpha: Math.random() * 0.12 + 0.03,
+        sym: PHI_SYMBOLS[Math.floor(Math.random() * PHI_SYMBOLS.length)],
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.01 + 0.005
+      });
+    }
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    for (let p of particles) {
+      const a = p.alpha * (0.6 + 0.4 * Math.sin(t * p.speed + p.phase));
+      ctx.font = `${p.size}px 'Cinzel Decorative', serif`;
+      ctx.fillStyle = `rgba(201,168,76,${a})`;
+      ctx.fillText(p.sym, p.x, p.y);
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -20) p.x = W + 20;
+      if (p.x > W + 20) p.x = -20;
+      if (p.y < -20) p.y = H + 20;
+      if (p.y > H + 20) p.y = -20;
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+  resize(); initParticles();
+  requestAnimationFrame(draw);
+})();
+
+/* ══ UTILITAIRES CRYPTO ══ */
+function concatBuf(...bufs) {
+  const total = bufs.reduce((s, b) => s + b.length, 0);
+  const out = new Uint8Array(total);
+  let off = 0;
+  for (const b of bufs) { out.set(b, off); off += b.length; }
+  return out;
+}
+
+function toHex(buf) {
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function hmacSHA256(keyBytes, data) {
+  const key = await crypto.subtle.importKey(
+    'raw', keyBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+  );
+  return new Uint8Array(await crypto.subtle.sign('HMAC', key, data));
+}
+
+async function hkdfExtract(salt, ikm) {
+  return hmacSHA256(salt, ikm);
+}
+
+async function hkdfExpand(prk, info, len = 32) {
+  const infoB = enc.encode(info);
+  const T = await hmacSHA256(prk, concatBuf(infoB, new Uint8Array([1])));
+  return T.slice(0, len);
+}
+
+/* ══ ENCODAGES DE SORTIE ══ */
+const B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const B62 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+function bigIntToBase(hex, chars) {
+  let n = BigInt('0x' + hex);
+  const base = BigInt(chars.length);
+  let res = '';
+  while (n > 0n) { res = chars[Number(n % base)] + res; n /= base; }
+  return res || chars[0];
+}
+
+function toBase64(hex) {
+  const bytes = new Uint8Array(hex.match(/.{2}/g).map(b => parseInt(b, 16)));
+  return btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+
+function toPhiEncoded(hex) {
+  // Encode via séquence Fibonacci symbolique
+  const PHI_CHARS = 'φπeγαζħ√∞θΩΨΛΣΠΔ';
+  return hex.split('').map((c, i) => {
+    const v = parseInt(c, 16);
+    return PHI_CHARS[v % PHI_CHARS.length];
+  }).join('');
+}
+
+function encodeOutput(hex, format) {
+  switch (format) {
+    case 'base58': return bigIntToBase(hex, B58);
+    case 'base62': return bigIntToBase(hex, B62);
+    case 'base64': return toBase64(hex);
+    case 'phi_encoded': return toPhiEncoded(hex);
+    default: return hex;
+  }
+}
+
+/* ══ FORCE SYMBOLIQUE ══ */
+function updateStrength() {
+  const rotorCount = selectedRotors.size;
+  const hasGem = selectedGem ? 1 : 0;
+  const rune = document.getElementById('runeSelect').value;
+  const isPhi = rune === 'phi' ? 1 : 0;
+  const strength = Math.min(100, 30 + rotorCount * 8 + hasGem * 10 + isPhi * 12);
+  document.getElementById('strengthFill').style.width = strength + '%';
+
+  let label = 'Faible';
+  if (strength >= 80) label = 'MAXIMUM — Superposition complète';
+  else if (strength >= 60) label = 'Élevée — Plusieurs bases actives';
+  else if (strength >= 45) label = 'Modérée — Contexte enrichi';
+
+  document.getElementById('strengthText').textContent =
+    `Richesse symbolique : ${strength}% — ${label}`;
+}
+
+/* ══ GEMS ══ */
+document.querySelectorAll('[data-gem]').forEach(g => {
+  g.addEventListener('click', () => {
+    document.querySelectorAll('[data-gem]').forEach(x => x.classList.remove('on'));
+    g.classList.add('on');
+    selectedGem = g.dataset.gem;
+    updateStrength();
+  });
+});
+
+/* ══ ROTORS ══ */
+document.querySelectorAll('[data-rotor]').forEach(r => {
+  r.addEventListener('click', () => {
+    if (selectedRotors.has(r.dataset.rotor)) {
+      selectedRotors.delete(r.dataset.rotor);
+      r.classList.remove('on');
+    } else {
+      selectedRotors.add(r.dataset.rotor);
+      r.classList.add('on');
+    }
+    updateStrength();
+  });
+});
+
+document.getElementById('runeSelect').addEventListener('change', updateStrength);
+
+/* ══ TRANSMUTATION PRINCIPALE ══ */
+document.getElementById('transmuteBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('transmuteBtn');
+  btn.innerHTML = '<span class="spinner"></span>Transmutation en cours…';
+  btn.disabled = true;
+
+  try {
+    const message = document.getElementById('msgInput').value || 'vide';
+    const rune = document.getElementById('runeSelect').value;
+    const gem = selectedGem;
+    const rotors = [...selectedRotors].sort().join('+');
+    const format = document.getElementById('baseSelect').value;
+
+    /* 1. Entropie 256 bits (CSPRNG) */
+    const ikm  = crypto.getRandomValues(new Uint8Array(32));
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+
+    /* 2. HKDF Extract */
+    const prk = await hkdfExtract(salt, ikm);
+
+    /* 3. Contexte = séparation de domaine symbolique */
+    const context = [
+      VERSION,
+      `rune:${rune}`,
+      `gem:${gem}`,
+      `rotors:${rotors || 'none'}`,
+      `format:${format}`,
+      `Rachid+Claude+DeepSeek+Gemini+ChatGPT`
+    ].join('|');
+
+    /* 4. HKDF Expand → clé dérivée */
+    const okm = await hkdfExpand(prk, context, 32);
+
+    /* 5. HMAC-SHA256 du message */
+    const fp256 = await hmacSHA256(okm, enc.encode(message));
+    const hex = toHex(fp256);
+
+    /* 6. Encodage de sortie */
+    const output = encodeOutput(hex, format);
+
+    /* 7. Affichage */
+    const fpEl = document.getElementById('fingerprint');
+    fpEl.textContent = output;
+    fpEl.classList.remove('empty');
+
+    const ctxEl = document.getElementById('contextDisplay');
+    ctxEl.textContent = context;
+    ctxEl.classList.remove('empty');
+
+    const pipeEl = document.getElementById('pipelineDisplay');
+    pipeEl.textContent =
+      `CSPRNG(256) → salt(128) → HKDF-Extract → PRK → HKDF-Expand(context) → OKM → HMAC-SHA256(message) → ${format.toUpperCase()} → ${output.length * (format === 'hex' ? 4 : 6)} bits env.`;
+    pipeEl.classList.remove('empty');
+
+    document.getElementById('cryptoPanel').classList.add('revealed');
+    document.getElementById('ctxPanel').classList.add('revealed');
+    document.getElementById('pipePanel').classList.add('revealed');
+
+    /* Métriques */
+    ops++;
+    document.getElementById('opsCount').textContent = ops;
+    ['mc-bits', 'mc-pre', 'mc-coll', 'mc-ops'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.add('active');
+      setTimeout(() => el.classList.remove('active'), 1200);
+    });
+
+    /* Historique */
+    addHistory(message, output, rune, gem, rotors, format);
+
+    /* Animation bouton */
+    btn.classList.add('firing');
+    setTimeout(() => btn.classList.remove('firing'), 600);
+
+  } catch(err) {
+    console.error(err);
+    document.getElementById('fingerprint').textContent = 'Erreur : ' + err.message;
+  }
+
+  btn.innerHTML = '🔥 TRANSMUTER';
+  btn.disabled = false;
+});
+
+/* ══ HISTORIQUE ══ */
+function addHistory(msg, fp, rune, gem, rotors, format) {
+  const now = new Date();
+  const time = now.toTimeString().slice(0, 8);
+  history.unshift({ msg, fp, rune, gem, rotors, format, time });
+
+  const panel = document.getElementById('historyPanel');
+
+  if (history.length === 1) panel.innerHTML = '';
+
+  const entry = document.createElement('div');
+  entry.className = 'history-entry';
+  const preview = fp.length > 48 ? fp.slice(0, 48) + '…' : fp;
+  const ctx = `${rune} · ${gem}${rotors ? ' · ' + rotors : ''} · ${format}`;
+  entry.innerHTML = `
+    <div class="h-time">${time}</div>
+    <div style="flex:1; min-width:0;">
+      <div class="h-msg">"${msg.length > 40 ? msg.slice(0,40)+'…' : msg}"</div>
+      <div class="h-fp">${preview}</div>
+      <div class="h-ctx">${ctx}</div>
+    </div>
+  `;
+  panel.insertBefore(entry, panel.firstChild);
+}
+
+/* ══ COPIER ══ */
+function copyFingerprint() {
+  const val = document.getElementById('fingerprint').textContent;
+  if (!val || val.includes('attente')) return;
+  navigator.clipboard.writeText(val).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copié !';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+/* ══ RESET ══ */
+document.getElementById('resetBtn').addEventListener('click', () => {
+  document.getElementById('msgInput').value = 'Salma';
+  document.getElementById('runeSelect').value = 'phi';
+  document.getElementById('baseSelect').value = 'hex';
+
+  document.querySelectorAll('[data-gem]').forEach(x => x.classList.remove('on'));
+  document.querySelector('[data-gem="ruby"]').classList.add('on');
+  selectedGem = 'ruby';
+
+  document.querySelectorAll('[data-rotor]').forEach(x => x.classList.remove('on'));
+  selectedRotors.clear();
+
+  document.getElementById('fingerprint').textContent = 'En attente de transmutation…';
+  document.getElementById('fingerprint').classList.add('empty');
+  document.getElementById('contextDisplay').textContent = '—';
+  document.getElementById('contextDisplay').classList.add('empty');
+  document.getElementById('pipelineDisplay').textContent = '—';
+  document.getElementById('pipelineDisplay').classList.add('empty');
+
+  updateStrength();
+});
+
+/* ══ INIT ══ */
+updateStrength();
+</script>
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 Aventure en Français - Niveau Primaire Marocain A</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Lora&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(180deg, #2E5BBA, #4A90E2);
+            animation: gradient 15s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            color: #000;
+            overflow-x: hidden;
+            position: relative;
+            margin: 0;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .theme-button, .scene-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        .theme-button:hover, .scene-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .verb-tooltip {
+            position: relative;
+            color: #00FF00;
+            cursor: help;
+        }
+        .verb-tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: #0000FF;
+            padding: 5px 10px;
+            border-radius: 5px;
+            bottom: 20px;
+            left: 0;
+            z-index: 10;
+            font-size: 12px;
+        }
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .quiz-container {
+            margin: 20px 0;
+        }
+        .quiz-container button {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .quiz-container button.correct {
+            background: #28a745;
+        }
+        .quiz-container button.incorrect {
+            background: #dc3545;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            animation: zoom 0.5s ease;
+        }
+        @keyframes zoom {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: left;
+        }
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles-js"></div>
+    <div class="container">
+        <header>
+            <h1>🌍 Aventure en Français</h1>
+            <p>Maîtrise des Verbes Multidimensionnels pour Jeunes Apprenants<br><br>
+                <b>7 Dimensions de Communication :</b><br>
+                1️⃣ <u>Action</u> (courir, manger, écrire)<br>
+                2️⃣ <u>Émotion</u> (aimer, sentir, s'inquiéter)<br>
+                3️⃣ <u>Sensoriel</u> (voir, entendre, goûter)<br>
+                4️⃣ <u>Discours</u> (dire, raconter, demander)<br>
+                5️⃣ <u>Pensée</u> (savoir, penser, comprendre)<br>
+                6️⃣ <u>Changement</u> (devenir, grandir, obtenir)<br>
+                7️⃣ <u>Possession</u> (avoir, posséder, garder)</p>
+            <p>Pour les Écoles Primaires Marocaines Niveau A</p>
+            <p><i>Bismillah al-Rahman al-Rahim</i></p>
+        </header>
+
+        <nav>
+            <button class="theme-button" onclick="showTheme('family')">👪 Histoires de Famille</button>
+            <button class="theme-button" onclick="showTheme('school')">🏫 Vie Scolaire</button>
+            <button class="theme-button" onclick="showTheme('market')">🛒 Journée au Marché</button>
+            <button class="theme-button" onclick="showTheme('nature')">🌵 Aventure dans le Désert</button>
+            <button class="theme-button" onclick="showTheme('festival')">🎉 Célébration de l'Aïd</button>
+        </nav>
+
+        <section id="family" class="glass-card" style="display:block;">
+            <h2>👪 Histoires de Famille</h2>
+            <button class="scene-button" onclick="showScene('grandpas-visit')">La Visite Surprise du Grand-père</button>
+            
+            <div id="grandpas-visit" class="glass-card" style="display:block;">
+                <h3>La Visite Surprise du Grand-père</h3>
+                <img src="https://example.com/moroccan-family.jpg" alt="Réunion de famille marocaine">
+                
+                <p>L'été dernier, mon grand-père <span class="verb-tooltip" data-tooltip="Passé Irregulier (Action)">conduisit</span> depuis Zagora pour nous rendre visite à Casablanca. Quand il <span class="verb-tooltip" data-tooltip="Passé Irregulier (Action)">vint</span>, il <span class="verb-tooltip" data-tooltip="Passé Irregulier (Action)">apporta</span> un énorme panier de dattes. "Je <span class="verb-tooltip" data-tooltip="Passé Irregulier (Pensée)">savais</span> que vous les aimeriez !" <span class="verb-tooltip" data-tooltip="Passé Irregulier (Discours)">dit-il</span>. Ma petite sœur <span class="verb-tooltip" data-tooltip="Passé Régulier (Émotion)">se sentit</span> si excitée qu'elle <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">courut</span> partout dans la maison. Ce soir-là, nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">mangeâmes</span> tous du couscous ensemble et <span class="verb-tooltip" data-tooltip="Passé Régulier (Discours)">racontâmes</span> des histoires. Grand-père m' <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">enseigna</span> à jouer aux échecs. Je <span class="verb-tooltip" data-tooltip="Passé Régulier (Pensée)">pensai</span> que c'était difficile au début, mais je <span class="verb-tooltip" data-tooltip="Passé Régulier (Changement)">devins</span> meilleur. Quand il <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">partit</span>, nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Émotion)">pleurâmes</span> tous, mais il <span class="verb-tooltip" data-tooltip="Passé Régulier (Discours)">promit</span> de revenir bientôt.</p>
+                
+                <div class="glass-card">
+                    <h4>🔍 Focus sur les Verbes (Passé Irrégulier)</h4>
+                    <ul>
+                        <li><b>Action</b>: conduisit, vint, apporta</li>
+                        <li><b>Discours</b>: dit</li>
+                        <li><b>Pensée</b>: savais</li>
+                    </ul>
+                </div>
+                
+                <div class="quiz-container">
+                    <h4>✍️ Défi de Conjugaison</h4>
+                    <p>Complète : Hier, mon grand-père ___ (conduire) de Zagora.</p>
+                    <button onclick="checkConjugation('conduire', 'conduisit', 'Action', this)">conduisit</button>
+                    <button onclick="checkConjugation('conduire', 'conduit', 'Action', this)">conduit</button>
+                    <button onclick="checkConjugation('conduire', 'conduisait', 'Action', this)">conduisait</button>
+                    <p id="quiz-conduire"></p>
+                    
+                    <p>Quelle dimension représente le mot "racontâmes" ?</p>
+                    <button onclick="checkDimension('raconter', 'Discours', this)">Discours</button>
+                    <button onclick="checkDimension('raconter', 'Action', this)">Action</button>
+                    <button onclick="checkDimension('raconter', 'Émotion', this)">Émotion</button>
+                    <p id="quiz-raconter"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="school" class="glass-card" style="display:none;">
+            <h2>🏫 Vie Scolaire</h2>
+            <button class="scene-button" onclick="showScene('science-fair')">La Foire Scientifique</button>
+            
+            <div id="science-fair" class="glass-card" style="display:none;">
+                <h3>Le Désastre de la Foire Scientifique</h3>
+                <p>Pendant des semaines, Karim et moi <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">travaillâmes</span> sur notre projet de volcan. Nous le <span class="verb-tooltip" data-tooltip="Passé Irregulier (Action)">fîmes</span> en carton et <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">écrivîmes</span> tous les faits. Le jour de la foire, j' <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">oubliai</span> le bicarbonate de soude ! Mes mains <span class="verb-tooltip" data-tooltip="Passé Régulier (Changement)">tremblèrent</span> pendant que je <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">courus</span> à la cuisine. Quand je <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">revins</span>, notre maîtresse avait déjà <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">commencé</span> à juger. Nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">montâmes</span> rapidement tout. Le volcan <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">erupta</span> parfaitement ! Nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Émotion)">nous sentîmes</span> si fiers quand nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">gagnâmes</span> le deuxième prix.</p>
+                
+                <div class="glass-card">
+                    <h4>🔍 Dimensions des Verbes</h4>
+                    <table>
+                        <tr>
+                            <th>Verbe</th>
+                            <th>Passé</th>
+                            <th>Dimension</th>
+                        </tr>
+                        <tr>
+                            <td>faire</td>
+                            <td>fit</td>
+                            <td>Action</td>
+                        </tr>
+                        <tr>
+                            <td>trembler</td>
+                            <td>trembla</td>
+                            <td>Changement</td>
+                        </tr>
+                        <tr>
+                            <td>érpuer</td>
+                            <td>érupta</td>
+                            <td>Action</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="quiz-container">
+                    <h4>🧠 Jeu de Mémoire</h4>
+                    <p>Quel est le passé de "trembler" ?</p>
+                    <button onclick="checkConjugation('trembler', 'trembla', 'Changement', this)">trembla</button>
+                    <button onclick="checkConjugation('trembler', 'tremblait', 'Changement', this)">tremblait</button>
+                    <button onclick="checkConjugation('trembler', 'tremblé', 'Changement', this)">tremblé</button>
+                    <p id="quiz-trembler"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="market" class="glass-card" style="display:none;">
+            <h2>🛒 Journée au Marché</h2>
+            <button class="scene-button" onclick="showScene('spice-hunt')">La Chasse aux Épices</button>
+            
+            <div id="spice-hunt" class="glass-card" style="display:none;">
+                <h3>La Grande Chasse aux Épices</h3>
+                <p>Ma mère m' <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">envoya</span> au souk pour acheter du safran. J' <span class="verb-tooltip" data-tooltip="Passé Irregulier (Action)">allai</span> dans trois magasins mais ne <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">trouvai</span> que du faux. Soudain, je <span class="verb-tooltip" data-tooltip="Passé Irregulier (Sensoriel)">vis</span> un vieil homme qui <span class="verb-tooltip" data-tooltip="Passé Irregulier (Possession)">avait</span> la vraie épice. Il m' <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">emmena</span> derrière son étal et me <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">montra</span> comment tester la qualité. Je <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">payai</span> attentivement et <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">gardai</span> le safran en sécurité. Quand je <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">revins</span> à la maison, ma mère <span class="verb-tooltip" data-tooltip="Passé Irregulier (Émotion)">était</span> si heureuse qu'elle me <span class="verb-tooltip" data-tooltip="Passé Irregulier (Action)">fit</span> mes biscuits préférés !</p>
+                
+                <div class="glass-card">
+                    <h4>✏️ Exercice de Verbes</h4>
+                    <p>Complète les phrases :</p>
+                    <p>1. Hier, je ___ (aller) au marché.</p>
+                    <input type="text" id="market-go" placeholder="Passé de 'aller'">
+                    <button onclick="checkInput('market-go', 'allai')">Vérifier</button>
+                    <p id="result-go"></p>
+                    
+                    <p>2. Le marchand me ___ (montrer) le vrai safran.</p>
+                    <input type="text" id="market-show" placeholder="Passé de 'montrer'">
+                    <button onclick="checkInput('market-show', 'montra')">Vérifier</button>
+                    <p id="result-show"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="nature" class="glass-card" style="display:none;">
+            <h2>🌵 Aventure dans le Désert</h2>
+            <button class="scene-button" onclick="showScene('lost-camel')">Le Chameau Perdu de Merzouga</button>
+            
+            <div id="lost-camel" class="glass-card" style="display:none;">
+                <h3>Le Chameau Perdu de Merzouga</h3>
+                <p>En visitant Merzouga, mon cousin Ahmed <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">chevaucha</span> un chameau pour la première fois. Soudain, le chameau <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">rompit</span> sa corde et <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">s'échappa</span> ! Nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">passâmes</span> des heures à le chercher. Le soleil <span class="verb-tooltip" data-tooltip="Passé Régulier (Changement)">brillait</span> fort et nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">nous fatiguâmes</span>. Juste au moment où nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Pensée)">pensâmes</span> abandonner, Ahmed <span class="verb-tooltip" data-tooltip="Passé Régulier (Sensoriel)">entendit</span> un bruit. Derrière une dune, le chameau <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">était</span> là, mangeant de l'herbe tranquillement ! Nous le <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">ramenâmes</span> en sécurité. Cette nuit-là, nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">dormîmes</span> tous comme des bébés.</p>
+                
+                <div class="quiz-container">
+                    <h4>🐫 Safari des Verbes</h4>
+                    <p>Trouve 3 verbes irréguliers dans l'histoire qui signifient :</p>
+                    <ol>
+                        <li>Se déplacer rapidement à pied (passé : ___)</li>
+                        <li>Percevoir le son (passé : ___)</li>
+                        <li>Être en position verticale (passé : ___)</li>
+                    </ol>
+                    <button onclick="revealAnswers()">Afficher les Réponses</button>
+                    <div id="safari-answers" style="display:none;margin-top:10px;">
+                        <p>1. courut (de "courir")<br>2. entendit (de "entendre")<br>3. fut (de "être")</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="festival" class="glass-card" style="display:none;">
+            <h2>🎉 Célébration de l'Aïd</h2>
+            <button class="scene-button" onclick="showScene('eid-morning')">Matinée de l'Aïd Al-Fitr</button>
+            
+            <div id="eid-morning" class="glass-card" style="display:none;">
+                <h3>La Meilleure Matinée d'Aïd de Tous les Temps</h3>
+                <p>Avant le lever du soleil, nous nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">levâmes</span> tous tôt. Maman <span class="verb-tooltip" data-tooltip="Passé Irregulier (Action)">porta</span> son magnifique caftan. Je <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">mangeai</span> la chebakia jusqu'à ce que mon ventre me <span class="verb-tooltip" data-tooltip="Passé Régulier (Changement)">fît mal</span> ! À la mosquée, grand-père <span class="verb-tooltip" data-tooltip="Passé Régulier (Discours)">parla</span> de gentillesse. Après les prières, nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">visitâmes</span> la famille. Mon oncle me <span class="verb-tooltip" data-tooltip="Passé Irregulier (Action)">donna</span> 50 dirhams ! Je <span class="verb-tooltip" data-tooltip="Passé Irregulier (Pensée)">sus</span> exactement quoi acheter - un ballon de football ! Cet après-midi-là, nous <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">jouâmes</span> tous dans la rue jusqu'à ce que le soleil se <span class="verb-tooltip" data-tooltip="Passé Régulier (Action)">coucha</span>.</p>
+                
+                <div class="glass-card">
+                    <h4>📝 Journal des Verbes</h4>
+                    <p>Écris 3 phrases sur ton dernier Aïd en utilisant des verbes irréguliers :</p>
+                    <textarea id="eid-diary" rows="4" placeholder="Ex. J'ai porté... Ma mère a fait... Nous avons visité..."></textarea>
+                    <button onclick="checkDiary()">Vérifier mes Verbes</button>
+                    <p id="diary-result"></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle', stroke: { width: 0, color: '#000000' }, polygon: { nb_sides: 5 } },
+                opacity: { value: 0.5, random: false, anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 3, random: true, anim: { enable: false, speed: 40, size_min: 0.1, sync: false } },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false, attract: { enable: false, rotateX: 600, rotateY: 1200 } }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: {
+                    grab: { distance: 400, line_linked: { opacity: 1 } },
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                    repulse: { distance: 200, duration: 0.4 },
+                    push: { particles_nb: 4 },
+                    remove: { particles_nb: 2 }
+                }
+            },
+            retina_detect: true
+        });
+
+        function showTheme(themeId) {
+            document.querySelectorAll('section[id]').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(themeId).style.display = 'block';
+            // Hide all scenes when changing theme
+            document.querySelectorAll(`#${themeId} > div[id]`).forEach(scene => {
+                scene.style.display = 'none';
+            });
+        }
+
+        function showScene(sceneId) {
+            const currentTheme = document.querySelector('section[id][style*="display: block"]').id;
+            document.querySelectorAll(`#${currentTheme} > div[id]`).forEach(div => {
+                div.style.display = 'none';
+            });
+            document.getElementById(sceneId).style.display = 'block';
+        }
+
+        function checkConjugation(baseVerb, correctPast, dimension, button) {
+            const buttons = button.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('correct', 'incorrect');
+            });
+            
+            // Adjusting correctPast for French equivalents in quiz logic
+            let displayCorrectPast = correctPast;
+            if (baseVerb === 'conduire') {
+                displayCorrectPast = 'conduisit';
+            } else if (baseVerb === 'trembler') {
+                displayCorrectPast = 'trembla';
+            }
+            
+            if (button.textContent.trim().toLowerCase() === displayCorrectPast.toLowerCase()) {
+                button.classList.add('correct');
+                document.getElementById(`quiz-${baseVerb}`).innerHTML = 
+                    `✅ Excellent ! "${button.textContent.trim()}" est la forme correcte au passé de "${baseVerb}" (dimension ${dimension})`;
+            } else {
+                button.classList.add('incorrect');
+                document.getElementById(`quiz-${baseVerb}`).innerHTML = 
+                    `❌ Réessaie ! Le passé de "${baseVerb}" est "${displayCorrectPast}"`;
+            }
+        }
+
+        function checkDimension(verb, correctDim, button) {
+            const buttons = button.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mapping English dimensions to French for display
+            const frenchDimensions = {
+                'Action': 'Action',
+                'Emotion': 'Émotion',
+                'Sensory': 'Sensoriel',
+                'Speech': 'Discours',
+                'Thought': 'Pensée',
+                'Change': 'Changement',
+                'Possession': 'Possession'
+            };
+            const displayCorrectDim = frenchDimensions[correctDim] || correctDim;
+
+            if (button.textContent.trim() === displayCorrectDim) {
+                button.classList.add('correct');
+                document.getElementById(`quiz-${verb}`).innerHTML = 
+                    `🌟 Correct ! "${button.textContent.trim()}" appartient à la dimension <u>${displayCorrectDim}</u>`;
+            } else {
+                button.classList.add('incorrect');
+                document.getElementById(`quiz-${verb}`).innerHTML = 
+                    `📚 En fait, "${verb}" est un verbe de <u>${displayCorrectDim}</u>`;
+            }
+        }
+
+        function checkInput(inputId, correctAnswer) {
+            const userAnswer = document.getElementById(inputId).value.trim().toLowerCase();
+            const resultElement = document.getElementById(`result-${inputId.split('-')[1]}`);
+            
+            if (userAnswer === correctAnswer) {
+                resultElement.innerHTML = `🎉 Correct ! "${correctAnswer}" est juste !`;
+                resultElement.style.color = '#28a745';
+            } else {
+                resultElement.innerHTML = `Continue d'essayer ! La réponse est "${correctAnswer}"`;
+                resultElement.style.color = '#dc3545';
+            }
+        }
+
+        function revealAnswers() {
+            document.getElementById('safari-answers').style.display = 'block';
+        }
+
+        function checkDiary() {
+            const text = document.getElementById('eid-diary').value.toLowerCase();
+            // French irregular verbs for checking
+            const irregulars = ['porta', 'fit', 'donna', 'sus', 'alla', 'vis', 'courut', 'entendit', 'fut', 'dormit']; // Reduced set for clarity, add more if needed
+            const found = irregulars.filter(verb => text.includes(verb));
+            
+            if (found.length > 0) {
+                document.getElementById('diary-result').innerHTML = 
+                    `Excellent travail ! Vous avez utilisé ${found.length} verbes irréguliers : ${found.join(', ')}`;
+                document.getElementById('diary-result').style.color = '#28a745';
+            } else {
+                document.getElementById('diary-result').innerHTML = 
+                    "Cherchez des verbes comme 'porter/porta', 'faire/fit', ou 'donner/donna'";
+                document.getElementById('diary-result').style.color = '#dc3545';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showTheme('family');
+            showScene('grandpas-visit');
+        });
+    </script>
+</body>
+</html>

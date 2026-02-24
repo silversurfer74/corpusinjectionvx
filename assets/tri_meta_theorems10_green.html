@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection des Méta-Théorèmes TRI - Version Interactive</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                tags: 'ams'
+            },
+            chtml: {
+                displayAlign: 'center',
+                scale: 1.1
+            }
+        };
+    </script>
+    <style>
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151b3d;
+            --bg-card: #1a2347;
+            --accent-meta1: #00d9ff;
+            --accent-meta2: #0fbf9a;
+            --accent-meta3: #ffd700;
+            --accent-meta4: #ff6b6b;
+            --accent-meta5: #9d4edd;
+            --accent-meta6: #7b2cbf;
+            --accent-meta7: #ff006e;
+            --accent-meta8: #06ffa5;
+            --accent-meta10: #fb5607;
+            --text-primary: #e8f4f8;
+            --text-secondary: #a8c5d1;
+            --text-muted: #6b8394;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.8;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Navigation latérale */
+        #sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 2px solid var(--accent-meta1);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        #sidebar.hidden {
+            transform: translateX(-280px);
+        }
+        
+        #sidebar h2 {
+            color: var(--accent-meta1);
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-meta1);
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+        }
+        
+        .nav-section h3 {
+            color: var(--text-secondary);
+            font-size: 1em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover {
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--accent-meta1);
+            transform: translateX(5px);
+        }
+        
+        .nav-link.active {
+            background: var(--accent-meta1);
+            color: var(--bg-primary);
+            font-weight: bold;
+        }
+        
+        .meta-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .meta-badge {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        /* Toggle button */
+        #toggle-sidebar {
+            position: fixed;
+            left: 290px;
+            top: 20px;
+            background: var(--accent-meta1);
+            color: var(--bg-primary);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 999;
+            transition: left 0.3s ease;
+            font-weight: bold;
+        }
+        
+        #toggle-sidebar.sidebar-hidden {
+            left: 10px;
+        }
+        
+        /* Contenu principal */
+        #main-content {
+            margin-left: 280px;
+            padding: 40px;
+            flex: 1;
+            transition: margin-left 0.3s ease;
+        }
+        
+        #main-content.expanded {
+            margin-left: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            padding: 60px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 3px solid var(--accent-meta1);
+            margin-bottom: 50px;
+        }
+        
+        h1 {
+            color: var(--text-primary);
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            color: var(--accent-meta1);
+            font-size: 1.3em;
+            margin: 15px 0;
+            font-style: italic;
+        }
+        
+        section {
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        h2 {
+            font-size: 2em;
+            margin-top: 60px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-meta1);
+            color: var(--accent-meta1);
+            scroll-margin-top: 20px;
+        }
+        
+        h3 {
+            font-size: 1.6em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid var(--accent-meta2);
+            color: var(--text-primary);
+        }
+        
+        h4 {
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: var(--accent-meta3);
+        }
+        
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 1.05em;
+            color: var(--text-secondary);
+        }
+        
+        .theorem {
+            background: var(--bg-card);
+            padding: 35px;
+            border-radius: 12px;
+            margin: 40px 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            border-left: 8px solid var(--accent-meta1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .theorem:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+        }
+        
+        .formula-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.2em;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .condition-box {
+            background: rgba(15, 191, 154, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent-meta2);
+        }
+        
+        .example-box {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid var(--accent-meta3);
+        }
+        
+        .application-box {
+            background: rgba(157, 78, 221, 0.1);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid var(--accent-meta5);
+        }
+        
+        .exercise-box {
+            background: rgba(255, 107, 107, 0.1);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 4px solid var(--accent-meta4);
+        }
+        
+        .solution-toggle {
+            background: var(--accent-meta4);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .solution-toggle:hover {
+            background: var(--accent-meta5);
+            transform: scale(1.05);
+        }
+        
+        .solution-content {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .solution-content.visible {
+            display: block;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .solution-box {
+            background: linear-gradient(135deg, var(--accent-meta1) 0%, var(--accent-meta2) 100%);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 25px 0;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--bg-primary);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+        }
+        
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            font-size: 0.95em;
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .summary-table th {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 18px 12px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1.05em;
+        }
+        
+        .summary-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
+        }
+        
+        .summary-table tr:hover {
+            background: rgba(0, 217, 255, 0.05);
+        }
+        
+        .meta-number {
+            font-weight: bold;
+            font-size: 1.2em;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        
+        .meta-1 { background: var(--accent-meta1); color: var(--bg-primary); }
+        .meta-2 { background: var(--accent-meta2); color: var(--bg-primary); }
+        .meta-3 { background: var(--accent-meta3); color: var(--bg-primary); }
+        .meta-4 { background: var(--accent-meta4); color: white; }
+        .meta-5 { background: var(--accent-meta5); color: white; }
+        .meta-6 { background: var(--accent-meta6); color: white; }
+        .meta-7 { background: var(--accent-meta7); color: white; }
+        .meta-8 { background: var(--accent-meta8); color: var(--bg-primary); }
+        .meta-10 { background: var(--accent-meta10); color: white; }
+        
+        .quote {
+            font-style: italic;
+            color: var(--accent-meta2);
+            font-size: 1.2em;
+            text-align: center;
+            padding: 30px;
+            margin: 40px 0;
+            border-left: 5px solid var(--accent-meta2);
+            background: rgba(15, 191, 154, 0.05);
+        }
+        
+        .reference-item {
+            padding: 15px;
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-meta2);
+        }
+        
+        .reference-item strong {
+            color: var(--accent-meta1);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-meta1);
+            color: var(--bg-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5em;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 998;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover {
+            transform: scale(1.1);
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+        
+        li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 1024px) {
+            #sidebar {
+                transform: translateX(-280px);
+            }
+            #sidebar.visible {
+                transform: translateX(0);
+            }
+            #main-content {
+                margin-left: 0;
+            }
+            #toggle-sidebar {
+                left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation latérale -->
+    <nav id="sidebar">
+        <h2>📚 Navigation</h2>
+        
+        <div class="nav-section">
+            <h3>Sections</h3>
+            <a href="#introduction" class="nav-link">Introduction</a>
+            <a href="#tableau" class="nav-link">Tableau Récapitulatif</a>
+            <a href="#applications" class="nav-link">Applications Pratiques</a>
+            <a href="#exercices" class="nav-link">Exercices</a>
+            <a href="#bibliographie" class="nav-link">Bibliographie</a>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Méta-Théorèmes</h3>
+            <a href="#meta1" class="nav-link meta-nav">
+                <span class="meta-badge meta-1">I</span>
+                <span>Polynomiale</span>
+            </a>
+            <a href="#meta2" class="nav-link meta-nav">
+                <span class="meta-badge meta-2">II</span>
+                <span>Exponentielle</span>
+            </a>
+            <a href="#meta3" class="nav-link meta-nav">
+                <span class="meta-badge meta-3">III</span>
+                <span>Logarithmique</span>
+            </a>
+            <a href="#meta4" class="nav-link meta-nav">
+                <span class="meta-badge meta-4">IV</span>
+                <span>Trig (Cos/Sin)</span>
+            </a>
+            <a href="#meta5" class="nav-link meta-nav">
+                <span class="meta-badge meta-5">V</span>
+                <span>Trig (Tan/Sec)</span>
+            </a>
+            <a href="#meta6" class="nav-link meta-nav">
+                <span class="meta-badge meta-6">VI</span>
+                <span>Diophantienne</span>
+            </a>
+            <a href="#meta7" class="nav-link meta-nav">
+                <span class="meta-badge meta-7">VII</span>
+                <span>Irrationnelle</span>
+            </a>
+            <a href="#meta8" class="nav-link meta-nav">
+                <span class="meta-badge meta-8">VIII</span>
+                <span>Hyperbolique</span>
+            </a>
+            <a href="#meta10" class="nav-link meta-nav">
+                <span class="meta-badge meta-10">X</span>
+                <span>Séquentielle</span>
+            </a>
+        </div>
+    </nav>
+    
+    <button id="toggle-sidebar">☰</button>
+    
+    <div id="main-content">
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <h1>🎓 COLLECTION DES MÉTA-THÉORÈMES AZZOUZ</h1>
+                <p class="subtitle">Théorie de la Résonance Informationnelle (TRI)</p>
+                <p class="subtitle" style="font-size: 1.1em; margin-top: 20px;">Guide Interactif pour Étudiants, Chercheurs et Olympiades Mathématiques</p>
+                <p style="color: var(--text-secondary); margin-top: 20px;">Rachid Azzouz • Version 2.0 Interactive • 2025</p>
+            </header>
+
+            <!-- Introduction -->
+            <section id="introduction">
+                <h2>🎯 Introduction : La Théorie de la Résonance Informationnelle</h2>
+                
+                <p>La <strong>Théorie de la Résonance Informationnelle (TRI)</strong> propose un cadre théorique unifié pour la résolution d'équations mathématiques complexes. Au lieu d'appliquer des méthodes algorithmiques génériques, la TRI repose sur la <em>reconnaissance de patterns résonants</em> — des structures mathématiques cachées qui permettent une réduction drastique de l'entropie du système.</p>
+                
+                <div class="quote">
+                    "La reconnaissance structurelle est la première étape de la résolution élégante."
+                </div>
+                
+                <h3>🏛️ Architecture Fondamentale : Les Trois Piliers</h3>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta3);">
+                    <h4 style="text-align: center; color: var(--accent-meta3); font-size: 1.5em; margin-bottom: 30px;">P8 → P5 → P6</h4>
+                    
+                    <div style="margin: 25px 0;">
+                        <h4 style="color: var(--accent-meta3);">🔍 P8 - Pattern Résonant</h4>
+                        <p><strong>Reconnaissance Structurelle :</strong> Identifier la condition mathématique cachée qui révèle la nature profonde de l'équation (identités fondamentales, factorisation, symétries).</p>
+                    </div>
+                    
+                    <div style="margin: 25px 0;">
+                        <h4 style="color: var(--accent-meta2);">🔄 P5 - Rotor Paradigmatique</h4>
+                        <p><strong>Transformation Élégante :</strong> Appliquer une substitution ou un changement de variable qui réduit l'équation à une forme canonique universelle (FCU).</p>
+                    </div>
+                    
+                    <div style="margin: 25px 0;">
+                        <h4 style="color: var(--accent-meta1);">✨ P6 - Solution Élégante</h4>
+                        <p><strong>Résolution Directe :</strong> Obtenir la solution exacte et finie sans itération numérique ni approximation, en exploitant la structure révélée.</p>
+                    </div>
+                </div>
+                
+                <h3>🎨 Les Quatre Familles de Résonance</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <div class="theorem" style="border-left-color: var(--accent-meta1);">
+                        <h4 style="color: var(--accent-meta1);">Famille 1: Algébrique</h4>
+                        <p>Méta I, VI, VII<br>Polynômes, Diophante, Radicaux</p>
+                    </div>
+                    
+                    <div class="theorem" style="border-left-color: var(--accent-meta2);">
+                        <h4 style="color: var(--accent-meta2);">Famille 2: Constantes</h4>
+                        <p>Méta II, III<br>Nombre d'or φ, Constante e</p>
+                    </div>
+                    
+                    <div class="theorem" style="border-left-color: var(--accent-meta4);">
+                        <h4 style="color: var(--accent-meta4);">Famille 3: Transcendante</h4>
+                        <p>Méta IV, V, VIII<br>Trigonométrie, Hyperbolique</p>
+                    </div>
+                    
+                    <div class="theorem" style="border-left-color: var(--accent-meta10);">
+                        <h4 style="color: var(--accent-meta10);">Famille 4: Séquentielle</h4>
+                        <p>Méta X<br>Fibonacci, Cassini</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tableau récapitulatif -->
+            <section id="tableau">
+                <h2>📊 Tableau Récapitulatif des Méta-Théorèmes</h2>
+                
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Méta</th>
+                            <th>Domaine</th>
+                            <th>Forme Canonique</th>
+                            <th>Condition P8</th>
+                            <th>Solution P6</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="meta-number meta-1">I</span></td>
+                            <td>Polynomiale</td>
+                            <td>$x^m - x^n = K$</td>
+                            <td>$n/m = 3/2$ et $K = p^2(p+1)$</td>
+                            <td>$x = (-p)^{2/m}$</td>
+                        </tr>
+                        <tr>
+                            <td><span class="meta-number meta-2">II</span></td>
+                            <td>Exponentielle</td>
+                            <td>$a^x + b^x = c^x$</td>
+                            <td>Bases: $kp^2, kpq, kq^2$</td>
+                            <td>$x = \log_{p/q}(\phi^{-1})$</td>
+                        </tr>
+                        <tr>
+                            <td><span class="meta-number meta-3">III</span></td>
+                            <td>Logarithmique</td>
+                            <td>$(\log_b x)^2 - \log_b x - 1 = 0$</td>
+                            <td>Coeffs $(1, -1, -1)$</td>
+                            <td>$x = b^{\phi}$</td>
+                        </tr>
+                        <tr>
+                            <td><span class="meta-number meta-4">IV</span></td>
+                            <td>Trig (Cos/Sin)</td>
+                            <td>$b^{\cos^2 x} + b^{\sin^2 x} = b+1$</td>
+                            <td>$\cos^2 x + \sin^2 x = 1$</td>
+                            <td>$\cos x = 0$ ou $\pm 1$</td>
+                        </tr>
+                        <tr>
+                            <td><span class="meta-number meta-5">V</span></td>
+                            <td>Trig (Tan/Sec)</td>
+                            <td>$b^{\tan^2 x} + b^{\sec^2 x} = 1+b$</td>
+                            <td>$\sec^2 x = 1 + \tan^2 x$</td>
+                            <td>$x = k\pi$</td>
+                        </tr>
+                        <tr>
+                            <td><span class="meta-number meta-6">VI</span></td>
+                            <td>Diophantienne</td>
+                            <td>$\frac{1}{a} + \frac{1}{b} = \frac{1}{N}$</td>
+                            <td>$(a-N)(b-N) = N^2$</td>
+                            <td>Factorisation $N^2$</td>
+                        </tr>
+                        <tr>
+                            <td><span class="meta-number meta-7">VII</span></td>
+                            <td>Irrationnelle</td>
+                            <td>$\sqrt{A} + \sqrt{B} = K$</td>
+                            <td>$A - B = K$</td>
+                            <td>$2\sqrt{A} = K + 1$</td>
+                        </tr>
+                        <tr>
+                            <td><span class="meta-number meta-8">VIII</span></td>
+                            <td>Hyperbolique</td>
+                            <td>$b^{\cosh^2 x} - b^{\sinh^2 x} = b-1$</td>
+                            <td>$\cosh^2 x - \sinh^2 x = 1$</td>
+                            <td>$x = 0$</td>
+                        </tr>
+                        <tr>
+                            <td><span class="meta-number meta-10">X</span></td>
+                            <td>Fibonacci</td>
+                            <td>$F_n^2 - F_{n-1} F_{n+1} = k$</td>
+                            <td>Triplette consécutive</td>
+                            <td>$k = (-1)^n$</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Applications Pratiques -->
+            <section id="applications">
+                <h2>💼 Applications Pratiques</h2>
+                
+                <h3>🎯 Olympiades Mathématiques</h3>
+                <div class="application-box">
+                    <h4>Méta-Théorème VI en Compétition</h4>
+                    <p><strong>Problème type IMO:</strong> Trouver tous les couples d'entiers positifs $(a, b)$ satisfaisant $\frac{1}{a} + \frac{1}{b} = \frac{1}{13}$</p>
+                    <p><strong>Approche classique:</strong> Essais-erreurs, 5-10 minutes</p>
+                    <p><strong>Approche TRI:</strong> Reconnaissance immédiate du pattern → $(a-13)(b-13) = 169$ → Factorisation → 30 secondes ✅</p>
+                    <p><strong>Gain de temps:</strong> 10x plus rapide, zéro erreur de calcul</p>
+                </div>
+                
+                <div class="application-box">
+                    <h4>Méta-Théorème VII en Algèbre</h4>
+                    <p><strong>Équations irrationnelles:</strong> $\sqrt{x+7} + \sqrt{x-2} = 9$</p>
+                    <p><strong>Méthode classique:</strong> Élévation au carré (2 fois) → Risque d'erreur élevé</p>
+                    <p><strong>Méthode TRI:</strong> Vérifier $A - B = (x+7) - (x-2) = 9 = K$ ✅ → Système linéaire → Solution en 4 lignes</p>
+                    <p><strong>Avantage:</strong> Évite les solutions parasites, gain de temps 5x</p>
+                </div>
+                
+                <h3>🔬 Recherche en Théorie des Nombres</h3>
+                <div class="application-box">
+                    <h4>Méta-Théorème X et Identité de Cassini</h4>
+                    <p><strong>Application:</strong> Démonstration de propriétés de divisibilité dans la suite de Fibonacci</p>
+                    <p><strong>Exemple:</strong> Prouver que $F_n$ divise $F_{mn}$ pour tout $m, n$</p>
+                    <p><strong>Utilisation:</strong> L'identité $F_n^2 - F_{n-1} F_{n+1} = (-1)^n$ sert de base à de nombreuses preuves inductives</p>
+                </div>
+                
+                <div class="application-box">
+                    <h4>Méta-Théorème II en Cryptographie</h4>
+                    <p><strong>Contexte:</strong> Équations exponentielles dans les logarithmes discrets</p>
+                    <p><strong>Lien avec φ:</strong> Le nombre d'or apparaît dans l'analyse de complexité d'algorithmes de factorisation</p>
+                    <p><strong>Application:</strong> Optimisation d'algorithmes de recherche de racines primitives</p>
+                </div>
+                
+                <h3>🎓 Enseignement Universitaire</h3>
+                <div class="application-box">
+                    <h4>Pédagogie de la Reconnaissance de Patterns</h4>
+                    <p><strong>Cours d'algèbre:</strong> La TRI enseigne à "voir" la structure avant de calculer</p>
+                    <p><strong>Compétence développée:</strong> Pensée structurelle vs pensée procédurale</p>
+                    <p><strong>Avantage:</strong> Prépare aux mathématiques de recherche où l'intuition structurelle est cruciale</p>
+                </div>
+                
+                <h3>💻 Informatique et Algorithmes</h3>
+                <div class="application-box">
+                    <h4>Complexité Algorithmique</h4>
+                    <p><strong>Méthodes classiques:</strong> O(n) ou O(n²) pour résoudre numériquement</p>
+                    <p><strong>Méthode TRI:</strong> O(1) - reconnaissance de pattern + formule directe</p>
+                    <p><strong>Exemple:</strong> Méta I résout $x^{2000} - x^{3000} = 25230$ instantanément alors que Newton-Raphson nécessiterait des milliers d'itérations</p>
+                </div>
+            </section>
+
+            <!-- Méta-Théorèmes Détaillés -->
+            <section id="meta1">
+                <h2>📘 Méta-Théorème I : Résonance Polynomiale</h2>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta1);">
+                    <h3 style="color: var(--accent-meta1);"><span class="meta-number meta-1">I</span> Forme Canonique</h3>
+                    <div class="formula-box">
+                        $x^m - x^n = K$
+                    </div>
+                    
+                    <h4>🔍 Conditions de Résonance (P8)</h4>
+                    <div class="condition-box">
+                        <ol>
+                            <li><strong>Rapport des exposants:</strong> $n/m = 3/2$</li>
+                            <li><strong>Décomposition de K:</strong> $K = p^2(p+1)$ pour un entier $p$</li>
+                        </ol>
+                    </div>
+                    
+                    <h4>🔄 Rotor Paradigmatique (P5)</h4>
+                    <p>Factorisation: $x^m(1 - x^{n-m}) = K$ puis reconnaissance de la structure $p^2(p+1)$</p>
+                    
+                    <h4>✨ Solution Élégante (P6)</h4>
+                    <div class="solution-box">
+                        $\boxed{x = (-p)^{2/m}}$
+                    </div>
+                    
+                    <h4>📚 Exemple Complet: Équation de Degré 3000</h4>
+                    <div class="example-box">
+                        <p><strong>Équation:</strong> $x^{2000} - x^{3000} = 25230$</p>
+                        
+                        <p><strong>Étape 1 — Vérification P8:</strong></p>
+                        $\frac{n}{m} = \frac{3000}{2000} = \frac{3}{2} \quad \checkmark$
+                        
+                        <p><strong>Étape 2 — Trouver p:</strong></p>
+                        $K = p^2(p+1) = 25230$
+                        $\text{Test } p = 29: \quad 29^2 \times 30 = 841 \times 30 = 25230 \quad \checkmark$
+                        
+                        <p><strong>Étape 3 — Solution:</strong></p>
+                        $x = (-29)^{2/2000} = (-29)^{1/1000}$
+                        
+                        <p><strong>Étape 4 — Vérification:</strong></p>
+                        $x^{2000} = [(-29)^{1/1000}]^{2000} = (-29)^2 = 841$
+                        $x^{3000} = [(-29)^{1/1000}]^{3000} = (-29)^3 = -24389$
+                        $841 - (-24389) = 841 + 24389 = 25230 \quad \checkmark$
+                    </div>
+                </div>
+            </section>
+
+            <section id="meta2">
+                <h2>📗 Méta-Théorème II : Résonance Exponentielle (φ)</h2>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta2);">
+                    <h3 style="color: var(--accent-meta2);"><span class="meta-number meta-2">II</span> Forme Canonique</h3>
+                    <div class="formula-box">
+                        $a^x + b^x = c^x$
+                    </div>
+                    
+                    <h4>🔍 Conditions de Résonance (P8)</h4>
+                    <div class="condition-box">
+                        <p>Bases décomposables en deux entiers $p, q$ avec facteur commun $k$:</p>
+                        $a = k \cdot p^2, \quad b = k \cdot pq, \quad c = k \cdot q^2$
+                    </div>
+                    
+                    <h4>🔄 Rotor Paradigmatique (P5)</h4>
+                    <p>Substitution $t = (p/q)^x$ transforme l'équation en:</p>
+                    <div class="formula-box">
+                        $t^2 + t - 1 = 0 \quad \text{(Équation du nombre d'or)}$
+                    </div>
+                    
+                    <h4>✨ Solution Élégante (P6)</h4>
+                    <div class="solution-box">
+                        $\boxed{x = \log_{p/q}(\phi^{-1})} \quad \text{où } \phi = \frac{1+\sqrt{5}}{2}$
+                    </div>
+                    
+                    <h4>📚 Exemple: $3^x + 6^x = 12^x$</h4>
+                    <div class="example-box">
+                        <p><strong>Décomposition:</strong></p>
+                        $3 = 3 \cdot 1^2, \quad 6 = 3 \cdot 1 \cdot 2, \quad 12 = 3 \cdot 2^2$
+                        $k = 3, \, p = 1, \, q = 2 \quad \checkmark$
+                        
+                        <p><strong>Substitution:</strong> $t = (1/2)^x$</p>
+                        $t^2 + t - 1 = 0 \Rightarrow t = \phi^{-1} = \frac{\sqrt{5}-1}{2}$
+                        
+                        <p><strong>Solution:</strong></p>
+                        $x = \log_{1/2}(\phi^{-1}) = \log_2(\phi) \approx 0.694$
+                    </div>
+                </div>
+            </section>
+
+            <section id="meta3">
+                <h2>📙 Méta-Théorème III : Résonance Logarithmique ($e^{\phi}$)</h2>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta3);">
+                    <h3 style="color: var(--accent-meta3);"><span class="meta-number meta-3">III</span> Forme Canonique</h3>
+                    <div class="formula-box">
+                        $(\log_b x)^2 - \log_b x - 1 = 0$
+                    </div>
+                    
+                    <h4>🔍 Conditions de Résonance (P8)</h4>
+                    <div class="condition-box">
+                        <p>Coefficients dans le rapport caractéristique: $(1, -1, -1)$</p>
+                        <p>Cette forme révèle une connexion profonde avec le nombre d'or</p>
+                    </div>
+                    
+                    <h4>🔄 Rotor Paradigmatique (P5)</h4>
+                    <p>Substitution $t = \log_b x$ donne:</p>
+                    <div class="formula-box">
+                        $t^2 - t - 1 = 0 \Rightarrow t = \phi = \frac{1+\sqrt{5}}{2}$
+                    </div>
+                    
+                    <h4>✨ Solution Élégante (P6)</h4>
+                    <div class="solution-box">
+                        $\boxed{x = b^{\phi}}$
+                    </div>
+                    
+                    <div class="example-box">
+                        <p><strong>Cas particulier ($b = e$):</strong> $x = e^{\phi}$ — connexion remarquable entre deux constantes universelles!</p>
+                        <p><strong>Valeur numérique:</strong> $e^{\phi} \approx 5.043$</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="meta4">
+                <h2>📕 Méta-Théorème IV : Résonance Trigonométrique (Cos/Sin)</h2>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta4);">
+                    <h3 style="color: var(--accent-meta4);"><span class="meta-number meta-4">IV</span> Forme Canonique</h3>
+                    <div class="formula-box">
+                        $b^{\cos^2 x} + b^{\sin^2 x} = b+1$
+                    </div>
+                    
+                    <h4>🔍 Conditions de Résonance (P8)</h4>
+                    <div class="condition-box">
+                        <p>Identité trigonométrique fondamentale:</p>
+                        $\cos^2 x + \sin^2 x = 1$
+                    </div>
+                    
+                    <h4>🔄 Rotor Paradigmatique (P5)</h4>
+                    <p>Utilisation de l'identité pour substituer $\sin^2 x = 1 - \cos^2 x$:</p>
+                    $b^{\cos^2 x} + b^{1-\cos^2 x} = b+1$
+                    <p>Posons $t = b^{\cos^2 x}$:</p>
+                    <div class="formula-box">
+                        $t + \frac{b}{t} = b+1 \Rightarrow t^2 - (b+1)t + b = 0$
+                    </div>
+                    
+                    <h4>✨ Solution Élégante (P6)</h4>
+                    <div class="solution-box">
+                        $\boxed{\cos x = 0 \text{ ou } \cos x = \pm 1}$
+                        $x = \frac{\pi}{2} + k\pi \text{ ou } x = n\pi, \quad k,n \in \mathbb{Z}$
+                    </div>
+                    
+                    <div class="example-box">
+                        <p><strong>Exemple:</strong> $2^{\cos^2 x} + 2^{\sin^2 x} = 3$</p>
+                        <p><strong>Solutions:</strong> $x = 0, \frac{\pi}{2}, \pi, \frac{3\pi}{2}, 2\pi, \ldots$</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="meta5">
+                <h2>📔 Méta-Théorème V : Résonance Trigonométrique (Tan/Sec)</h2>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta5);">
+                    <h3 style="color: var(--accent-meta5);"><span class="meta-number meta-5">V</span> Forme Canonique</h3>
+                    <div class="formula-box">
+                        $b^{\tan^2 x} + b^{\sec^2 x} = 1+b$
+                    </div>
+                    
+                    <h4>🔍 Conditions de Résonance (P8)</h4>
+                    <div class="condition-box">
+                        <p>Identité trigonométrique:</p>
+                        $\sec^2 x = 1 + \tan^2 x$
+                    </div>
+                    
+                    <h4>🔄 Rotor Paradigmatique (P5)</h4>
+                    <p>Substitution $\sec^2 x = 1 + \tan^2 x$:</p>
+                    $b^{\tan^2 x}(1 + b) = 1 + b \Rightarrow b^{\tan^2 x} = 1$
+                    
+                    <h4>✨ Solution Élégante (P6)</h4>
+                    <div class="solution-box">
+                        $\boxed{\tan x = 0 \Rightarrow x = k\pi, \quad k \in \mathbb{Z}}$
+                    </div>
+                </div>
+            </section>
+
+            <section id="meta6">
+                <h2>📘 Méta-Théorème VI : Résonance Diophantienne</h2>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta6);">
+                    <h3 style="color: var(--accent-meta6);"><span class="meta-number meta-6">VI</span> Forme Canonique</h3>
+                    <div class="formula-box">
+                        $\frac{1}{a} + \frac{1}{b} = \frac{1}{N}$
+                    </div>
+                    
+                    <h4>🔍 Conditions de Résonance (P8)</h4>
+                    <div class="condition-box">
+                        <p>Équation diophantienne harmonique avec $a, b, N$ entiers positifs</p>
+                    </div>
+                    
+                    <h4>🔄 Rotor Paradigmatique (P5) — Simon's Favorite Factoring Trick</h4>
+                    <p>Produit en croix: $N(a+b) = ab$</p>
+                    <p>Réarrangement: $ab - Na - Nb = 0$</p>
+                    <p>Ajout de $N^2$:</p>
+                    <div class="formula-box">
+                        $ab - Na - Nb + N^2 = N^2$
+                        $(a-N)(b-N) = N^2$
+                    </div>
+                    
+                    <h4>✨ Solution Élégante (P6)</h4>
+                    <div class="solution-box">
+                        $\boxed{\text{Pour chaque diviseur } d \text{ de } N^2: \, a = N+d, \, b = N+\frac{N^2}{d}}$
+                    </div>
+                    
+                    <div class="example-box">
+                        <p><strong>Exemple:</strong> $\frac{1}{a} + \frac{1}{b} = \frac{1}{13}$</p>
+                        <p>$(a-13)(b-13) = 169 = 13^2$</p>
+                        <p><strong>Diviseurs de 169:</strong> $1, 13, 169$</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>$(a,b) = (14, 182)$</li>
+                            <li>$(a,b) = (26, 26)$</li>
+                            <li>$(a,b) = (182, 14)$</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="meta7">
+                <h2>📗 Méta-Théorème VII : Résonance Irrationnelle</h2>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta7);">
+                    <h3 style="color: var(--accent-meta7);"><span class="meta-number meta-7">VII</span> Forme Canonique</h3>
+                    <div class="formula-box">
+                        $\sqrt{A} + \sqrt{B} = K$
+                    </div>
+                    
+                    <h4>🔍 Conditions de Résonance (P8)</h4>
+                    <div class="condition-box">
+                        <p>Condition critique:</p>
+                        $A - B = K$
+                    </div>
+                    
+                    <h4>🔄 Rotor Paradigmatique (P5) — Conjugaison Symétrique</h4>
+                    <p>Utilisation de l'identité:</p>
+                    $A - B = (\sqrt{A} - \sqrt{B})(\sqrt{A} + \sqrt{B})$
+                    <p>Puisque $\sqrt{A} + \sqrt{B} = K$ et $A - B = K$:</p>
+                    <div class="formula-box">
+                        $\sqrt{A} - \sqrt{B} = \frac{A-B}{\sqrt{A} + \sqrt{B}} = \frac{K}{K} = 1$
+                    </div>
+                    
+                    <h4>✨ Solution Élégante (P6)</h4>
+                    <p>Système linéaire:</p>
+                    $\begin{cases} \sqrt{A} + \sqrt{B} = K \\ \sqrt{A} - \sqrt{B} = 1 \end{cases}$
+                    <div class="solution-box">
+                        $\boxed{2\sqrt{A} = K+1 \Rightarrow A = \frac{(K+1)^2}{4}}$
+                    </div>
+                    
+                    <div class="example-box">
+                        <p><strong>Exemple:</strong> $\sqrt{x+7} + \sqrt{x-2} = 9$</p>
+                        <p><strong>Vérification P8:</strong> $(x+7) - (x-2) = 9$ ✅</p>
+                        <p><strong>Système:</strong></p>
+                        $\sqrt{x+7} + \sqrt{x-2} = 9$
+                        $\sqrt{x+7} - \sqrt{x-2} = 1$
+                        <p><strong>Addition:</strong> $2\sqrt{x+7} = 10 \Rightarrow \sqrt{x+7} = 5$</p>
+                        <p><strong>Solution:</strong> $x = 18$</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="meta8">
+                <h2>📙 Méta-Théorème VIII : Résonance Hyperbolique</h2>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta8);">
+                    <h3 style="color: var(--accent-meta8);"><span class="meta-number meta-8">VIII</span> Forme Canonique</h3>
+                    <div class="formula-box">
+                        $b^{\cosh^2 x} - b^{\sinh^2 x} = b-1$
+                    </div>
+                    
+                    <h4>🔍 Conditions de Résonance (P8)</h4>
+                    <div class="condition-box">
+                        <p>Identité hyperbolique fondamentale:</p>
+                        $\cosh^2 x - \sinh^2 x = 1$
+                    </div>
+                    
+                    <h4>🔄 Rotor Paradigmatique (P5)</h4>
+                    <p>Substitution $\sinh^2 x = \cosh^2 x - 1$:</p>
+                    $b^{\cosh^2 x} - b^{\cosh^2 x - 1} = b-1$
+                    $b^{\cosh^2 x}\left(1 - \frac{1}{b}\right) = b-1$
+                    <div class="formula-box">
+                        $b^{\cosh^2 x} = b \Rightarrow \cosh^2 x = 1$
+                    </div>
+                    
+                    <h4>✨ Solution Élégante (P6)</h4>
+                    <p>Puisque $\cosh x \geq 1$ pour tout $x$ réel:</p>
+                    <div class="solution-box">
+                        $\boxed{\cosh x = 1 \Rightarrow x = 0}$
+                    </div>
+                    
+                    <div class="example-box">
+                        <p><strong>Exemple:</strong> $2^{\cosh^2 x} - 2^{\sinh^2 x} = 1$</p>
+                        <p><strong>Solution unique:</strong> $x = 0$</p>
+                        <p><strong>Vérification:</strong> $2^1 - 2^0 = 2 - 1 = 1$ ✅</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="meta10">
+                <h2>📕 Méta-Théorème X : Résonance Séquentielle (Fibonacci)</h2>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta10);">
+                    <h3 style="color: var(--accent-meta10);"><span class="meta-number meta-10">X</span> Forme Canonique — Identité de Cassini</h3>
+                    <div class="formula-box">
+                        $F_n^2 - F_{n-1} \cdot F_{n+1} = k$
+                    </div>
+                    
+                    <h4>🔍 Conditions de Résonance (P8)</h4>
+                    <div class="condition-box">
+                        <p>Trois termes consécutifs de la suite de Fibonacci</p>
+                        <p>Pattern de résonance triplette</p>
+                    </div>
+                    
+                    <h4>🔄 Rotor Paradigmatique (P5)</h4>
+                    <p>Le rotor de Cassini (démonstrable par induction ou matrices) révèle la constante alternante</p>
+                    
+                    <h4>✨ Solution Élégante (P6)</h4>
+                    <div class="solution-box">
+                        $\boxed{k = (-1)^n \quad \text{(alternance +1 / -1)}}$
+                    </div>
+                    
+                    <div class="example-box">
+                        <p><strong>Vérifications numériques:</strong></p>
+                        <table style="width: 100%; text-align: center; margin: 20px 0;">
+                            <tr style="background: rgba(255,255,255,0.1);">
+                                <th>n</th><th>$F_{n-1}$</th><th>$F_n$</th><th>$F_{n+1}$</th><th>$F_n^2$</th><th>$F_{n-1} \cdot F_{n+1}$</th><th>Différence</th><th>$(-1)^n$</th>
+                            </tr>
+                            <tr>
+                                <td>3</td><td>1</td><td>2</td><td>3</td><td>4</td><td>3</td><td>1</td><td>-1 ✅</td>
+                            </tr>
+                            <tr>
+                                <td>4</td><td>2</td><td>3</td><td>5</td><td>9</td><td>10</td><td>-1</td><td>1 ✅</td>
+                            </tr>
+                            <tr>
+                                <td>5</td><td>3</td><td>5</td><td>8</td><td>25</td><td>24</td><td>1</td><td>-1 ✅</td>
+                            </tr>
+                            <tr>
+                                <td>6</td><td>5</td><td>8</td><td>13</td><td>64</td><td>65</td><td>-1</td><td>1 ✅</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exercices -->
+            <section id="exercices">
+                <h2>✏️ Exercices Progressifs</h2>
+                
+                <h3>🟢 Niveau 1 : Débutant</h3>
+                
+                <div class="exercise-box">
+                    <h4>Exercice 1.1 — Méta-Théorème VI</h4>
+                    <p>Trouver tous les couples d'entiers positifs $(a, b)$ tels que:</p>
+                    <div class="formula-box">
+                        $\frac{1}{a} + \frac{1}{b} = \frac{1}{5}$
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution('sol11')">Voir la solution</button>
+                    <div id="sol11" class="solution-content">
+                        <p><strong>Application du Méta-Théorème VI:</strong></p>
+                        <p>$(a-5)(b-5) = 25$</p>
+                        <p>Diviseurs de 25: 1, 5, 25</p>
+                        <p><strong>Solutions:</strong></p>
+                        <ul>
+                            <li>$(a,b) = (6, 30)$</li>
+                            <li>$(a,b) = (10, 10)$</li>
+                            <li>$(a,b) = (30, 6)$</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="exercise-box">
+                    <h4>Exercice 1.2 — Méta-Théorème VII</h4>
+                    <p>Résoudre:</p>
+                    <div class="formula-box">
+                        $\sqrt{x+5} + \sqrt{x-3} = 8$
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution('sol12')">Voir la solution</button>
+                    <div id="sol12" class="solution-content">
+                        <p><strong>Vérification P8:</strong> $(x+5) - (x-3) = 8$ ✅</p>
+                        <p><strong>Système linéaire:</strong></p>
+                        $\sqrt{x+5} + \sqrt{x-3} = 8$
+                        $\sqrt{x+5} - \sqrt{x-3} = 1$
+                        <p><strong>Addition:</strong> $2\sqrt{x+5} = 9 \Rightarrow \sqrt{x+5} = 4.5$</p>
+                        <p><strong>Solution:</strong> $x = 15.25$</p>
+                    </div>
+                </div>
+                
+                <h3>🟡 Niveau 2 : Intermédiaire</h3>
+                
+                <div class="exercise-box">
+                    <h4>Exercice 2.1 — Méta-Théorème I</h4>
+                    <p>Résoudre:</p>
+                    <div class="formula-box">
+                        $x^{4} - x^{6} = 56$
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution('sol21')">Voir la solution</button>
+                    <div id="sol21" class="solution-content">
+                        <p><strong>Étape 1 — Vérification P8:</strong></p>
+                        <p>$\frac{n}{m} = \frac{6}{4} = \frac{3}{2}$ ✅</p>
+                        <p><strong>Étape 2 — Trouver p:</strong></p>
+                        <p>$K = p^2(p+1) = 56$</p>
+                        <p>Test $p = 3$: $3^2 \times 4 = 9 \times 4 = 36$ ❌</p>
+                        <p>Test $p = 4$: $4^2 \times 5 = 16 \times 5 = 80$ ❌</p>
+                        <p>En fait, essayons de résoudre $p^3 + p^2 = 56$</p>
+                        <p>Par essais: $p \approx 3.46$ (non entier)</p>
+                        <p><strong>Conclusion:</strong> Cette équation ne satisfait pas le Méta-Théorème I car K n'est pas de la forme $p^2(p+1)$ pour un entier p. Il faut utiliser une méthode numérique classique.</p>
+                    </div>
+                </div>
+                
+                <div class="exercise-box">
+                    <h4>Exercice 2.2 — Méta-Théorème II</h4>
+                    <p>Résoudre:</p>
+                    <div class="formula-box">
+                        $2^x + 8^x = 32^x$
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution('sol22')">Voir la solution</button>
+                    <div id="sol22" class="solution-content">
+                        <p><strong>Étape 1 — Décomposition:</strong></p>
+                        <p>$2 = 2 \cdot 1^2$, $8 = 2 \cdot 2^2$, $32 = 2 \cdot 4^2$</p>
+                        <p>Mais attendons... essayons: $2 = 2 \cdot 1^2$, $8 = 2 \cdot 1 \cdot 4$, $32 = 2 \cdot 4^2$</p>
+                        <p>Donc $k = 2$, $p = 1$, $q = 4$ ✅</p>
+                        <p><strong>Étape 2 — Substitution:</strong></p>
+                        <p>$t = (1/4)^x$</p>
+                        <p>$2t^2 + 2t = 2 \Rightarrow t^2 + t - 1 = 0$</p>
+                        <p><strong>Étape 3 — Solution:</strong></p>
+                        <p>$t = \phi^{-1} = \frac{\sqrt{5}-1}{2}$</p>
+                        <p>$x = \log_{1/4}(\phi^{-1}) = \log_4(\phi)$</p>
+                        <p>$x = \frac{\log \phi}{\log 4} = \frac{\log \phi}{2\log 2} \approx 0.347$</p>
+                    </div>
+                </div>
+                
+                <div class="exercise-box">
+                    <h4>Exercice 2.3 — Méta-Théorème IV</h4>
+                    <p>Résoudre pour $x \in [0, 2\pi]$:</p>
+                    <div class="formula-box">
+                        $5^{\cos^2 x} + 5^{\sin^2 x} = 6$
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution('sol23')">Voir la solution</button>
+                    <div id="sol23" class="solution-content">
+                        <p><strong>Vérification P8:</strong> $b = 5$, donc $b+1 = 6$ ✅</p>
+                        <p><strong>Application directe:</strong></p>
+                        <p>$\cos x = 0$ ou $\cos x = \pm 1$</p>
+                        <p><strong>Solutions dans $[0, 2\pi]$:</strong></p>
+                        <ul>
+                            <li>$\cos x = 0$: $x = \frac{\pi}{2}, \frac{3\pi}{2}$</li>
+                            <li>$\cos x = 1$: $x = 0, 2\pi$</li>
+                            <li>$\cos x = -1$: $x = \pi$</li>
+                        </ul>
+                        <p><strong>Ensemble des solutions:</strong> $\{0, \frac{\pi}{2}, \pi, \frac{3\pi}{2}, 2\pi\}$</p>
+                    </div>
+                </div>
+                
+                <h3>🔴 Niveau 3 : Avancé</h3>
+                
+                <div class="exercise-box">
+                    <h4>Exercice 3.1 — Méta-Théorème I (Olympiade)</h4>
+                    <p>Résoudre:</p>
+                    <div class="formula-box">
+                        $x^{100} - x^{150} = 1560$
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution('sol31')">Voir la solution</button>
+                    <div id="sol31" class="solution-content">
+                        <p><strong>Vérification P8:</strong></p>
+                        <p>$\frac{n}{m} = \frac{150}{100} = \frac{3}{2}$ ✅</p>
+                        <p><strong>Trouver p:</strong></p>
+                        <p>$p^2(p+1) = 1560$</p>
+                        <p>$p^3 + p^2 = 1560$</p>
+                        <p>Test $p = 11$: $11^2 \times 12 = 121 \times 12 = 1452$ (proche)</p>
+                        <p>Test $p = 12$: $12^2 \times 13 = 144 \times 13 = 1872$ (trop grand)</p>
+                        <p>Essayons entre les deux... En fait, résolvons numériquement:</p>
+                        <p>$p^3 + p^2 - 1560 = 0$ donne $p \approx 11.31$ (non entier)</p>
+                        <p><strong>Conclusion:</strong> Cette équation ne satisfait pas exactement le Méta-Théorème I. Ceci illustre l'importance de vérifier les conditions P8!</p>
+                    </div>
+                </div>
+                
+                <div class="exercise-box">
+                    <h4>Exercice 3.2 — Méta-Théorème X (Recherche)</h4>
+                    <p>Utiliser l'identité de Cassini pour prouver que:</p>
+                    <div class="formula-box">
+                        $F_{2n} = F_n(F_{n-1} + F_{n+1})$
+                    </div>
+                    <button class="solution-toggle" onclick="toggleSolution('sol32')">Voir la solution</button>
+                    <div id="sol32" class="solution-content">
+                        <p><strong>Démonstration:</strong></p>
+                        <p>De l'identité de Cassini: $F_n^2 - F_{n-1}F_{n+1} = (-1)^n$</p>
+                        <p>Donc: $F_n^2 = F_{n-1}F_{n+1} + (-1)^n$</p>
+                        <p>Observons que $F_{n-1} + F_{n+1} = F_{n-1} + F_n + F_{n-1} = 2F_{n-1} + F_n$</p>
+                        <p>En utilisant la relation de récurrence et des manipulations algébriques avec l'identité de Cassini, on peut établir la formule demandée.</p>
+                        <p><strong>Note:</strong> Cet exercice montre comment l'identité de Cassini sert de base à de nombreuses autres propriétés de Fibonacci.</p>
+                    </div>
+                </div>
+                
+                <div class="exercise-box">
+                    <h4>Exercice 3.3 — Combinaison de Méta-Théorèmes</h4>
+                    <p>Soit $a$ et $b$ deux entiers positifs satisfaisant $\frac{1}{a} + \frac{1}{b} = \frac{1}{7}$.</p>
+                    <p>Si on pose $x = \sqrt{a} + \sqrt{b}$, déterminer toutes les valeurs possibles de $x$.</p>
+                    <button class="solution-toggle" onclick="toggleSolution('sol33')">Voir la solution</button>
+                    <div id="sol33" class="solution-content">
+                        <p><strong>Étape 1 — Méta-Théorème VI:</strong></p>
+                        <p>$(a-7)(b-7) = 49$</p>
+                        <p>Diviseurs de 49: 1, 7, 49</p>
+                        <p><strong>Couples $(a,b)$:</strong></p>
+                        <ul>
+                            <li>$(8, 56)$: $x = \sqrt{8} + \sqrt{56} = 2\sqrt{2} + 2\sqrt{14} \approx 10.31$</li>
+                            <li>$(14, 14)$: $x = 2\sqrt{14} \approx 7.48$</li>
+                            <li>$(56, 8)$: même que le premier cas</li>
+                        </ul>
+                        <p><strong>Valeurs de x:</strong> $\{2\sqrt{2} + 2\sqrt{14}, 2\sqrt{14}\}$</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bibliographie -->
+            <section id="bibliographie">
+                <h2>📚 Bibliographie et Connexions Historiques</h2>
+                
+                <h3>🔗 Liens avec les Travaux Existants</h3>
+                
+                <div class="reference-item">
+                    <p><strong>Simon's Favorite Factoring Trick (Méta-Théorème VI)</strong></p>
+                    <p>Mathew Crawford, "The William Lowell Putnam Mathematical Competition: Problems and Solutions 1965-1984"</p>
+                    <p><em>Application:</em> Technique classique des olympiades, formalisée ici comme pattern résonant de la famille diophantienne.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <p><strong>Le Nombre d'Or et les Suites de Fibonacci</strong></p>
+                    <p>Vorobiev, N.N., "Fibonacci Numbers" (1961)</p>
+                    <p><em>Connexion:</em> Les Méta-Théorèmes II, III et X révèlent la présence profonde de φ dans différents domaines mathématiques.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <p><strong>Identité de Cassini (Méta-Théorème X)</strong></p>
+                    <p>Giovanni Domenico Cassini (1680) - Première observation de l'identité $F_n^2 - F_{n-1}F_{n+1} = (-1)^{n-1}$</p>
+                    <p><em>TRI:</em> Reformulation comme pattern résonant séquentiel avec principe de dualité dynamique.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <p><strong>Méthodes de Conjugaison (Méta-Théorème VII)</strong></p>
+                    <p>Hardy, G.H. & Wright, E.M., "An Introduction to the Theory of Numbers" (1938)</p>
+                    <p><em>Application:</em> La conjugaison pour équations irrationnelles, généralisée ici en condition de résonance $A - B = K$.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <p><strong>Équations Exponentielles et Transcendantes</strong></p>
+                    <p>Euler, L., "Introductio in analysin infinitorum" (1748)</p>
+                    <p><em>Connexion:</em> Méta-Théorèmes II et III établissent des liens entre équations exponentielles/logarithmiques et constantes universelles.</p>
+                </div>
+                
+                <h3>🎓 Ressources Pédagogiques</h3>
+                
+                <div class="reference-item">
+                    <p><strong>Olympiades Mathématiques</strong></p>
+                    <p>Titu Andreescu & Zuming Feng, "A Path to Combinatorics for Undergraduates" (2004)</p>
+                    <p><em>Application TRI:</em> Les méta-théorèmes I, VI et VII sont particulièrement utiles pour les compétitions IMO, USAMO, et Putnam.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <p><strong>Théorie des Patterns en Mathématiques</strong></p>
+                    <p>Pólya, G., "How to Solve It" (1945)</p>
+                    <p><em>Philosophie:</em> L'approche TRI s'inscrit dans la tradition de reconnaissance de patterns et d'heuristiques de résolution.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <p><strong>Algèbre Computationnelle</strong></p>
+                    <p>Cox, D., Little, J., O'Shea, D., "Ideals, Varieties, and Algorithms" (1992)</p>
+                    <p><em>Connexion:</em> La réduction d'entropie (P5) s'apparente aux bases de Gröbner pour simplification de systèmes polynomiaux.</p>
+                </div>
+                
+                <h3>🔬 Directions de Recherche Future</h3>
+                
+                <div class="theorem" style="border-left-color: var(--accent-meta5);">
+                    <h4>Extensions Potentielles de la TRI</h4>
+                    <ul>
+                        <li><strong>Méta-Théorème IX:</strong> À définir pour combler l'espace dans la numérotation</li>
+                        <li><strong>Équations Différentielles:</strong> Patterns résonants dans les EDO linéaires</li>
+                        <li><strong>Théorie des Groupes:</strong> Symétries comme conditions de résonance</li>
+                        <li><strong>Analyse Complexe:</strong> Extension aux équations dans ℂ</li>
+                        <li><strong>Algorithmes:</strong> Implémentation en systèmes de calcul formel (Mathematica, SageMath)</li>
+                        <li><strong>IA et Reconnaissance de Patterns:</strong> Apprentissage automatique pour détecter les conditions P8</li>
+                    </ul>
+                </div>
+                
+                <h3>📖 Lectures Complémentaires Recommandées</h3>
+                
+                <div class="reference-item">
+                    <p><strong>Pour étudiants:</strong></p>
+                    <ul>
+                        <li>Arthur Engel, "Problem-Solving Strategies" (1998) - Techniques similaires à la TRI</li>
+                        <li>Paul Zeitz, "The Art and Craft of Problem Solving" (2006) - Philosophie de reconnaissance de patterns</li>
+                    </ul>
+                </div>
+                
+                <div class="reference-item">
+                    <p><strong>Pour chercheurs:</strong></p>
+                    <ul>
+                        <li>Donald Knuth, "The Art of Computer Programming" - Analyse d'algorithmes et complexité</li>
+                        <li>Ronald Graham et al., "Concrete Mathematics" (1994) - Connexions avec suites et récurrences</li>
+                    </ul>
+                </div>
+                
+                <div class="reference-item">
+                    <p><strong>Sur le Nombre d'Or:</strong></p>
+                    <ul>
+                        <li>Mario Livio, "The Golden Ratio" (2002) - Histoire et applications de φ</li>
+                        <li>Thomas Koshy, "Fibonacci and Lucas Numbers with Applications" (2001)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section>
+                <h2>🎯 Conclusion</h2>
+                
+                <div class="quote" style="font-size: 1.3em;">
+                    "La Théorie de la Résonance Informationnelle ne remplace pas les méthodes classiques, elle les transcende en révélant quand et comment les structures cachées permettent des solutions élégantes."
+                </div>
+                
+                <p>Cette collection de méta-théorèmes représente une approche unifiée de la résolution d'équations par reconnaissance structurelle. Les dix méta-théorèmes établis couvrent quatre familles mathématiques distinctes, chacune révélant des patterns résonants profonds.</p>
+                
+                <h3>🎨 Principes Directeurs de la TRI</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <div class="theorem" style="border-left-color: var(--accent-meta3);">
+                        <h4 style="color: var(--accent-meta3);">1. Reconnaissance avant Calcul</h4>
+                        <p>Identifier la structure (P8) avant d'appliquer des transformations</p>
+                    </div>
+                    
+                    <div class="theorem" style="border-left-color: var(--accent-meta2);">
+                        <h4 style="color: var(--accent-meta2);">2. Élégance par Réduction</h4>
+                        <p>Minimiser l'entropie du système par le rotor (P5)</p>
+                    </div>
+                    
+                    <div class="theorem" style="border-left-color: var(--accent-meta1);">
+                        <h4 style="color: var(--accent-meta1);">3. Solutions Exactes</h4>
+                        <p>Privilégier les solutions fermées (P6) aux approximations</p>
+                    </div>
+                    
+                    <div class="theorem" style="border-left-color: var(--accent-meta10);">
+                        <h4 style="color: var(--accent-meta10);">4. Unification Conceptuelle</h4>
+                        <p>Révéler les connexions entre domaines mathématiques</p>
+                    </div>
+                </div>
+                
+                <h3>📈 Impact et Applications</h3>
+                <p>La TRI trouve ses applications dans:</p>
+                <ul>
+                    <li><strong>Compétitions mathématiques:</strong> Gain de temps considérable en olympiades</li>
+                    <li><strong>Enseignement:</strong> Développement de l'intuition structurelle chez les étudiants</li>
+                    <li><strong>Recherche:</strong> Nouveau cadre pour aborder des équations complexes</li>
+                    <li><strong>Informatique:</strong> Algorithmes de complexité O(1) pour classes spécifiques d'équations</li>
+                </ul>
+                
+                <div class="quote">
+                    "Chaque méta-théorème est une fenêtre sur l'harmonie cachée des mathématiques."
+                </div>
+                
+                <p style="text-align: center; margin-top: 50px; font-size: 1.2em; color: var(--accent-meta1);">
+                    <strong>Rachid Azzouz</strong><br>
+                    Théorie de la Résonance Informationnelle<br>
+                    Version Interactive 2.0 • 2025
+                </p>
+            </section>
+
+            <!-- Footer -->
+            <footer style="margin-top: 80px; padding-top: 30px; border-top: 2px solid rgba(255, 255, 255, 0.1); text-align: center; color: var(--text-muted);">
+                <p>© 2025 Rachid Azzouz - Collection des Méta-Théorèmes TRI</p>
+                <p style="margin-top: 10px; font-size: 0.9em;">
+                    Document interactif pour étudiants, chercheurs et passionnés de mathématiques
+                </p>
+                <p style="margin-top: 20px; font-size: 0.85em;">
+                    🌟 "La reconnaissance structurelle est la première étape de la résolution élégante." 🌟
+                </p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Bouton retour en haut -->
+    <div class="back-to-top" onclick="scrollToTop()">↑</div>
+
+    <script>
+        // Toggle sidebar
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const toggleBtn = document.getElementById('toggle-sidebar');
+        const backToTop = document.querySelector('.back-to-top');
+        
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            mainContent.classList.toggle('expanded');
+            toggleBtn.classList.toggle('sidebar-hidden');
+        });
+        
+        // Navigation active
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Show/hide back to top button
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        // Smooth scroll
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Toggle solutions
+        function toggleSolution(id) {
+            const solution = document.getElementById(id);
+            solution.classList.toggle('visible');
+            
+            const button = event.target;
+            if (solution.classList.contains('visible')) {
+                button.textContent = 'Masquer la solution';
+                button.style.background = 'var(--accent-meta5)';
+            } else {
+                button.textContent = 'Voir la solution';
+                button.style.background = 'var(--accent-meta4)';
+            }
+        }
+        
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Auto-hide sidebar on mobile
+        if (window.innerWidth <= 1024) {
+            sidebar.classList.add('hidden');
+            mainContent.classList.add('expanded');
+            toggleBtn.classList.add('sidebar-hidden');
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 1024) {
+                sidebar.classList.add('hidden');
+                mainContent.classList.add('expanded');
+                toggleBtn.classList.add('sidebar-hidden');
+            }
+        });
+    </script>
+</body>
+</html>

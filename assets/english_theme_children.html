@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 English Adventure-Moroccan Primary Level A</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Lora&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(180deg, #2E5BBA, #4A90E2);
+            animation: gradient 15s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            color: #000;
+            overflow-x: hidden;
+            position: relative;
+            margin: 0;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .theme-button, .scene-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        .theme-button:hover, .scene-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .verb-tooltip {
+            position: relative;
+            color: #00FF00;
+            cursor: help;
+        }
+        .verb-tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: #0000FF;
+            padding: 5px 10px;
+            border-radius: 5px;
+            bottom: 20px;
+            left: 0;
+            z-index: 10;
+            font-size: 12px;
+        }
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .quiz-container {
+            margin: 20px 0;
+        }
+        .quiz-container button {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .quiz-container button.correct {
+            background: #28a745;
+        }
+        .quiz-container button.incorrect {
+            background: #dc3545;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            animation: zoom 0.5s ease;
+        }
+        @keyframes zoom {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: left;
+        }
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles-js"></div>
+    <div class="container">
+        <header>
+            <h1>🌍 English Adventure</h1>
+            <p>Multidimensional Verb Mastery for Young Learners<br><br>
+                <b>7 Communication Dimensions:</b><br>
+                1️⃣ <u>Action</u> (run, eat, write)<br>
+                2️⃣ <u>Emotion</u> (love, feel, worry)<br>
+                3️⃣ <u>Sensory</u> (see, hear, taste)<br>
+                4️⃣ <u>Speech</u> (say, tell, ask)<br>
+                5️⃣ <u>Thought</u> (know, think, understand)<br>
+                6️⃣ <u>Change</u> (become, grow, get)<br>
+                7️⃣ <u>Possession</u> (have, own, keep)</p>
+            <p>For Grades 4-6 Moroccan Primary Schools</p>
+            <p><i>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</i></p>
+        </header>
+
+        <nav>
+            <button class="theme-button" onclick="showTheme('family')">👪 Family Tales</button>
+            <button class="theme-button" onclick="showTheme('school')">🏫 School Life</button>
+            <button class="theme-button" onclick="showTheme('market')">🛒 Market Day</button>
+            <button class="theme-button" onclick="showTheme('nature')">🌵 Desert Adventure</button>
+            <button class="theme-button" onclick="showTheme('festival')">🎉 Aid Celebration</button>
+        </nav>
+
+        <section id="family" class="glass-card" style="display:block;">
+            <h2>👪 Family Tales</h2>
+            <button class="scene-button" onclick="showScene('grandpas-visit')">Grandpa's Surprise Visit</button>
+            
+            <div id="grandpas-visit" class="glass-card" style="display:block;">
+                <h3>Grandpa's Surprise Visit</h3>
+                <img src="https://example.com/moroccan-family.jpg" alt="Moroccan family reunion">
+                
+                <p>Last summer, my grandfather <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">drove</span> all the way from Zagora to visit us in Casablanca. When he <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">came</span> in, he <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">brought</span> a huge basket of dates. "I <span class="verb-tooltip" data-tooltip="Irregular Past (Thought)">knew</span> you would love these!" he <span class="verb-tooltip" data-tooltip="Irregular Past (Speech)">said</span>. My little sister <span class="verb-tooltip" data-tooltip="Irregular Past (Emotion)">felt</span> so excited she <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">ran</span> around the house. That evening, we all <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">ate</span> couscous together and <span class="verb-tooltip" data-tooltip="Irregular Past (Speech)">told</span> stories. Grandpa <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">taught</span> me how to play chess. I <span class="verb-tooltip" data-tooltip="Irregular Past (Thought)">thought</span> it was difficult at first, but then I <span class="verb-tooltip" data-tooltip="Irregular Past (Change)">became</span> better. When he <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">left</span>, we all <span class="verb-tooltip" data-tooltip="Irregular Past (Emotion)">wept</span>, but he <span class="verb-tooltip" data-tooltip="Irregular Past (Speech)">promised</span> to return soon.</p>
+                
+                <div class="glass-card">
+                    <h4>🔍 Verb Spotlight (Irregular Past)</h4>
+                    <ul>
+                        <li><b>Action</b>: drove, came, brought, ran, ate, taught, left</li>
+                        <li><b>Speech</b>: said, told, promised</li>
+                        <li><b>Thought</b>: knew, thought</li>
+                        <li><b>Emotion</b>: felt, wept</li>
+                        <li><b>Change</b>: became</li>
+                    </ul>
+                </div>
+                
+                <div class="quiz-container">
+                    <h4>✍️ Conjugation Challenge</h4>
+                    <p>Complete: Yesterday, my grandfather ___ (drive) from Zagora.</p>
+                    <button onclick="checkConjugation('drive', 'drove', 'Action', this)">drove</button>
+                    <button onclick="checkConjugation('drive', 'driven', 'Action', this)">driven</button>
+                    <button onclick="checkConjugation('drive', 'drived', 'Action', this)">drived</button>
+                    <p id="quiz-drive"></p>
+                    
+                    <p>Which dimension is "told"?</p>
+                    <button onclick="checkDimension('told', 'Speech', this)">Speech</button>
+                    <button onclick="checkDimension('told', 'Action', this)">Action</button>
+                    <button onclick="checkDimension('told', 'Emotion', this)">Emotion</button>
+                    <p id="quiz-told"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="school" class="glass-card" style="display:none;">
+            <h2>🏫 School Life</h2>
+            <button class="scene-button" onclick="showScene('science-fair')">The Science Fair</button>
+            
+            <div id="science-fair" class="glass-card" style="display:none;">
+                <h3>The Science Fair Disaster</h3>
+                <p>For weeks, Karim and I <span class="verb-tooltip" data-tooltip="Regular Past (Action)">worked</span> on our volcano project. We <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">made</span> it from paper-mâché and <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">wrote</span> all the facts. On the fair day, I <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">forgot</span> the baking soda! My hands <span class="verb-tooltip" data-tooltip="Irregular Past (Change)">shook</span> as I <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">ran</span> to the kitchen. When I <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">came</span> back, our teacher already <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">began</span> judging. We quickly <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">put</span> everything together. The volcano <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">blew</span> perfectly! We <span class="verb-tooltip" data-tooltip="Irregular Past (Emotion)">felt</span> so proud when we <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">won</span> second prize.</p>
+                
+                <div class="glass-card">
+                    <h4>🔍 Verb Dimensions</h4>
+                    <table>
+                        <tr>
+                            <th>Verb</th>
+                            <th>Past</th>
+                            <th>Dimension</th>
+                        </tr>
+                        <tr>
+                            <td>make</td>
+                            <td>made</td>
+                            <td>Action</td>
+                        </tr>
+                        <tr>
+                            <td>shake</td>
+                            <td>shook</td>
+                            <td>Change</td>
+                        </tr>
+                        <tr>
+                            <td>blow</td>
+                            <td>blew</td>
+                            <td>Action</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="quiz-container">
+                    <h4>🧠 Memory Game</h4>
+                    <p>What's the past of "shake"?</p>
+                    <button onclick="checkConjugation('shake', 'shook', 'Change', this)">shook</button>
+                    <button onclick="checkConjugation('shake', 'shaked', 'Change', this)">shaked</button>
+                    <button onclick="checkConjugation('shake', 'shaken', 'Change', this)">shaken</button>
+                    <p id="quiz-shake"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="market" class="glass-card" style="display:none;">
+            <h2>🛒 Market Day</h2>
+            <button class="scene-button" onclick="showScene('spice-hunt')">The Spice Hunt</button>
+            
+            <div id="spice-hunt" class="glass-card" style="display:none;">
+                <h3>The Great Spice Hunt</h3>
+                <p>Mother <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">sent</span> me to the souk to buy saffron. I <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">went</span> to three shops but <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">found</span> only fake ones. Suddenly, I <span class="verb-tooltip" data-tooltip="Irregular Past (Sensory)">saw</span> an old man who <span class="verb-tooltip" data-tooltip="Irregular Past (Possession)">had</span> the real spice. He <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">took</span> me behind his stall and <span class="verb-tooltip" data-tooltip="Regular Past (Action)">showed</span> me how to test quality. I <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">paid</span> carefully and <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">kept</span> the saffron safe. When I <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">got</span> home, mother <span class="verb-tooltip" data-tooltip="Irregular Past (Emotion)">was</span> so happy she <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">made</span> my favorite cookies!</p>
+                
+                <div class="glass-card">
+                    <h4>✏️ Verb Practice</h4>
+                    <p>Complete the sentences:</p>
+                    <p>1. Yesterday, I ___ (go) to the market.</p>
+                    <input type="text" id="market-go" placeholder="Past tense of 'go'">
+                    <button onclick="checkInput('market-go', 'went')">Check</button>
+                    <p id="result-go"></p>
+                    
+                    <p>2. The merchant ___ (show) me real saffron.</p>
+                    <input type="text" id="market-show" placeholder="Past tense of 'show'">
+                    <button onclick="checkInput('market-show', 'showed')">Check</button>
+                    <p id="result-show"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="nature" class="glass-card" style="display:none;">
+            <h2>🌵 Desert Adventure</h2>
+            <button class="scene-button" onclick="showScene('lost-camel')">The Lost Camel</button>
+            
+            <div id="lost-camel" class="glass-card" style="display:none;">
+                <h3>The Lost Camel of Merzouga</h3>
+                <p>While visiting Merzouga, my cousin Ahmed <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">rode</span> a camel for the first time. Suddenly, the camel <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">broke</span> its rope and <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">ran</span> away! We <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">spent</span> hours searching. The sun <span class="verb-tooltip" data-tooltip="Irregular Past (Change)">shone</span> brightly and we <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">grew</span> tired. Just as we <span class="verb-tooltip" data-tooltip="Irregular Past (Thought)">thought</span> to give up, Ahmed <span class="verb-tooltip" data-tooltip="Irregular Past (Sensory)">heard</span> a noise. Behind a dune, the camel <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">stood</span> calmly eating grass! We <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">led</span> it back safely. That night, we all <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">slept</span> like babies.</p>
+                
+                <div class="quiz-container">
+                    <h4>🐫 Verb Safari</h4>
+                    <p>Find 3 irregular verbs in the story meaning:</p>
+                    <ol>
+                        <li>To move quickly on foot (past: ___)</li>
+                        <li>To perceive sound (past: ___)</li>
+                        <li>To be in vertical position (past: ___)</li>
+                    </ol>
+                    <button onclick="revealAnswers()">Show Answers</button>
+                    <div id="safari-answers" style="display:none;margin-top:10px;">
+                        <p>1. ran (from "run")<br>2. heard (from "hear")<br>3. stood (from "stand")</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="festival" class="glass-card" style="display:none;">
+            <h2>🎉 Aid Celebration</h2>
+            <button class="scene-button" onclick="showScene('eid-morning')">Aid Al-Fitr Morning</button>
+            
+            <div id="eid-morning" class="glass-card" style="display:none;">
+                <h3>The Best Aid Morning Ever</h3>
+                <p>Before sunrise, we all <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">woke</span> up early. Mother <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">wore</span> her beautiful kaftan. I <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">ate</span> chebakia until my stomach <span class="verb-tooltip" data-tooltip="Irregular Past (Change)">hurt</span>! At the mosque, Grandpa <span class="verb-tooltip" data-tooltip="Irregular Past (Speech)">spoke</span> about kindness. After prayers, we <span class="verb-tooltip" data-tooltip="Regular Past (Action)">visited</span> family. My uncle <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">gave</span> me 50 dirhams! I <span class="verb-tooltip" data-tooltip="Irregular Past (Thought)">knew</span> exactly what to buy - a football! That afternoon, we all <span class="verb-tooltip" data-tooltip="Regular Past (Action)">played</span> together in the street until the sun <span class="verb-tooltip" data-tooltip="Irregular Past (Action)">set</span>.</p>
+                
+                <div class="glass-card">
+                    <h4>📝 Verb Diary</h4>
+                    <p>Write 3 sentences about your last Aid using irregular verbs:</p>
+                    <textarea id="eid-diary" rows="4" placeholder="E.g., I wore... My mother made... We visited..."></textarea>
+                    <button onclick="checkDiary()">Check My Verbs</button>
+                    <p id="diary-result"></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle', stroke: { width: 0, color: '#000000' }, polygon: { nb_sides: 5 } },
+                opacity: { value: 0.5, random: false, anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 3, random: true, anim: { enable: false, speed: 40, size_min: 0.1, sync: false } },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false, attract: { enable: false, rotateX: 600, rotateY: 1200 } }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: {
+                    grab: { distance: 400, line_linked: { opacity: 1 } },
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                    repulse: { distance: 200, duration: 0.4 },
+                    push: { particles_nb: 4 },
+                    remove: { particles_nb: 2 }
+                }
+            },
+            retina_detect: true
+        });
+
+        function showTheme(themeId) {
+            document.querySelectorAll('section[id]').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(themeId).style.display = 'block';
+            // Hide all scenes when changing theme
+            document.querySelectorAll(`#${themeId} > div[id]`).forEach(scene => {
+                scene.style.display = 'none';
+            });
+        }
+
+        function showScene(sceneId) {
+            const currentTheme = document.querySelector('section[id][style*="display: block"]').id;
+            document.querySelectorAll(`#${currentTheme} > div[id]`).forEach(div => {
+                div.style.display = 'none';
+            });
+            document.getElementById(sceneId).style.display = 'block';
+        }
+
+        function checkConjugation(baseVerb, correctPast, dimension, button) {
+            const buttons = button.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('correct', 'incorrect');
+            });
+            
+            if (button.textContent.trim().toLowerCase() === correctPast) {
+                button.classList.add('correct');
+                document.getElementById(`quiz-${baseVerb}`).innerHTML = 
+                    `✅ Perfect! "${correctPast}" is the correct past form of "${baseVerb}" (${dimension} dimension)`;
+            } else {
+                button.classList.add('incorrect');
+                document.getElementById(`quiz-${baseVerb}`).innerHTML = 
+                    `❌ Try again! The past of "${baseVerb}" is "${correctPast}"`;
+            }
+        }
+
+        function checkDimension(verb, correctDim, button) {
+            const buttons = button.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('correct', 'incorrect');
+            });
+            
+            if (button.textContent.trim() === correctDim) {
+                button.classList.add('correct');
+                document.getElementById(`quiz-${verb}`).innerHTML = 
+                    `🌟 Correct! "${verb}" belongs to <u>${correctDim}</u> dimension`;
+            } else {
+                button.classList.add('incorrect');
+                document.getElementById(`quiz-${verb}`).innerHTML = 
+                    `📚 Actually, "${verb}" is a <u>${correctDim}</u> verb`;
+            }
+        }
+
+        function checkInput(inputId, correctAnswer) {
+            const userAnswer = document.getElementById(inputId).value.trim().toLowerCase();
+            const resultElement = document.getElementById(`result-${inputId.split('-')[1]}`);
+            
+            if (userAnswer === correctAnswer) {
+                resultElement.innerHTML = `🎉 Correct! "${correctAnswer}" is right!`;
+                resultElement.style.color = '#28a745';
+            } else {
+                resultElement.innerHTML = `Keep trying! The answer is "${correctAnswer}"`;
+                resultElement.style.color = '#dc3545';
+            }
+        }
+
+        function revealAnswers() {
+            document.getElementById('safari-answers').style.display = 'block';
+        }
+
+        function checkDiary() {
+            const text = document.getElementById('eid-diary').value.toLowerCase();
+            const irregulars = ['wore', 'ate', 'gave', 'spoke', 'woke', 'knew', 'made', 'took', 'saw', 'went', 'drove', 'came', 'brought', 'ran', 'taught', 'left', 'wept', 'felt', 'thought', 'became', 'shook', 'forgot', 'began', 'put', 'blew', 'won', 'sent', 'found', 'had', 'paid', 'kept', 'got', 'was', 'rode', 'broke', 'spent', 'shone', 'grew', 'heard', 'stood', 'led', 'slept', 'hurt', 'set']; // Expanded to include all irregular verbs from stories
+            const found = irregulars.filter(verb => text.includes(verb));
+            
+            if (found.length > 0) {
+                document.getElementById('diary-result').innerHTML = 
+                    `Great job! You used ${found.length} irregular verbs: ${found.join(', ')}`;
+                document.getElementById('diary-result').style.color = '#28a745';
+            } else {
+                document.getElementById('diary-result').innerHTML = 
+                    "Look for verbs like 'wear/wore', 'eat/ate', or 'give/gave'";
+                document.getElementById('diary-result').style.color = '#dc3545';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showTheme('family');
+            showScene('grandpas-visit');
+        });
+    </script>
+</body>
+</html>

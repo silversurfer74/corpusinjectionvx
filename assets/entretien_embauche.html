@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Psychologique : Entretien d'Embauche Infirmière</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #2E5BBA;
+            --secondary-blue: #4A90E2;
+            --accent-green: #00FF88;
+            --warm-gold: #FFD700;
+            --soft-pink: #FF69B4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue), #6B73FF);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            color: #000;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .float-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .float-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .float-element:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        .float-element:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            margin-bottom: 25px;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .profile-card h2 {
+            color: var(--warm-gold);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .profile-details {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .question-number {
+            background: linear-gradient(45deg, var(--accent-green), var(--soft-pink));
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 0.9rem;
+        }
+
+        .question-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 20px;
+            padding-left: 20px;
+            line-height: 1.4;
+        }
+
+        .psychological-insight {
+            background: rgba(255, 215, 0, 0.15);
+            border-left: 4px solid var(--warm-gold);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .psychological-insight h4 {
+            color: var(--warm-gold);
+            font-size: 1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .psychological-insight p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .answer {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            color: #fff;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .answer::before {
+            content: '"';
+            font-size: 3rem;
+            color: var(--accent-green);
+            position: absolute;
+            top: -5px;
+            left: 10px;
+            font-family: serif;
+        }
+
+        .answer-content {
+            padding-left: 25px;
+        }
+
+        .psychological-tips {
+            background: rgba(0, 255, 136, 0.15);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .psychological-tips h4 {
+            color: var(--accent-green);
+            font-size: 1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .psychological-tips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .psychological-tips li {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .psychological-tips li::before {
+            content: '✓';
+            color: var(--accent-green);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .emotional-intelligence {
+            background: rgba(255, 105, 180, 0.15);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid var(--soft-pink);
+        }
+
+        .emotional-intelligence h4 {
+            color: var(--soft-pink);
+            font-size: 1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .emotional-intelligence p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .stress-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stress-level {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .stress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .stress-low { background: var(--accent-green); width: 30%; }
+        .stress-medium { background: var(--warm-gold); width: 60%; }
+        .stress-high { background: var(--soft-pink); width: 90%; }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .glass-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="float-element"></div>
+        <div class="float-element"></div>
+        <div class="float-element"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Guide Psychologique</h1>
+            <p class="subtitle">Maîtriser l'Art de l'Entretien d'Embauche</p>
+        </div>
+
+        <div class="profile-card">
+            <h2>👩‍⚕️ Mariam El Fassi</h2>
+            <div class="profile-details">
+                <p><strong>Âge:</strong> 25 ans | <strong>Ville:</strong> Fès | <strong>Spécialité:</strong> Soins Infirmiers</p>
+                <p><strong>Objectif:</strong> Intégrer une équipe médicale dynamique et contribuer au bien-être des patients</p>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="question-number">1</div>
+            <h2 class="question-title">Parlez-nous de vous et de votre parcours professionnel</h2>
+            
+            <div class="psychological-insight">
+                <h4>🎯 Objectif Psychologique</h4>
+                <p>Cette question évalue votre capacité à vous présenter de manière structurée, votre confiance en vous et votre capacité à synthétiser votre expérience.</p>
+            </div>
+
+            <div class="answer">
+                <div class="answer-content">
+                    Je suis Mariam, infirmière passionnée de 25 ans, originaire de Fès. Mon parcours reflète un engagement profond envers les soins humanisés. J'ai débuté ma carrière à la Clinique Al Amal où j'ai développé mes compétences en soins d'urgence pendant 2 ans. J'ai ensuite rejoint le Centre Hospitalier Hassan II où j'ai eu l'opportunité de travailler en gériatrie, expérience qui m'a appris la patience et l'écoute active. Parallèlement, j'ai participé à des campagnes de vaccination dans les zones rurales, renforçant ma conviction que les soins infirmiers vont bien au-delà des gestes techniques - ils touchent à l'humanité même.
+                </div>
+            </div>
+
+            <div class="psychological-tips">
+                <h4>💡 Techniques Psychologiques</h4>
+                <ul>
+                    <li>Utilisez la technique du "storytelling" pour créer une connexion émotionnelle</li>
+                    <li>Mentionnez des chiffres concrets (2 ans d'expérience) pour crédibiliser votre discours</li>
+                    <li>Terminez par une valeur personnelle forte (humanité) pour marquer les esprits</li>
+                </ul>
+            </div>
+
+            <div class="emotional-intelligence">
+                <h4>🧠 Intelligence Émotionnelle</h4>
+                <p>Votre réponse doit refléter une conscience de soi développée et une capacité à articuler vos expériences de manière cohérente avec vos valeurs.</p>
+            </div>
+
+            <div class="stress-indicator">
+                <span style="color: rgba(255,255,255,0.8);">Niveau de stress:</span>
+                <div class="stress-level">
+                    <div class="stress-fill stress-low"></div>
+                </div>
+                <span style="color: var(--accent-green);">Faible</span>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="question-number">2</div>
+            <h2 class="question-title">Comment gérez-vous le stress et les situations d'urgence ?</h2>
+            
+            <div class="psychological-insight">
+                <h4>🎯 Objectif Psychologique</h4>
+                <p>Évaluation de votre résilience émotionnelle, vos mécanismes de coping et votre capacité à maintenir la performance sous pression.</p>
+            </div>
+
+            <div class="answer">
+                <div class="answer-content">
+                    Ma gestion du stress repose sur trois piliers psychologiques que j'ai développés au fil de mes expériences. Premièrement, la respiration consciente - j'ai appris des techniques de cohérence cardiaque qui me permettent de réguler mon système nerveux en quelques secondes. Deuxièmement, la priorisation matricielle : dans l'urgence, j'évalue rapidement l'impact vital versus l'urgence ressentie. Troisièmement, la communication thérapeutique - je verbalise mes actions aux patients pour les rassurer, ce qui paradoxalement me stabilise également. Lors d'un arrêt cardiaque l'année dernière, ces techniques m'ont permis de coordonner efficacement la réanimation tout en maintenant le calme de l'équipe.
+                </div>
+            </div>
+
+            <div class="psychological-tips">
+                <h4>💡 Techniques Psychologiques</h4>
+                <ul>
+                    <li>Démontrez une approche scientifique du stress (cohérence cardiaque)</li>
+                    <li>Utilisez un exemple concret et dramatique (arrêt cardiaque) pour prouver vos compétences</li>
+                    <li>Montrez l'impact positif sur l'équipe (leadership émotionnel)</li>
+                </ul>
+            </div>
+
+            <div class="emotional-intelligence">
+                <h4>🧠 Intelligence Émotionnelle</h4>
+                <p>Votre réponse révèle une maturité émotionnelle et une capacité d'autorégulation qui sont essentielles dans le milieu médical.</p>
+            </div>
+
+            <div class="stress-indicator">
+                <span style="color: rgba(255,255,255,0.8);">Niveau de stress:</span>
+                <div class="stress-level">
+                    <div class="stress-fill stress-medium"></div>
+                </div>
+                <span style="color: var(--warm-gold);">Modéré</span>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="question-number">3</div>
+            <h2 class="question-title">Parlez-nous d'une situation où vous avez dû faire face à un patient difficile</h2>
+            
+            <div class="psychological-insight">
+                <h4>🎯 Objectif Psychologique</h4>
+                <p>Cette question teste votre intelligence émotionnelle, votre empathie et votre capacité à désamorcer les conflits tout en maintenant votre professionnalisme.</p>
+            </div>
+
+            <div class="answer">
+                <div class="answer-content">
+                    J'ai été confrontée à M. Ahmed, un patient de 60 ans en post-opératoire qui refusait catégoriquement ses soins et devenait agressif verbalement. J'ai d'abord reconnu que sa colère n'était pas dirigée contre moi personnellement, mais exprimait sa peur et sa perte de contrôle. J'ai utilisé la technique de l'écoute active en reformulant ses préoccupations : "Je comprends que vous vous sentiez vulnérable et que cela vous frustre." J'ai ensuite proposé un compromis en lui expliquant chaque geste avant de le réaliser, lui redonnant ainsi un sentiment de contrôle. En 20 minutes, il est devenu coopératif et m'a même remerciée. Cette expérience m'a appris que derrière chaque "patient difficile" se cache souvent une détresse émotionnelle non exprimée.
+                </div>
+            </div>
+
+            <div class="psychological-tips">
+                <h4>💡 Techniques Psychologiques</h4>
+                <ul>
+                    <li>Utilisez la technique de "recadrage" pour ne pas prendre l'agressivité personnellement</li>
+                    <li>Démontrez votre maîtrise des techniques de communication thérapeutique</li>
+                    <li>Montrez votre capacité d'introspection et d'apprentissage continu</li>
+                </ul>
+            </div>
+
+            <div class="emotional-intelligence">
+                <h4>🧠 Intelligence Émotionnelle</h4>
+                <p>Votre approche révèle une maturité émotionnelle remarquable et une capacité à transformer les situations conflictuelles en opportunités thérapeutiques.</p>
+            </div>
+
+            <div class="stress-indicator">
+                <span style="color: rgba(255,255,255,0.8);">Niveau de stress:</span>
+                <div class="stress-level">
+                    <div class="stress-fill stress-high"></div>
+                </div>
+                <span style="color: var(--soft-pink);">Élevé</span>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="question-number">4</div>
+            <h2 class="question-title">Qu'est-ce qui vous motive profondément dans ce métier ?</h2>
+            
+            <div class="psychological-insight">
+                <h4>🎯 Objectif Psychologique</h4>
+                <p>Cette question sonde vos motivations intrinsèques et votre alignement avec les valeurs fondamentales du soin. Elle révèle votre profil motivationnel.</p>
+            </div>
+
+            <div class="answer">
+                <div class="answer-content">
+                    Ma motivation puise dans ce que les psychologues appellent "l'effet helper's high" - cette sensation neurochimique unique qu'on ressent quand on aide authentiquement autrui. Mais au-delà de cet aspect, je suis fascinée par la complexité humaine que révèle la maladie. Chaque patient m'enseigne quelque chose sur la résilience, la vulnérabilité, l'espoir. Je me souviens de Fatima, une jeune mère cancéreuse qui, malgré sa souffrance, trouvait le moyen de rassurer sa fille de 8 ans. Son courage m'a profondément marquée et m'a fait comprendre que notre rôle d'infirmière transcende les soins techniques - nous sommes des témoins privilégiés de l'extraordinaire capacité humaine à surmonter l'adversité.
+                </div>
+            </div>
+
+            <div class="psychological-tips">
+                <h4>💡 Techniques Psychologiques</h4>
+                <ul>
+                    <li>Référencez des concepts psychologiques (helper's high) pour montrer votre culture</li>
+                    <li>Utilisez un exemple émotionnellement puissant (mère cancéreuse)</li>
+                    <li>Élevez votre réflexion vers une dimension philosophique et humaniste</li>
+                </ul>
+            </div>
+
+            <div class="emotional-intelligence">
+                <h4>🧠 Intelligence Émotionnelle</h4>
+                <p>Votre réponse démontre une profonde empathie et une capacité à transformer les expériences émotionnelles en apprentissages significatifs.</p>
+            </div>
+
+            <div class="stress-indicator">
+                <span style="color: rgba(255,255,255,0.8);">Niveau de stress:</span>
+                <div class="stress-level">
+                    <div class="stress-fill stress-low"></div>
+                </div>
+                <span style="color: var(--accent-green);">Faible</span>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="question-number">5</div>
+            <h2 class="question-title">Comment établissez-vous la confiance avec vos patients ?</h2>
+            
+            <div class="psychological-insight">
+                <h4>🎯 Objectif Psychologique</h4>
+                <p>Cette question évalue votre compréhension des mécanismes psychologiques de la confiance et votre capacité à créer un environnement thérapeutique sécurisant.</p>
+            </div>
+
+            <div class="answer">
+                <div class="answer-content">
+                    La confiance se construit à travers ce que j'appelle "les micro-moments de vérité". D'abord, la cohérence entre mes paroles et mes actes - si j'annonce que je reviendrai dans 10 minutes, je reviens dans 10 minutes. Ensuite, la reconnaissance de mes limites - je n'hésite pas à dire "je ne sais pas, mais je vais me renseigner" plutôt que d'improviser. J'utilise aussi la technique du "mirroring" émotionnel : j'ajuste mon niveau d'énergie à celui du patient pour créer une synchronisation inconsciente. Enfin, je pratique la "validation thérapeutique" - je reconnais et légitime les émotions du patient sans jugement. Ces techniques, inspirées de la psychologie positive, créent un environnement où le patient se sent vu, entendu et respecté.
+                </div>
+            </div>
+
+            <div class="psychological-tips">
+                <h4>💡 Techniques Psychologiques</h4>
+                <ul>
+                    <li>Utilisez des concepts précis (mirroring, validation thérapeutique)</li>
+                    <li>Démontrez votre compréhension des mécanismes inconscients</li>
+                    <li>Montrez votre approche méthodique et scientifique des relations humaines</li>
+                </ul>
+            </div>
+
+            <div class="emotional-intelligence">
+                <h4>🧠 Intelligence Émotionnelle</h4>
+                <p>Votre approche révèle une compréhension sophistiquée des dynamiques relationnelles et une capacité à créer des liens thérapeutiques authentiques.</p>
+            </div>
+
+            <div class="stress-indicator">
+                <span style="color: rgba(255,255,255,0.8);">Niveau de stress:</span>
+                <div class="stress-level">
+                    <div class="stress-fill stress-low"></div>
+                </div>
+                <span style="color: var(--accent-green);">Faible</span>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="question-number">6</div>
+            <h2 class="question-title">Décrivez vos méthodes pour éviter le burn-out professionnel</h2>
+            
+            <div class="psychological-insight">
+                <h4>🎯 Objectif Psychologique</h4>
+                <p>Cette question évalue votre conscience des risques psychosociaux du métier et votre capacité à développer des stratégies de prévention durables.</p>
+            </div>
+
+            <div class="answer">
+                <div class="answer-content">
+                    J'ai développé ce que j'appelle "l'écosystème de protection psychologique". Niveau physiologique : je pratique le yoga et la méditation 20 minutes par jour pour réguler mon système nerveux. Niveau cognitif : j'ai appris à compartimenter grâce à des rituels de transition - par exemple, je me change mentalement en retirant ma blouse, visualisant que je laisse les préoccupations professionnelles à l'hôpital. Niveau social : j'ai créé un groupe de soutien avec d'autres infirmières où nous pratiquons l'analyse réflexive de nos cas difficiles. Niveau spirituel : je trouve du sens dans chaque journée en notant trois moments positifs vécus avec les patients. Cette approche holistique me permet de maintenir un équilibre émotionnel stable même dans les périodes intenses.
+                </div>
+            </div>
+
+            <div class="psychological-tips">
+                <h4>💡 Techniques Psychologiques</h4>
+                <ul>
+                    <li>Présentez une approche systémique et multidimensionnelle</li>
+                    <li>Utilisez des techniques concrètes et mesurables (20 minutes, 3 moments positifs)</li>
+                    <li>Démontrez votre proactivité dans la prévention plutôt que la réaction</li>
+                </ul>
+            </div>
+
+            <div class="emotional-intelligence">
+                <h4>🧠 Intelligence Émotionnelle</h4>
+                <p>Votre stratégie révèle une maturité émotionnelle exceptionnelle et une capacité à anticiper les risques psychosociaux de manière intelligente.</p>
+            </div>
+
+            <div class="stress-indicator">
+                <span style="color: rgba(255,255,255,0.8);">Niveau de stress:</span>
+                <div class="stress-level">
+                    <div class="stress-fill stress-medium"></div>
+                </div>
+                <span style="color: var(--warm-gold);">Modéré</span>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="question-number">7</div>
+            <h2 class="question-title">Où vous voyez-vous dans 5 ans et comment comptez-vous évoluer ?</h2>
+            
+            <div class="psychological-insight">
+                <h4>🎯 Objectif Psychologique</h4>
+                <p>Cette question évalue votre capacité de projection, votre ambition saine et votre alignement entre aspirations personnelles et opportunités professionnelles.</p>
+            </div>
+
+            <div class="answer">
+                <div class="answer-content">
+                    Dans 5 ans, je me vois comme une infirmière spécialisée en psycho-oncologie, ayant développé une expertise unique dans l'accompagnement émotionnel des patients atteints de cancer. Mon objectif n'est pas seulement d'acquérir des compétences techniques, mais de devenir ce que j'appelle une "infirmière psychothérapeute" - quelqu'un qui maîtrise autant les protocoles médicaux que les techniques d'accompagnement psychologique. Je compte suivre une formation en thérapie brève systémique et obtenir une certification en hypnose médicale. J'aimerais aussi contribuer à la formation des jeunes infirmières en créant des modules sur l'intelligence émotionnelle en milieu médical. Mon rêve ultime serait de participer à des missions humanitaires où je pourrais appliquer cette approche holistique dans des contextes difficiles.
+                </div>
+            </div>
+
+            <div class="psychological-tips">
+                <h4>💡 Techniques Psychologiques</h4>
+                <ul>
+                    <li>Présentez une vision différenciatrice (infirmière psychothérapeute)</li>
+                    <li>Montrez votre engagement dans l'apprentissage continu</li>
+                    <li>Élevez votre vision vers une dimension altruiste (missions humanitaires)</li>
+                </ul>
+            </div>
+
+            <div class="emotional-intelligence">
+                <h4>🧠 Intelligence Émotionnelle</h4>
+                <p>Votre vision révèle une compréhension profonde des besoins émotionnels des patients et une volonté d'innover dans les pratiques de soin.</p>
+            </div>
+
+            <div class="stress-indicator">
+                <span style="color: rgba(255,255,255,0.8);">Niveau de stress:</span>
+                <div class="stress-level">
+                    <div class="stress-fill stress-low"></div>
+                </div>
+                <span style="color: var(--accent-green);">Faible

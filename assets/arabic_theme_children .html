@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 مغامرة باللغة الإنجليزية - المستوى الابتدائي المغربي أ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Lora&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(180deg, #2E5BBA, #4A90E2);
+            animation: gradient 15s ease infinite;
+            font-family: 'Amiri', serif; /* Changed to Amiri for Arabic */
+            color: #000;
+            overflow-x: hidden;
+            position: relative;
+            margin: 0;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .theme-button, .scene-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-family: 'Poppins', sans-serif; /* Poppins for buttons */
+        }
+        .theme-button:hover, .scene-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .verb-tooltip {
+            position: relative;
+            color: #00FF00;
+            cursor: help;
+        }
+        .verb-tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: #0000FF;
+            padding: 5px 10px;
+            border-radius: 5px;
+            bottom: 20px;
+            right: 0; /* Adjusted for RTL */
+            left: auto; /* Adjusted for RTL */
+            z-index: 10;
+            font-size: 12px;
+            white-space: nowrap; /* To prevent wrapping of tooltip text */
+        }
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .quiz-container {
+            margin: 20px 0;
+        }
+        .quiz-container button {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .quiz-container button.correct {
+            background: #28a745;
+        }
+        .quiz-container button.incorrect {
+            background: #dc3545;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            animation: zoom 0.5s ease;
+        }
+        @keyframes zoom {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: right; /* Adjusted for RTL */
+        }
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            direction: rtl; /* For RTL text input */
+            text-align: right; /* For RTL text input */
+        }
+        input[type="text"] {
+            direction: rtl; /* For RTL text input */
+            text-align: right; /* For RTL text input */
+            width: calc(100% - 20px); /* Adjust width */
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles-js"></div>
+    <div class="container">
+        <header>
+            <h1>🌍 مغامرة باللغة الإنجليزية</h1>
+            <p>إتقان الأفعال متعددة الأبعاد للمتعلمين الصغار<br><br>
+                <b>7 أبعاد للتواصل:</b><br>
+                1️⃣ <u>الحركة</u> (ركض، أكل، كتب)<br>
+                2️⃣ <u>الشعور</u> (أحب، شعر، قلق)<br>
+                3️⃣ <u>الحسي</u> (رأى، سمع، ذاق)<br>
+                4️⃣ <u>الكلام</u> (قال، حكى، سأل)<br>
+                5️⃣ <u>التفكير</u> (عرف، ظن، فهم)<br>
+                6️⃣ <u>التغيير</u> (أصبح، نما، حصل)<br>
+                7️⃣ <u>الملكية</u> (ملك، امتلك، احتفظ)</p>
+            <p>للمدارس الابتدائية المغربية الصف الرابع-السادس</p>
+            <p><i>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</i></p>
+        </header>
+
+        <nav>
+            <button class="theme-button" onclick="showTheme('family')">👪 قصص العائلة</button>
+            <button class="theme-button" onclick="showTheme('school')">🏫 الحياة المدرسية</button>
+            <button class="theme-button" onclick="showTheme('market')">🛒 يوم السوق</button>
+            <button class="theme-button" onclick="showTheme('nature')">🌵 مغامرة الصحراء</button>
+            <button class="theme-button" onclick="showTheme('festival')">🎉 احتفال العيد</button>
+        </nav>
+
+        <section id="family" class="glass-card" style="display:block;">
+            <h2>👪 قصص العائلة</h2>
+            <button class="scene-button" onclick="showScene('grandpas-visit')">زيارة الجد المفاجئة</button>
+            
+            <div id="grandpas-visit" class="glass-card" style="display:block;">
+                <h3>زيارة الجد المفاجئة</h3>
+                <img src="https://example.com/moroccan-family.jpg" alt="لم شمل عائلة مغربية">
+                
+                <p>في الصيف الماضي، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">قاد</span> جدي كل الطريق من زاكورة لزيارتنا في الدار البيضاء. عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">جاء</span>، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">أحضر</span> سلة كبيرة من التمور. "<span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (تفكير)">عرفت</span> أنكم ستحبونها!" <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (كلام)">قال</span>. أختي الصغيرة <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (شعور)">شعرت</span> بسعادة غامرة لدرجة أنها <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">ركضت</span> في أرجاء المنزل. في تلك الأمسية، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">أكلنا</span> جميعاً الكسكس معاً و<span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (كلام)">حكينا</span> القصص. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">علمني</span> جدي كيف ألعب الشطرنج. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (تفكير)">ظننت</span> أنه صعب في البداية، لكنني <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (تغيير)">أصبحت</span> أفضل. عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">غادر</span>، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (شعور)">بكينا</span> جميعاً، لكنه <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (كلام)">وعد</span> بالعودة قريباً.</p>
+                
+                <div class="glass-card">
+                    <h4>🔍 تسليط الضوء على الأفعال (الماضي غير المنتظم)</h4>
+                    <ul>
+                        <li><b>الحركة</b>: قاد، جاء، أحضر</li>
+                        <li><b>الكلام</b>: قال، حكى، وعد</li>
+                        <li><b>التفكير</b>: ظننت</li>
+                        <li><b>الشعور</b>: بكينا</li>
+                        <li><b>التغيير</b>: أصبحت</li>
+                    </ul>
+                </div>
+                
+                <div class="quiz-container">
+                    <h4>✍️ تحدي التصريف</h4>
+                    <p>أكمل: بالأمس، ___ (قاد) جدي من زاكورة.</p>
+                    <button onclick="checkConjugation('drive', 'قاد', 'فعل ماضٍ غير منتظم', this)">قاد</button>
+                    <button onclick="checkConjugation('drive', 'يقود', 'فعل مضارع', this)">يقود</button>
+                    <button onclick="checkConjugation('drive', 'ساق', 'فعل ماضٍ غير منتظم', this)">ساق</button>
+                    <p id="quiz-drive"></p>
+                    
+                    <p>أي بُعد يمثّل كلمة "حكى"؟</p>
+                    <button onclick="checkDimension('told', 'الكلام', this)">الكلام</button>
+                    <button onclick="checkDimension('told', 'الحركة', this)">الحركة</button>
+                    <button onclick="checkDimension('told', 'الشعور', this)">الشعور</button>
+                    <p id="quiz-told"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="school" class="glass-card" style="display:none;">
+            <h2>🏫 الحياة المدرسية</h2>
+            <button class="scene-button" onclick="showScene('science-fair')">معرض العلوم</button>
+            
+            <div id="science-fair" class="glass-card" style="display:none;">
+                <h3>كارثة معرض العلوم</h3>
+                <p>لأسابيع، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">عملنا</span> أنا وكريم على مشروع البركان الخاص بنا. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">صنعنا</span>ه من الورق المقوى و<span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">كتبنا</span> كل الحقائق. في يوم المعرض، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">نسيت</span> بيكربونات الصوديوم! <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (تغيير)">ارتجفت</span> يداي بينما <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">ركضت</span> إلى المطبخ. عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">عدت</span>، كانت معلمتنا قد <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">بدأت</span> بالفعل في التحكيم. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">وضعنا</span> كل شيء معًا بسرعة. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">ثور</span> البركان بشكل مثالي! <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (شعور)">شعرنا</span> بالفخر الشديد عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">فزنا</span> بالجائزة الثانية.</p>
+                
+                <div class="glass-card">
+                    <h4>🔍 أبعاد الفعل</h4>
+                    <table>
+                        <tr>
+                            <th>الفعل</th>
+                            <th>الماضي</th>
+                            <th>البعد</th>
+                        </tr>
+                        <tr>
+                            <td>صنع</td>
+                            <td>صنع</td>
+                            <td>الحركة</td>
+                        </tr>
+                        <tr>
+                            <td>ارتجف</td>
+                            <td>ارتجف</td>
+                            <td>التغيير</td>
+                        </tr>
+                        <tr>
+                            <td>ثار</td>
+                            <td>ثار</td>
+                            <td>الحركة</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="quiz-container">
+                    <h4>🧠 لعبة الذاكرة</h4>
+                    <p>ما هو ماضي "ارتجف"؟</p>
+                    <button onclick="checkConjugation('shake', 'ارتجف', 'تغيير', this)">ارتجف</button>
+                    <button onclick="checkConjugation('shake', 'يرتجف', 'تغيير', this)">يرتجف</button>
+                    <button onclick="checkConjugation('shake', 'مرتجف', 'تغيير', this)">مرتجف</button>
+                    <p id="quiz-shake"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="market" class="glass-card" style="display:none;">
+            <h2>🛒 يوم السوق</h2>
+            <button class="scene-button" onclick="showScene('spice-hunt')">البحث عن التوابل</button>
+            
+            <div id="spice-hunt" class="glass-card" style="display:none;">
+                <h3>البحث العظيم عن التوابل</h3>
+                <p><span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">أرسلتني</span> أمي إلى السوق لشراء الزعفران. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">ذهبت</span> إلى ثلاثة متاجر لكنني <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">وجدت</span> فقط الزعفران المقلد. فجأة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حسي)">رأيت</span> رجلاً عجوزاً <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (ملكية)">كان</span> لديه التوابل الحقيقية. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">أخذني</span> خلف كشكه و<span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">أراني</span> كيفية اختبار الجودة. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">دفعت</span> بحذر و<span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">احتفظت</span> بالزعفران آمناً. عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">عدت</span> إلى المنزل، كانت أمي <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (شعور)">كانت</span> سعيدة جداً لدرجة أنها <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">صنعت</span> لي كعك المفضل!</p>
+                
+                <div class="glass-card">
+                    <h4>✏️ تمرين الأفعال</h4>
+                    <p>أكمل الجمل:</p>
+                    <p>1. بالأمس، أنا ___ (ذهب) إلى السوق.</p>
+                    <input type="text" id="market-go" placeholder="ماضي 'ذهب'">
+                    <button onclick="checkInput('market-go', 'ذهبت')">تحقق</button>
+                    <p id="result-go"></p>
+                    
+                    <p>2. التاجر ___ (أظهر) لي الزعفران الحقيقي.</p>
+                    <input type="text" id="market-show" placeholder="ماضي 'أظهر'">
+                    <button onclick="checkInput('market-show', 'أظهر')">تحقق</button>
+                    <p id="result-show"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="nature" class="glass-card" style="display:none;">
+            <h2>🌵 مغامرة الصحراء</h2>
+            <button class="scene-button" onclick="showScene('lost-camel')">جمل مرزوكة المفقود</button>
+            
+            <div id="lost-camel" class="glass-card" style="display:none;">
+                <h3>جمل مرزوكة المفقود</h3>
+                <p>أثناء زيارتنا لمرزوكة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">ركب</span> ابن عمي أحمد جملاً لأول مرة. فجأة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">كسر</span> الجمل حبله و<span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">هرب</span>! <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">قضينا</span> ساعات في البحث. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (تغيير)">أشرقت</span> الشمس ساطعاً و<span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">تعبنا</span>. تماماً عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (تفكير)">ظننا</span> أننا سنستسلم، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حسي)">سمع</span> أحمد ضوضاء. خلف الكثبان، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">وقف</span> الجمل يأكل العشب بهدوء! <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">عدنا</span> به بأمان. في تلك الليلة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">نمنا</span> جميعاً مثل الأطفال.</p>
+                
+                <div class="quiz-container">
+                    <h4>🐫 سفاري الأفعال</h4>
+                    <p>ابحث عن 3 أفعال غير منتظمة في القصة تعني:</p>
+                    <ol>
+                        <li>التحرك بسرعة على الأقدام (الماضي: ___)</li>
+                        <li>إدراك الصوت (الماضي: ___)</li>
+                        <li>الوقوف بشكل عمودي (الماضي: ___)</li>
+                    </ol>
+                    <button onclick="revealAnswers()">إظهار الإجابات</button>
+                    <div id="safari-answers" style="display:none;margin-top:10px;">
+                        <p>1. ركض (من "ركض")<br>2. سمع (من "سمع")<br>3. وقف (من "وقف")</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="festival" class="glass-card" style="display:none;">
+            <h2>🎉 احتفال العيد</h2>
+            <button class="scene-button" onclick="showScene('eid-morning')">صباح عيد الفطر</button>
+            
+            <div id="eid-morning" class="glass-card" style="display:none;">
+                <h3>أفضل صباح عيد على الإطلاق</h3>
+                <p>قبل شروق الشمس، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">استيقظنا</span> جميعاً مبكراً. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">ارتدت</span> أمي قفطانها الجميل. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">أكلت</span> الشباكية حتى <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (تغيير)">آلمتني</span> معدتي! في المسجد، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (كلام)">تحدث</span> جدي عن اللطف. بعد الصلاة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">زرنا</span> العائلة. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">أعطاني</span> عمي 50 درهماً! <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (تفكير)">عرفت</span> بالضبط ماذا أشتري - كرة قدم! في ذلك الظهيرة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">لعبنا</span> جميعاً في الشارع حتى <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">غربت</span> الشمس.</p>
+                
+                <div class="glass-card">
+                    <h4>📝 يوميات الأفعال</h4>
+                    <p>اكتب 3 جمل عن عيدك الأخير باستخدام أفعال غير منتظمة:</p>
+                    <textarea id="eid-diary" rows="4" placeholder="مثلاً: ارتديت... أمي صنعت... زرنا..."></textarea>
+                    <button onclick="checkDiary()">تحقق من أفعالي</button>
+                    <p id="diary-result"></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle', stroke: { width: 0, color: '#000000' }, polygon: { nb_sides: 5 } },
+                opacity: { value: 0.5, random: false, anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 3, random: true, anim: { enable: false, speed: 40, size_min: 0.1, sync: false } },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false, attract: { enable: false, rotateX: 600, rotateY: 1200 } }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: {
+                    grab: { distance: 400, line_linked: { opacity: 1 } },
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                    repulse: { distance: 200, duration: 0.4 },
+                    push: { particles_nb: 4 },
+                    remove: { particles_nb: 2 }
+                }
+            },
+            retina_detect: true
+        });
+
+        function showTheme(themeId) {
+            document.querySelectorAll('section[id]').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(themeId).style.display = 'block';
+            // Hide all scenes when changing theme
+            document.querySelectorAll(`#${themeId} > div[id]`).forEach(scene => {
+                scene.style.display = 'none';
+            });
+        }
+
+        function showScene(sceneId) {
+            const currentTheme = document.querySelector('section[id][style*="display: block"]').id;
+            document.querySelectorAll(`#${currentTheme} > div[id]`).forEach(div => {
+                div.style.display = 'none';
+            });
+            document.getElementById(sceneId).style.display = 'block';
+        }
+
+        function checkConjugation(baseVerb, correctPast, dimension, button) {
+            const buttons = button.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('correct', 'incorrect');
+            });
+            
+            // Adjusting correctPast for Arabic equivalents in quiz logic
+            let displayCorrectPast = correctPast;
+            if (baseVerb === 'drive') {
+                displayCorrectPast = 'قاد';
+            } else if (baseVerb === 'shake') {
+                displayCorrectPast = 'ارتجف';
+            }
+            
+            if (button.textContent.trim().toLowerCase() === displayCorrectPast.toLowerCase()) {
+                button.classList.add('correct');
+                document.getElementById(`quiz-${baseVerb}`).innerHTML = 
+                    `✅ ممتاز! "${button.textContent.trim()}" هو الشكل الصحيح للماضي من "${baseVerb}" (بعد ${dimension})`;
+            } else {
+                button.classList.add('incorrect');
+                document.getElementById(`quiz-${baseVerb}`).innerHTML = 
+                    `❌ حاول مرة أخرى! ماضي "${baseVerb}" هو "${displayCorrectPast}"`;
+            }
+        }
+
+        function checkDimension(verb, correctDim, button) {
+            const buttons = button.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mapping English dimensions to Arabic for display
+            const arabicDimensions = {
+                'Action': 'الحركة',
+                'Emotion': 'الشعور',
+                'Sensory': 'الحسي',
+                'Speech': 'الكلام',
+                'Thought': 'التفكير',
+                'Change': 'التغيير',
+                'Possession': 'الملكية'
+            };
+            const displayCorrectDim = arabicDimensions[correctDim] || correctDim;
+
+            if (button.textContent.trim() === displayCorrectDim) {
+                button.classList.add('correct');
+                document.getElementById(`quiz-${verb}`).innerHTML = 
+                    `🌟 صحيح! "${button.textContent.trim()}" ينتمي إلى بعد <u>${displayCorrectDim}</u>`;
+            } else {
+                button.classList.add('incorrect');
+                document.getElementById(`quiz-${verb}`).innerHTML = 
+                    `📚 في الواقع، "${verb}" هو فعل من بعد <u>${displayCorrectDim}</u>`;
+            }
+        }
+
+        function checkInput(inputId, correctAnswer) {
+            const userAnswer = document.getElementById(inputId).value.trim().toLowerCase();
+            const resultElement = document.getElementById(`result-${inputId.split('-')[1]}`);
+            
+            if (userAnswer === correctAnswer) {
+                resultElement.innerHTML = `🎉 صحيح! "${correctAnswer}" هو الجواب الصحيح!`;
+                resultElement.style.color = '#28a745';
+            } else {
+                resultElement.innerHTML = `استمر في المحاولة! الجواب هو "${correctAnswer}"`;
+                resultElement.style.color = '#dc3545';
+            }
+        }
+
+        function revealAnswers() {
+            document.getElementById('safari-answers').style.display = 'block';
+        }
+
+        function checkDiary() {
+            const text = document.getElementById('eid-diary').value.toLowerCase();
+            // Arabic irregular verbs for checking (adjust based on actual story verbs classified as irregular)
+            const irregulars = ['ارتدت', 'آلمتني', 'زرنا', 'أعطاني', 'قاد', 'جاء', 'نسيت', 'عدت', 'وضعنا', 'ثار', 'فزنا', 'وجدت', 'رأيت', 'كان', 'أراني', 'قضينا', 'ظننا', 'وقف', 'نمنا']; // Based on the irregulars in the stories
+            const found = irregulars.filter(verb => text.includes(verb));
+            
+            if (found.length > 0) {
+                document.getElementById('diary-result').innerHTML = 
+                    `عمل رائع! استخدمت ${found.length} أفعالاً غير منتظمة: ${found.join(', ')}`;
+                document.getElementById('diary-result').style.color = '#28a745';
+            } else {
+                document.getElementById('diary-result').innerHTML = 
+                    "ابحث عن أفعال مثل 'ارتدى/ارتدت', 'ألم/آلمتني', أو 'زار/زرنا'";
+                document.getElementById('diary-result').style.color = '#dc3545';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showTheme('family');
+            showScene('grandpas-visit');
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 مغامرة باللغة الإنجليزية - المستوى الابتدائي المغربي أ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Lora&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New&display=swap" rel="stylesheet"> <style>
+        body {
+            background: linear-gradient(180deg, #2E5BBA, #4A90E2);
+            animation: gradient 15s ease infinite;
+            font-family: 'Scheherazade New', 'Amiri', serif; /* Changed to Scheherazade New for Arabic */
+            color: #000;
+            overflow-x: hidden;
+            position: relative;
+            margin: 0;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .theme-button, .scene-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-family: 'Poppins', sans-serif; /* Poppins for buttons */
+        }
+        .theme-button:hover, .scene-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .verb-tooltip {
+            position: relative;
+            color: #00FF00;
+            cursor: help;
+        }
+        .verb-tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: #0000FF;
+            padding: 5px 10px;
+            border-radius: 5px;
+            bottom: 20px;
+            right: 0; /* Adjusted for RTL */
+            left: auto; /* Adjusted for RTL */
+            z-index: 10;
+            font-size: 12px;
+            white-space: nowrap; /* To prevent wrapping of tooltip text */
+        }
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .quiz-container {
+            margin: 20px 0;
+        }
+        .quiz-container button {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .quiz-container button.correct {
+            background: #28a745;
+        }
+        .quiz-container button.incorrect {
+            background: #dc3545;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            animation: zoom 0.5s ease;
+        }
+        @keyframes zoom {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: right; /* Adjusted for RTL */
+        }
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            direction: rtl; /* For RTL text input */
+            text-align: right; /* For RTL text input */
+        }
+        input[type="text"] {
+            direction: rtl; /* For RTL text input */
+            text-align: right; /* For RTL text input */
+            width: calc(100% - 20px); /* Adjust width */
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles-js"></div>
+    <div class="container">
+        <header>
+            <h1>🌍 مغامرة باللغة الإنجليزية</h1>
+            <p>إتقان الأفعال متعددة الأبعاد للمتعلمين الصغار<br><br>
+                <b>7 أبعاد للتواصل:</b><br>
+                1️⃣ <u>الحركة</u> (ركض، أكل، كتب)<br>
+                2️⃣ <u>الشعور</u> (أحب، شعر، قلق)<br>
+                3️⃣ <u>الحسي</u> (رأى، سمع، ذاق)<br>
+                4️⃣ <u>الكلام</u> (قال، حكى، سأل)<br>
+                5️⃣ <u>التفكير</u> (عرف، ظن، فهم)<br>
+                6️⃣ <u>التغيير</u> (أصبح، نما، حصل)<br>
+                7️⃣ <u>الملكية</u> (ملك، امتلك، احتفظ)</p>
+            <p>للمدارس الابتدائية المغربية الصف الرابع-السادس</p>
+            <p><i>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</i></p>
+        </header>
+
+        <nav>
+            <button class="theme-button" onclick="showTheme('family')">👪 قصص العائلة</button>
+            <button class="theme-button" onclick="showTheme('school')">🏫 الحياة المدرسية</button>
+            <button class="theme-button" onclick="showTheme('market')">🛒 يوم السوق</button>
+            <button class="theme-button" onclick="showTheme('nature')">🌵 مغامرة الصحراء</button>
+            <button class="theme-button" onclick="showTheme('festival')">🎉 احتفال العيد</button>
+        </nav>
+
+        <section id="family" class="glass-card" style="display:block;">
+            <h2>👪 قصص العائلة</h2>
+            <button class="scene-button" onclick="showScene('grandpas-visit')">زيارة الجد المفاجئة</button>
+            
+            <div id="grandpas-visit" class="glass-card" style="display:block;">
+                <h3>زيارة الجد المفاجئة</h3>
+                <img src="https://example.com/moroccan-family.jpg" alt="لم شمل عائلة مغربية">
+                
+                <p>في الصيف الماضي، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">قاد</span> جدي كل الطريق من زاكورة لزيارتنا في الدار البيضاء. عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">جاء</span>، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">أحضر</span> سلة كبيرة من التمور. "<span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (تفكير)">عرفت</span> أنكم ستحبونها!" <span class="verb-tooltip" data-tooltip="ف فعل ماضٍ غير منتظم (كلام)">قال</span>. أختي الصغيرة <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (شعور)">شعرت</span> بسعادة غامرة لدرجة أنها <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">ركضت</span> في أرجاء المنزل. في تلك الأمسية، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">أكلنا</span> جميعاً الكسكس معاً و<span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (كلام)">حكينا</span> القصص. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">علمني</span> جدي كيف ألعب الشطرنج. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (تفكير)">ظننت</span> أنه صعب في البداية، لكنني <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (تغيير)">أصبحت</span> أفضل. عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">غادر</span>، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (شعور)">بكينا</span> جميعاً، لكنه <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (كلام)">وعد</span> بالعودة قريباً.</p>
+                
+                <div class="glass-card">
+                    <h4>🔍 تسليط الضوء على الأفعال (الماضي غير المنتظم)</h4>
+                    <ul>
+                        <li><b>الحركة</b>: قاد، جاء، أحضر</li>
+                        <li><b>الكلام</b>: قال، حكى، وعد</li>
+                        <li><b>التفكير</b>: ظننت</li>
+                        <li><b>الشعور</b>: بكينا</li>
+                        <li><b>التغيير</b>: أصبحت</li>
+                    </ul>
+                </div>
+                
+                <div class="quiz-container">
+                    <h4>✍️ تحدي التصريف</h4>
+                    <p>أكمل: بالأمس، ___ (قاد) جدي من زاكورة.</p>
+                    <button onclick="checkConjugation('drive', 'قاد', 'فعل ماضٍ غير منتظم', this)">قاد</button>
+                    <button onclick="checkConjugation('drive', 'يقود', 'فعل مضارع', this)">يقود</button>
+                    <button onclick="checkConjugation('drive', 'ساق', 'فعل ماضٍ غير منتظم', this)">ساق</button>
+                    <p id="quiz-drive"></p>
+                    
+                    <p>أي بُعد يمثّل كلمة "حكى"؟</p>
+                    <button onclick="checkDimension('told', 'الكلام', this)">الكلام</button>
+                    <button onclick="checkDimension('told', 'الحركة', this)">الحركة</button>
+                    <button onclick="checkDimension('told', 'الشعور', this)">الشعور</button>
+                    <p id="quiz-told"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="school" class="glass-card" style="display:none;">
+            <h2>🏫 الحياة المدرسية</h2>
+            <button class="scene-button" onclick="showScene('science-fair')">معرض العلوم</button>
+            
+            <div id="science-fair" class="glass-card" style="display:none;">
+                <h3>كارثة معرض العلوم</h3>
+                <p>لأسابيع، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">عملنا</span> أنا وكريم على مشروع البركان الخاص بنا. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">صنعنا</span>ه من الورق المقوى و<span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">كتبنا</span> كل الحقائق. في يوم المعرض، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">نسيت</span> بيكربونات الصوديوم! <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (تغيير)">ارتجفت</span> يداي بينما <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">ركضت</span> إلى المطبخ. عندما <span class="verb-tooltip" data-tooltip="ف فعل ماضٍ غير منتظم (حركة)">عدت</span>، كانت معلمتنا قد <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">بدأت</span> بالفعل في التحكيم. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">وضعنا</span> كل شيء معًا بسرعة. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">ثور</span> البركان بشكل مثالي! <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (شعور)">شعرنا</span> بالفخر الشديد عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">فزنا</span> بالجائزة الثانية.</p>
+                
+                <div class="glass-card">
+                    <h4>🔍 أبعاد الفعل</h4>
+                    <table>
+                        <tr>
+                            <th>الفعل</th>
+                            <th>الماضي</th>
+                            <th>البعد</th>
+                        </tr>
+                        <tr>
+                            <td>صنع</td>
+                            <td>صنع</td>
+                            <td>الحركة</td>
+                        </tr>
+                        <tr>
+                            <td>ارتجف</td>
+                            <td>ارتجف</td>
+                            <td>التغيير</td>
+                        </tr>
+                        <tr>
+                            <td>ثار</td>
+                            <td>ثار</td>
+                            <td>الحركة</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="quiz-container">
+                    <h4>🧠 لعبة الذاكرة</h4>
+                    <p>ما هو ماضي "ارتجف"؟</p>
+                    <button onclick="checkConjugation('shake', 'ارتجف', 'تغيير', this)">ارتجف</button>
+                    <button onclick="checkConjugation('shake', 'يرتجف', 'تغيير', this)">يرتجف</button>
+                    <button onclick="checkConjugation('shake', 'مرتجف', 'تغيير', this)">مرتجف</button>
+                    <p id="quiz-shake"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="market" class="glass-card" style="display:none;">
+            <h2>🛒 يوم السوق</h2>
+            <button class="scene-button" onclick="showScene('spice-hunt')">البحث عن التوابل</button>
+            
+            <div id="spice-hunt" class="glass-card" style="display:none;">
+                <h3>البحث العظيم عن التوابل</h3>
+                <p><span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">أرسلتني</span> أمي إلى السوق لشراء الزعفران. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">ذهبت</span> إلى ثلاثة متاجر لكنني <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">وجدت</span> فقط الزعفران المقلد. فجأة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حسي)">رأيت</span> رجلاً عجوزاً <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (ملكية)">كان</span> لديه التوابل الحقيقية. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">أخذني</span> خلف كشكه و<span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">أراني</span> كيفية اختبار الجودة. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">دفعت</span> بحذر و<span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">احتفظت</span> بالزعفران آمناً. عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">عدت</span> إلى المنزل، كانت أمي <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (شعور)">كانت</span> سعيدة جداً لدرجة أنها <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">صنعت</span> لي كعك المفضل!</p>
+                
+                <div class="glass-card">
+                    <h4>✏️ تمرين الأفعال</h4>
+                    <p>أكمل الجمل:</p>
+                    <p>1. بالأمس، أنا ___ (ذهب) إلى السوق.</p>
+                    <input type="text" id="market-go" placeholder="ماضي 'ذهب'">
+                    <button onclick="checkInput('market-go', 'ذهبت')">تحقق</button>
+                    <p id="result-go"></p>
+                    
+                    <p>2. التاجر ___ (أظهر) لي الزعفران الحقيقي.</p>
+                    <input type="text" id="market-show" placeholder="ماضي 'أظهر'">
+                    <button onclick="checkInput('market-show', 'أظهر')">تحقق</button>
+                    <p id="result-show"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="nature" class="glass-card" style="display:none;">
+            <h2>🌵 مغامرة الصحراء</h2>
+            <button class="scene-button" onclick="showScene('lost-camel')">جمل مرزوكة المفقود</button>
+            
+            <div id="lost-camel" class="glass-card" style="display:none;">
+                <h3>جمل مرزوكة المفقود</h3>
+                <p>أثناء زيارتنا لمرزوكة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">ركب</span> ابن عمي أحمد جملاً لأول مرة. فجأة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">كسر</span> الجمل حبله و<span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">هرب</span>! <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">قضينا</span> ساعات في البحث. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (تغيير)">أشرقت</span> الشمس ساطعاً و<span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">تعبنا</span>. تماماً عندما <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (تفكير)">ظننا</span> أننا سنستسلم، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حسي)">سمع</span> أحمد ضوضاء. خلف الكثبان، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">وقف</span> الجمل يأكل العشب بهدوء! <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">عدنا</span> به بأمان. في تلك الليلة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">نمنا</span> جميعاً مثل الأطفال.</p>
+                
+                <div class="quiz-container">
+                    <h4>🐫 سفاري الأفعال</h4>
+                    <p>ابحث عن 3 أفعال غير منتظمة في القصة تعني:</p>
+                    <ol>
+                        <li>التحرك بسرعة على الأقدام (الماضي: ___)</li>
+                        <li>إدراك الصوت (الماضي: ___)</li>
+                        <li>الوقوف بشكل عمودي (الماضي: ___)</li>
+                    </ol>
+                    <button onclick="revealAnswers()">إظهار الإجابات</button>
+                    <div id="safari-answers" style="display:none;margin-top:10px;">
+                        <p>1. ركض (من "ركض")<br>2. سمع (من "سمع")<br>3. وقف (من "وقف")</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="festival" class="glass-card" style="display:none;">
+            <h2>🎉 احتفال العيد</h2>
+            <button class="scene-button" onclick="showScene('eid-morning')">صباح عيد الفطر</button>
+            
+            <div id="eid-morning" class="glass-card" style="display:none;">
+                <h3>أفضل صباح عيد على الإطلاق</h3>
+                <p>قبل شروق الشمس، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">استيقظنا</span> جميعاً مبكراً. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">ارتدت</span> أمي قفطانها الجميل. <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">أكلت</span> الشباكية حتى <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (تغيير)">آلمتني</span> معدتي! في المسجد، <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (كلام)">تحدث</span> جدي عن اللطف. بعد الصلاة، <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">زرنا</span> العائلة. <span class="verb-tooltip" data-tooltip="فعل ماضٍ غير منتظم (حركة)">أعطاني</span> عمي 50 درهماً! <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (تفكير)">عرفت</span> بالضبط ماذا أشتري - كرة قدم! في ذلك الظهيرة، <span class="verb-tooltip" data-tooltip="ف فعل ماضٍ منتظم (حركة)">لعبنا</span> جميعاً في الشارع حتى <span class="verb-tooltip" data-tooltip="فعل ماضٍ منتظم (حركة)">غربت</span> الشمس.</p>
+                
+                <div class="glass-card">
+                    <h4>📝 يوميات الأفعال</h4>
+                    <p>اكتب 3 جمل عن عيدك الأخير باستخدام أفعال غير منتظمة:</p>
+                    <textarea id="eid-diary" rows="4" placeholder="مثلاً: ارتديت... أمي صنعت... زرنا..."></textarea>
+                    <button onclick="checkDiary()">تحقق من أفعالي</button>
+                    <p id="diary-result"></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle', stroke: { width: 0, color: '#000000' }, polygon: { nb_sides: 5 } },
+                opacity: { value: 0.5, random: false, anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 3, random: true, anim: { enable: false, speed: 40, size_min: 0.1, sync: false } },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 6, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false, attract: { enable: false, rotateX: 600, rotateY: 1200 } }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                modes: {
+                    grab: { distance: 400, line_linked: { opacity: 1 } },
+                    bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                    repulse: { distance: 200, duration: 0.4 },
+                    push: { particles_nb: 4 },
+                    remove: { particles_nb: 2 }
+                }
+            },
+            retina_detect: true
+        });
+
+        function showTheme(themeId) {
+            document.querySelectorAll('section[id]').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(themeId).style.display = 'block';
+            // Hide all scenes when changing theme
+            document.querySelectorAll(`#${themeId} > div[id]`).forEach(scene => {
+                scene.style.display = 'none';
+            });
+        }
+
+        function showScene(sceneId) {
+            const currentTheme = document.querySelector('section[id][style*="display: block"]').id;
+            document.querySelectorAll(`#${currentTheme} > div[id]`).forEach(div => {
+                div.style.display = 'none';
+            });
+            document.getElementById(sceneId).style.display = 'block';
+        }
+
+        function checkConjugation(baseVerb, correctPast, dimension, button) {
+            const buttons = button.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('correct', 'incorrect');
+            });
+            
+            // Adjusting correctPast for Arabic equivalents in quiz logic
+            let displayCorrectPast = correctPast;
+            if (baseVerb === 'drive') {
+                displayCorrectPast = 'قاد';
+            } else if (baseVerb === 'shake') {
+                displayCorrectPast = 'ارتجف';
+            }
+            
+            if (button.textContent.trim().toLowerCase() === displayCorrectPast.toLowerCase()) {
+                button.classList.add('correct');
+                document.getElementById(`quiz-${baseVerb}`).innerHTML = 
+                    `✅ ممتاز! "${button.textContent.trim()}" هو الشكل الصحيح للماضي من "${baseVerb}" (بعد ${dimension})`;
+            } else {
+                button.classList.add('incorrect');
+                document.getElementById(`quiz-${baseVerb}`).innerHTML = 
+                    `❌ حاول مرة أخرى! ماضي "${baseVerb}" هو "${displayCorrectPast}"`;
+            }
+        }
+
+        function checkDimension(verb, correctDim, button) {
+            const buttons = button.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mapping English dimensions to Arabic for display
+            const arabicDimensions = {
+                'Action': 'الحركة',
+                'Emotion': 'الشعور',
+                'Sensory': 'الحسي',
+                'Speech': 'الكلام',
+                'Thought': 'التفكير',
+                'Change': 'التغيير',
+                'Possession': 'الملكية'
+            };
+            const displayCorrectDim = arabicDimensions[correctDim] || correctDim;
+
+            if (button.textContent.trim() === displayCorrectDim) {
+                button.classList.add('correct');
+                document.getElementById(`quiz-${verb}`).innerHTML = 
+                    `🌟 صحيح! "${button.textContent.trim()}" ينتمي إلى بعد <u>${displayCorrectDim}</u>`;
+            } else {
+                button.classList.add('incorrect');
+                document.getElementById(`quiz-${verb}`).innerHTML = 
+                    `📚 في الواقع، "${verb}" هو فعل من بعد <u>${displayCorrectDim}</u>`;
+            }
+        }
+
+        function checkInput(inputId, correctAnswer) {
+            const userAnswer = document.getElementById(inputId).value.trim().toLowerCase();
+            const resultElement = document.getElementById(`result-${inputId.split('-')[1]}`);
+            
+            if (userAnswer === correctAnswer) {
+                resultElement.innerHTML = `🎉 صحيح! "${correctAnswer}" هو الجواب الصحيح!`;
+                resultElement.style.color = '#28a745';
+            } else {
+                resultElement.innerHTML = `استمر في المحاولة! الجواب هو "${correctAnswer}"`;
+                resultElement.style.color = '#dc3545';
+            }
+        }
+
+        function revealAnswers() {
+            document.getElementById('safari-answers').style.display = 'block';
+        }
+
+        function checkDiary() {
+            const text = document.getElementById('eid-diary').value.toLowerCase();
+            // Arabic irregular verbs for checking (adjust based on actual story verbs classified as irregular)
+            const irregulars = ['ارتدت', 'آلمتني', 'زرنا', 'أعطاني', 'قاد', 'جاء', 'نسيت', 'عدت', 'وضعنا', 'ثار', 'فزنا', 'وجدت', 'رأيت', 'كان', 'أراني', 'قضينا', 'ظننا', 'وقف', 'نمنا']; // Based on the irregulars in the stories
+            const found = irregulars.filter(verb => text.includes(verb));
+            
+            if (found.length > 0) {
+                document.getElementById('diary-result').innerHTML = 
+                    `عمل رائع! استخدمت ${found.length} أفعالاً غير منتظمة: ${found.join(', ')}`;
+                document.getElementById('diary-result').style.color = '#28a745';
+            } else {
+                document.getElementById('diary-result').innerHTML = 
+                    "ابحث عن أفعال مثل 'ارتدى/ارتدت', 'ألم/آلمتني', أو 'زار/زرنا'";
+                document.getElementById('diary-result').style.color = '#dc3545';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showTheme('family');
+            showScene('grandpas-visit');
+        });
+    </script>
+</body>
+</html>

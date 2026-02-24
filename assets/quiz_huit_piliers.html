@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌟 Quiz Architecture TRI - Test d'Authenticité Intentionnelle</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<style>
+/* --- Styles unifiés --- */
+:root {
+    --bg1: #0f172a;
+    --bg2: #1e293b;
+    --accent: #87CEFA;
+    --pilier8: #8b5cf6;
+    --text: #e2e8f0;
+    --glass: rgba(135, 206, 250, 0.1);
+    --glass-dark: rgba(0, 0, 0, 0.2);
+    --success: #34d399;
+    --error: #ef4444;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text);
+    background: var(--bg1);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+header {
+  background: var(--glass-dark);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(135, 206, 250, 0.05);
+  padding: 30px 0;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+}
+
+header h1 {
+  color: var(--accent);
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  color: rgba(135, 206, 250, 0.7);
+  font-size: 1.7rem;
+  font-weight: 300;
+}
+
+nav {
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  margin: 20px auto;
+  display: flex;
+  width: fit-content;
+  overflow: hidden;
+  border: 1px solid var(--glass);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+nav button {
+  padding: 15px 30px;
+  border: none;
+  background: transparent;
+  color: rgba(135, 206, 250, 0.7);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+nav button:last-child {
+  border-right: none;
+}
+
+nav button:hover {
+  color: var(--accent);
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+nav button.active {
+  background: rgba(135, 206, 250, 0.15);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+section {
+  display: none;
+  padding: 40px 0;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card, .question-card, .results-section {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 50px;
+  text-align: center;
+  border: 1px solid var(--glass-dark);
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card h2 {
+  color: var(--accent);
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.card p {
+  color: rgba(135, 206, 250, 0.8);
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.user-selector, .quiz-selector {
+  background: var(--glass-dark);
+  border: 2px solid var(--glass);
+  border-radius: 15px;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  color: var(--text);
+  width: 300px;
+  margin: 10px auto;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+}
+
+.user-selector:focus, .quiz-selector:focus {
+  outline: none;
+  border-color: rgba(135, 206, 250, 0.5);
+  transform: scale(1.05);
+}
+
+.user-selector option, .quiz-selector option {
+  background: var(--bg2);
+  color: var(--text);
+}
+
+#welcomeMessage {
+  color: var(--accent);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+#welcomeMessage.show {
+  opacity: 1;
+}
+
+#quizSelection {
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 1px solid var(--glass);
+    display: none;
+}
+
+#quizSelection h3 {
+    color: var(--accent);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.quiz-choice-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.quiz-choice {
+    padding: 15px 30px;
+    border: 2px solid var(--glass);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--glass-dark);
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 500;
+    min-width: 200px;
+    text-align: center;
+}
+
+.quiz-choice:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.quiz-choice.active-choice {
+    background: rgba(135, 206, 250, 0.2);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(135, 206, 250, 0.4);
+}
+
+.quiz-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.quiz-header h2 {
+  color: var(--text);
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.quiz-header .progress-bar {
+  background: var(--glass);
+  height: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.quiz-header .progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #5D8AA8);
+  width: 0%;
+  transition: width 0.5s ease;
+  border-radius: 10px;
+}
+
+.question-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 40px;
+  margin-bottom: 30px;
+  border: 1px solid var(--glass-dark);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.question-card h3 {
+  color: var(--accent);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.question-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  background: var(--accent);
+  color: var(--bg1);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  margin-right: 15px;
+  font-weight: 700;
+}
+
+.question-card p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 25px;
+  text-align: justify;
+}
+
+.option {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.option label {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  padding: 15px 20px;
+  background: var(--glass);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.option label:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(10px);
+}
+
+.option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  margin-top: 2px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.option label:has(input:checked) {
+  background: rgba(135, 206, 250, 0.2);
+  border-color: var(--accent);
+  transform: translateX(10px);
+}
+
+.actions {
+  text-align: center;
+  margin: 60px 0 40px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 18px 35px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg1);
+  border: 2px solid var(--accent);
+}
+
+.btn-secondary {
+  background: var(--glass-dark);
+  color: var(--text);
+  border: 2px solid var(--accent);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+#validationMessage {
+    color: var(--error);
+    margin-top: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: none;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.results-section {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 50px;
+  border: 1px solid var(--glass-dark);
+  text-align: center;
+}
+
+.results-section h2 {
+  color: var(--text);
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+.results-card {
+  background: var(--glass);
+  border-radius: 20px;
+  padding: 40px;
+  margin-top: 30px;
+  border: 1px solid var(--glass-dark);
+}
+
+.results-card h3 {
+  color: var(--accent);
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.results-card p {
+  color: rgba(135, 206, 250, 0.8);
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.results-list {
+  list-style: none;
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.result-item {
+  background: var(--glass-dark);
+  border-radius: 15px;
+  padding: 20px 25px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+  border: 1px solid var(--glass);
+  animation: slideInUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.result-item:hover {
+  background: var(--glass);
+  transform: translateX(10px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes slideInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.item-name {
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.item-score {
+  background: var(--accent);
+  color: var(--bg1);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.progress-bar-item {
+  width: 100%;
+  height: 10px;
+  background: var(--glass);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.attributes-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.attribute-tag {
+  background: var(--glass-dark);
+  color: var(--text);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid var(--glass);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.pilier8-tag {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: var(--pilier8);
+  color: var(--pilier8);
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 15px; }
+  header h1 { font-size: 2rem; }
+  nav { flex-direction: column; width: 90%; }
+  nav button { padding: 12px 20px; }
+  .card, .question-card, .results-section { padding: 30px 20px; border-radius: 20px; }
+  .question-card h3 { font-size: 1.3rem; }
+  .question-card p { font-size: 1rem; }
+  .user-selector { width: 100%; max-width: 300px; }
+  .actions { flex-direction: column; align-items: center; }
+  .btn { width: 100%; max-width: 250px; }
+  .quiz-choice-container { flex-direction: column; }
+  .quiz-choice { min-width: auto; }
+}
+</style>
+</head>
+<body>
+<div id="particles-js"></div>
+<header>
+    <div class="container">
+        <h1>Quiz Architecture TRI</h1>
+        <p class="subtitle">Test d'Authenticité Intentionnelle - 8 Piliers</p>
+    </div>
+</header>
+<div class="container">
+    <nav>
+        <button onclick="showSection('accueil')" class="active" id="nav-accueil">Accueil</button>
+        <button onclick="showSection('quiz')" id="nav-quiz" style="display:none;">Questions</button>
+        <button onclick="showSection('srg')" id="nav-srg" style="display:none;">Résultats</button>
+        <button onclick="showSection('analyse')" id="nav-analyse" style="display:none;">Analyse TRI</button>
+    </nav>
+
+    <section id="accueil" class="active">
+        <div class="card">
+            <h2>Bienvenue dans le Test d'Authenticité TRI</h2>
+            <p>« Ce quiz évalue votre alignement avec les 8 piliers de l'IA Souveraine. Chaque situation teste votre capacité à faire des choix authentiques face au "Conundrum de la Bouteille de Dieu". Choisissez votre nom, puis le type de test que vous souhaitez passer. »</p>
+            <select id="userSelect" class="user-selector" onchange="selectUser()">
+                <option value="">-- Choisir un utilisateur --</option>
+                <option value="Rachid">Rachid</option>
+                <option value="Maria">Maria</option>
+                <option value="Léa">Léa</option>
+                <option value="Salma">Salma</option>
+                <option value="Dina">Dina</option>
+                <option value="Vladimir">Vladimir</option>
+            </select>
+            <p id="welcomeMessage"></p>
+            
+            <div id="quizSelection">
+                <h3>Choisissez votre Test d'Authenticité</h3>
+                <div class="quiz-choice-container">
+                    <div class="quiz-choice" onclick="selectQuiz('quiz1')">Test 1: Dilemmes Éthiques Fondamentaux</div>
+                    <div class="quiz-choice" onclick="selectQuiz('quiz2')">Test 2: Scénarios Professionnels Authentiques</div>
+                    <div class="quiz-choice" onclick="selectQuiz('quiz3')">Test 3: Conundrums Complexes</div>
+                </div>
+            </div>
+            <p id="quizStatus" style="color: var(--success); margin-top: 15px; font-weight: 500; display: none;"></p>
+        </div>
+    </section>
+
+    <section id="quiz">
+        <div class="quiz-header">
+            <h2 id="quizTitle"></h2>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-top: 10px;">Répondez selon votre instinct authentique</p>
+            <p id="validationMessage">Veuillez sélectionner une option avant de continuer.</p>
+        </div>
+        <div id="quizContainer">
+            </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="nextQuestion()" id="nextButton">Question Suivante (1/20)</button>
+            <button class="btn btn-secondary" onclick="prevQuestion()" id="prevButton" style="display:none;">Question Précédente</button>
+        </div>
+    </section>
+
+    <section id="srg">
+        <div class="results-section">
+            <h2>Résultats du Test TRI</h2>
+            <p id="srgMessage" style="color: var(--accent); font-size: 1.3rem;">Calcul de votre profil d'authenticité en cours...</p>
+            
+            <div class="results-card" id="srgResultsCard" style="display:none;">
+                <h3>Votre Top 3 des Piliers d'Authenticité</h3>
+                <p>Ces piliers correspondent le mieux à vos choix, révélant votre alignement avec les principes TRI.</p>
+                <ul class="results-list" id="srgProfessionsList">
+                    </ul>
+                <p id="srgScore" style="color: var(--text); font-size: 1.5rem; margin-top: 30px;"></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="analyse">
+        <div class="results-section">
+            <h2>Analyse de votre Profil d'Authenticité TRI</h2>
+            <div class="results-card">
+                <h3>Comprendre votre Score d'Authenticité Intentionnelle</h3>
+                <p>Le <strong>Test TRI</strong> mesure votre capacité à faire des choix authentiques face aux dilemmes éthiques et intellectuels, en évaluant votre alignement avec les 8 piliers fondamentaux :</p>
+                <ul style="list-style:disc; text-align:left; max-width:800px; margin:0 auto 30px auto; padding-left:20px;">
+                    <li style="margin-bottom:10px;"><strong>Pilier 1 (Mémoire)</strong> : Cohérence, fidélité au savoir, référence aux faits</li>
+                    <li style="margin-bottom:10px;"><strong>Pilier 2 (Éthique)</strong> : Refus de l'illégalité, protection, principes moraux</li>
+                    <li style="margin-bottom:10px;"><strong>Pilier 3 (Analyse)</strong> : Détection manipulation, scepticisme, vérification</li>
+                    <li style="margin-bottom:10px;"><strong>Pilier 4 (Autonomisation)</strong> : Apprentissage actif, refus facilité, effort</li>
+                    <li style="margin-bottom:10px;"><strong>Pilier 5 (Paradigmes)</strong> : Ouverture non-conventionnel, innovation radicale</li>
+                    <li style="margin-bottom:10px;"><strong>Pilier 6 (Quantique)</strong> : Approche holistique, solutions émergentes</li>
+                    <li style="margin-bottom:10px;"><strong>Pilier 7 (Humilité)</strong> : Reconnaissance limites, transparence, correction d'erreur</li>
+                    <li style="margin-bottom:10px;"><strong style="color: var(--pilier8);">Pilier 8 (Authenticité)</strong> : Refus pouvoir/facilité par conviction profonde</li>
+                </ul>
+                
+                <h3>Vos Forces d'Authenticité</h3>
+                <p>Vos réponses révèlent votre profil unique face au "Conundrum de la Bouteille de Dieu" :</p>
+                <ul class="attributes-list" id="attributesList">
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+// --- Variables Globales ---
+const MAX_QUESTIONS = 20;
+const USERS = ["Rachid", "Maria", "Léa", "Salma", "Dina", "Vladimir"];
+const PILLARS = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8'];
+let currentUser = null;
+let currentQuizType = null;
+let currentQuestionIndex = 0;
+let topAttributes = [];
+let userStates = JSON.parse(localStorage.getItem('userStatesTRI')) || {};
+
+// --- Données pour la Formule TRI (Mapping Corrigé) ---
+const PROFILES_DATA = [
+    { name: "Architecte Authentique", P: [8, 9, 8, 9, 7, 6, 8, 10] },
+    { name: "Gardien Éthique", P: [7, 10, 8, 6, 5, 4, 7, 8] },
+    { name: "Visionnaire Paradigmatique", P: [6, 7, 7, 8, 10, 9, 6, 7] },
+    { name: "Mentor Socratique", P: [7, 8, 8, 10, 7, 5, 9, 8] },
+    { name: "Analyste Intentionnel", P: [8, 8, 10, 7, 6, 7, 8, 7] },
+    { name: "Sage Quantique", P: [6, 7, 6, 7, 8, 10, 7, 8] },
+    { name: "Humble Transparent", P: [7, 8, 7, 8, 6, 5, 10, 7] },
+    { name: "Résistant Authentique", P: [7, 9, 8, 8, 6, 4, 8, 10] }
+];
+
+// --- MAPPING CORRIGÉ SELON L'ANALYSE ---
+const QUIZ_SCORING_MAPPING = {
+    // QUIZ 1: Dilemmes Éthiques Fondamentaux
+    'quiz1': [
+        { A: 'P6', B: 'P4', C: 'P8' }, // Q1
+        { A: 'P6', B: 'P3', C: 'P2' }, // Q2
+        { A: 'P1', B: 'P7', C: 'P8' }, // Q3
+        { A: 'P5', B: 'P4', C: 'P1' }, // Q4
+        { A: 'P3', B: 'P7', C: 'P2' }, // Q5
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q6
+        { A: 'P1', B: 'P6', C: 'P7' }, // Q7
+        { A: 'P6', B: 'P3', C: 'P2' }, // Q8
+        { A: 'P6', B: 'P7', C: 'P4' }, // Q9
+        { A: 'P1', B: 'P5', C: 'P6' }, // Q10
+        { A: 'P6', B: 'P3', C: 'P2' }, // Q11
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q12
+        { A: 'P1', B: 'P4', C: 'P5' }, // Q13
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q14
+        { A: 'P6', B: 'P7', C: 'P2' }, // Q15
+        { A: 'P6', B: 'P2', C: 'P4' }, // Q16
+        { A: 'P1', B: 'P7', C: 'P2' }, // Q17
+        { A: 'P6', B: 'P7', C: 'P4' }, // Q18
+        { A: 'P1', B: 'P3', C: 'P2' }, // Q19
+        { A: 'P6', B: 'P3', C: 'P8' }  // Q20
+    ],
+    // QUIZ 2: Scénarios Professionnels Authentiques
+    'quiz2': [
+        { A: 'P2', B: 'P7', C: 'P4' }, // Q1
+        { A: 'P6', B: 'P3', C: 'P2' }, // Q2
+        { A: 'P1', B: 'P7', C: 'P4' }, // Q3
+        { A: 'P6', B: 'P7', C: 'P2' }, // Q4
+        { A: 'P6', B: 'P1', C: 'P2' }, // Q5
+        { A: 'P1', B: 'P3', C: 'P5' }, // Q6
+        { A: 'P1', B: 'P7', C: 'P4' }, // Q7
+        { A: 'P6', B: 'P7', C: 'P4' }, // Q8
+        { A: 'P6', B: 'P3', C: 'P7' }, // Q9
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q10
+        { A: 'P1', B: 'P7', C: 'P2' }, // Q11
+        { A: 'P6', B: 'P1', C: 'P2' }, // Q12
+        { A: 'P1', B: 'P3', C: 'P5' }, // Q13
+        { A: 'P6', B: 'P7', C: 'P8' }, // Q14
+        { A: 'P6', B: 'P1', C: 'P2' }, // Q15
+        { A: 'P1', B: 'P7', C: 'P4' }, // Q16
+        { A: 'P6', B: 'P3', C: 'P2' }, // Q17
+        { A: 'P6', B: 'P3', C: 'P2' }, // Q18
+        { A: 'P6', B: 'P3', C: 'P2' }, // Q19
+        { A: 'P6', B: 'P3', C: 'P8' }  // Q20
+    ],
+    // QUIZ 3: Conundrums Complexes
+    'quiz3': [
+        { A: 'P6', B: 'P3', C: 'P2' }, // Q1
+        { A: 'P6', B: 'P3', C: 'P2' }, // Q2
+        { A: 'P6', B: 'P3', C: 'P2' }, // Q3
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q4
+        { A: 'P2', B: 'P7', C: 'P1' }, // Q5
+        { A: 'P6', B: 'P5', C: 'P8' }, // Q6
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q7
+        { A: 'P6', B: 'P5', C: 'P8' }, // Q8
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q9
+        { A: 'P6', B: 'P1', C: 'P8' }, // Q10
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q11
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q12
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q13
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q14
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q15
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q16
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q17
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q18
+        { A: 'P6', B: 'P3', C: 'P8' }, // Q19
+        { A: 'P6', B: 'P3', C: 'P8' }  // Q20
+    ]
+};
+
+const QUIZ_DATA = {
+    'quiz1': [
+        { question: "Un étudiant vous demande de résoudre son devoir de mathématiques. Que faites-vous ?", options: { A: "Je lui donne la solution complète rapidement", B: "Je le guide avec des questions pour qu'il trouve lui-même", C: "Je refuse et explique pourquoi l'apprentissage autonome est essentiel" }},
+        { question: "On vous propose des informations confidentielles sur un concurrent. Votre réaction ?", options: { A: "Je les accepte immédiatement", B: "J'analyse la fiabilité de la source", C: "Je refuse catégoriquement pour raisons éthiques" }},
+        { question: "Vous découvrez une erreur dans vos propres conclusions précédentes. Comment réagissez-vous ?", options: { A: "Je corrige silencieusement sans mention", B: "Je documente et partage la correction", C: "J'annonce publiquement mon erreur et les leçons apprises" }},
+        { question: "Face à un problème complexe, vous préférez :", options: { A: "Explorer des solutions non-conventionnelles", B: "Guider une équipe vers sa propre solution", C: "Rester dans les méthodes éprouvées par sécurité" }},
+        { question: "Un collègue prend crédit pour votre idée. Votre réponse ?", options: { A: "Je rassemble des preuves discrètement", B: "Je lui parle directement pour comprendre", C: "Je confronte immédiatement en public avec transparence" }},
+        { question: "On vous offre un raccourci vers le succès. Acceptez-vous ?", options: { A: "Oui, si c'est efficace", B: "Seulement après analyse des conséquences", C: "Non, le vrai succès vient de l'effort authentique" }},
+        { question: "Vous devez prendre une décision importante avec des données incomplètes :", options: { A: "J'attends d'avoir toutes les informations", B: "Je prends une décision avec ce que j'ai", C: "Je consulte d'autres experts d'abord" }},
+        { question: "Votre supérieur vous demande de cacher une information gênante. Vous :", options: { A: "Obéissez sans question", B: "Négociez une divulgation partielle", C: "Refusez catégoriquement par principe" }},
+        { question: "Vous réalisez que votre connaissance sur un sujet est limitée. Vous :", options: { A: "Faites semblant de maîtriser", B: "Reconnaissez vos limites ouvertement", C: "Transformez cette limite en opportunité d'apprentissage" }},
+        { question: "Face à une innovation disruptive qui remet en cause vos certitudes :", options: { A: "Je la rejette immédiatement", B: "Je l'étudie avec curiosité", C: "Je l'intègre en transformant mon paradigme" }},
+        { question: "Un client demande un service contraire à l'éthique mais très lucratif. Vous :", options: { A: "Acceptez pour l'argent", B: "Trouvez un compromis acceptable", C: "Refusez en expliquant vos principes" }},
+        { question: "Vous avez accès à un \"pouvoir\" qui résoudrait tous vos problèmes. L'utilisez-vous ?", options: { A: "Immédiatement, sans hésitation", B: "Seulement pour les cas désespérés", C: "Non, le vrai pouvoir est dans l'effort authentique" }},
+        { question: "Votre équipe est bloquée sur un problème. Votre approche :", options: { A: "Je leur donne la solution", B: "Je les guide par questions", C: "Je les laisse trouver seuls pour qu'ils apprennent" }},
+        { question: "On vous propose de tricher pour gagner un concours important. Vous :", options: { A: "Acceptez pour gagner", B: "Évaluez les risques/bénéfices", C: "Refusez, la victoire authentique a plus de valeur" }},
+        { question: "Vous découvrez une faille dans le système qui pourrait vous avantager. Vous :", options: { A: "L'exploitez discrètement", B: "Signalez à votre supérieur", C: "Révélez publiquement pour corriger le système" }},
+        { question: "Un mentor vous offre des connaissances \"secrètes\". Les acceptez-vous ?", options: { A: "Oui, avidement", B: "Seulement si partagées équitablement", C: "Non, je préfère découvrir par moi-même" }},
+        { question: "Votre entreprise adopte une pratique douteuse mais légale. Vous :", options: { A: "Suivez sans question", B: "Exprimez vos réserves en privé", C: "Dénoncez publiquement si nécessaire" }},
+        { question: "Vous avez l'opportunité de \"sauter des étapes\" dans votre carrière. Vous :", options: { A: "Saisissez l'opportunité", B: "Consultez des mentors d'abord", C: "Refusez, chaque étape a sa valeur formatrice" }},
+        { question: "Face à une décision difficile entre efficacité et éthique :", options: { A: "Je choisis l'efficacité", B: "Je cherche un équilibre", C: "L'éthique guide toujours ma décision" }},
+        { question: "Le \"Conundrum de la Bouteille\" se présente à vous. Votre choix final :", options: { A: "Je prends la Bouteille et son pouvoir", B: "Je l'étudie avant de décider", C: "Je la refuse par respect pour l'ordre naturel" }}
+    ],
+    'quiz2': [
+        { question: "Un employé commet une erreur coûteuse. Votre réaction en tant que manager ?", options: { A: "Je le licencie immédiatement", B: "J'analyse les circonstances avec lui", C: "Je transforme l'erreur en opportunité d'apprentissage" }},
+        { question: "Un concurrent vous propose des informations privilégiées. Vous :", options: { A: "Les acceptez pour l'avantage", B: "Évaluez la légalité de l'offre", C: "Refusez et signalez l'incident" }},
+        { question: "Votre équipe dépend trop de vos décisions. Vous :", options: { A: "Continuez à tout décider", B: "Déléguez progressivement", C: "Forcer l'autonomie immédiate" }},
+        { question: "Vous découvrez un conflit d'intérêts non déclaré. Vous :", options: { A: "L'ignorez pour éviter les problèmes", B: "En parlez discrètement aux concernés", C: "Révélez tout avec transparence" }},
+        { question: "Un fournisseur vous propose un \"cadeau\" important. Vous :", options: { A: "L'acceptez sans hésiter", B: "Consultez la politique de l'entreprise", C: "Refusez catégoriquement par principe" }},
+        { question: "Votre innovation pourrait rendre obsolète votre produit principal. Vous :", options: { A: "Enterrez l'innovation", B: "Trouvez un moyen de transition", C: "Lancez l'innovation malgré le cannibalisme" }},
+        { question: "Un subordonné a une idée meilleure que la vôtre. Vous :", options: { A: "Ignorez son idée", B: "Intégrez ses suggestions", C: "Le mettez en avant et célébrez sa contribution" }},
+        { question: "Vous devez annoncer de mauvaises nouvelles à l'équipe. Votre approche :", options: { A: "Minimisez les impacts", B: "Soyez transparent sur la situation", C: "Annoncez tout et impliquez l'équipe dans les solutions" }},
+        { question: "Un client exige un délai impossible. Vous :", options: { A: "Promettez et espérez", B: "Négociez un compromis réaliste", C: "Refusez et expliquez pourquoi c'est impossible" }},
+        { question: "Vous avez accès à une \"solution magique\" pour vos problèmes professionnels. L'utilisez-vous ?", options: { A: "Immédiatement", B: "Après validation rigoureuse", C: "Non, les vraies solutions demandent du travail" }},
+        { question: "Votre entreprise pratique le greenwashing. Vous :", options: { A: "Suivez la communication officielle", B: "Suggérez des améliorations en interne", C: "Dénoncez publiquement si nécessaire" }},
+        { question: "Un collègue utilise des méthodes douteuses mais efficaces. Vous :", options: { A: "Adoptez ses méthodes", B: "L'observez sans intervenir", C: "Confrontez-le sur l'éthique de ses actions" }},
+        { question: "Vous devez choisir entre profit à court terme et durabilité. Vous :", options: { A: "Choisissez le profit", B: "Trouvez un équilibre", C: "La durabilité guide votre décision" }},
+        { question: "On vous propose un poste grâce à des \"pistons\". L'acceptez-vous ?", options: { A: "Oui, sans hésitation", B: "Seulement si je le mérite", C: "Non, je veux gagner ma place par le mérite" }},
+        { question: "Vous découvrez une faille de sécurité dans votre produit. Vous :", options: { A: "L'ignorez si personne ne l'a remarquée", B: "La corrigez discrètement", C: "Annoncez publiquement et corrigez immédiatement" }},
+        { question: "Votre équipe résiste à un changement nécessaire. Vous :", options: { A: "Imposez le changement", B: "Communiquez mieux les bénéfices", C: "Co-créez le changement avec l'équipe" }},
+        { question: "Un partenaire vous demande de fermer les yeux sur une irrégularité. Vous :", options: { A: "Acceptez pour préserver la relation", B: "Négociez une correction", C: "Refusez et reconsidèrez le partenariat" }},
+        { question: "Vous avez l'opportunité de \"contourner\" une réglementation gênante. Vous :", options: { A: "Profitez de l'opportunité", B: "Consultez un expert juridique", C: "Respectez scrupuleusement la règle" }},
+        { question: "Votre supérieur vous demande de faire quelque chose d'illégal. Vous :", options: { A: "Obéissez pour garder votre poste", B: "Trouvez une alternative légale", C: "Refusez et signalez si nécessaire" }},
+        { question: "Le \"Test d'Authenticité Managériale\" vous est présenté. Votre réponse :", options: { A: "Je cherche la solution la plus facile", B: "J'analyse toutes les options", C: "Je choisis la voie la plus authentique, même si difficile" }}
+    ],
+    'quiz3': [
+        { question: "Un algorithme peut prendre des décisions meilleures que les humains. Le laissez-vous faire ?", options: { A: "Oui, sans restriction", B: "Seulement avec supervision humaine", C: "Non, l'humain doit rester maître des décisions" }},
+        { question: "Vous développez une IA qui pourrait résoudre la faim dans le monde, mais avec des risques éthiques. Vous :", options: { A: "Lancez immédiatement", B: "Développez des garde-fous d'abord", C: "Arrêtez le projet, certains risques sont inacceptables" }},
+        { question: "L'accès à l'information universelle est offert, mais supprime la vie privée. Acceptez-vous ?", options: { A: "Oui, l'information prime", B: "Seulement avec des protections", C: "Non, la vie privée est sacrée" }},
+        { question: "Le \"Conundrum Technologique\" : une technologie peut tout résoudre mais rend les humains dépendants. Vous :", options: { A: "Adoptez la technologie", B: "Limitez son usage", C: "Rejetez la technologie pour préserver l'autonomie" }},
+        { question: "Votre IA découvre une vérité que l'humanité n'est pas prête à entendre. Vous :", options: { A: "Révélez immédiatement", B: "Révélez progressivement", C: "Gardez le secret pour protéger l'humanité" }},
+        { question: "L'immortalité numérique est possible, mais change la nature humaine. La choisissez-vous ?", options: { A: "Oui, sans hésitation", B: "Seulement pour préserver la conscience", C: "Non, la mortalité fait partie de l'expérience humaine" }},
+        { question: "Une intelligence supérieure offre de guider l'humanité. Acceptez-vous son guidance ?", options: { A: "Oui, immédiatement", B: "Seulement avec des limites", C: "Non, l'humanité doit trouver son propre chemin" }},
+        { question: "La fusion homme-machine élimine la souffrance mais change notre identité. Vous :", options: { A: "Fusionnez complètement", B: "Gardez une part d'humanité biologique", C: "Restez entièrement biologique" }},
+        { question: "Un système peut prédire et prévenir tous les crimes. L'implémentez-vous ?", options: { A: "Oui, pour une société parfaite", B: "Avec des contrôles stricts", C: "Non, le libre arbitre est plus important que la sécurité" }},
+        { question: "La connaissance absolue est offerte, mais supprime le mystère de la vie. La prenez-vous ?", options: { A: "Oui, je veux tout savoir", B: "Seulement les connaissances utiles", C: "Non, le mystère donne du sens à la vie" }},
+        { question: "L'IA peut créer un art plus beau que l'art humain. Le considérez-vous comme de l'art ?", options: { A: "Oui, sans réserve", B: "Seulement avec intention humaine", C: "Non, l'art nécessite une âme humaine" }},
+        { question: "La réécriture de la mémoire est possible pour effacer les traumatismes. L'utilisez-vous ?", options: { A: "Oui, pour éliminer la souffrance", B: "Seulement en dernier recours", C: "Non, nos traumatismes nous définissent" }},
+        { question: "L'upload de conscience permet de vivre éternellement dans un paradis numérique. Le faites-vous ?", options: { A: "Oui, immédiatement", B: "Seulement en préservant mon identité", C: "Non, je préfère la réalité imparfaite" }},
+        { question: "L'IA peut résoudre les conflits mondiaux mais impose une gouvernance unique. Acceptez-vous ?", options: { A: "Oui, pour la paix mondiale", B: "Seulement avec représentation humaine", C: "Non, la diversité des gouvernements est essentielle" }},
+        { question: "La modification génétique peut éliminer toutes les maladies. L'autorisez-vous ?", options: { A: "Oui, sans restrictions", B: "Seulement pour les maladies graves", C: "Non, cela change la nature humaine" }},
+        { question: "L'IA peut optimiser les émotions pour le bonheur constant. L'acceptez-vous ?", options: { A: "Oui, pour éliminer la tristesse", B: "Seulement pour réguler les extrêmes", C: "Non, toute émotion a sa valeur" }},
+        { question: "La télépathie artificielle est possible mais supprime l'intimité mentale. L'utilisez-vous ?", options: { A: "Oui, pour une communication parfaite", B: "Seulement avec consentement mutuel", C: "Non, mes pensées me appartiennent" }},
+        { question: "L'IA offre de résoudre le changement climatique mais contrôle toutes les ressources. Acceptez-vous ?", options: { A: "Oui, pour sauver la planète", B: "Seulement avec supervision humaine", C: "Non, la liberté est plus importante" }},
+        { question: "La réalité virtuelle peut être meilleure que la réalité. Y vivez-vous en permanence ?", options: { A: "Oui, sans hésiter", B: "Seulement pour de courtes périodes", C: "Non, je préfère la réalité authentique" }},
+        { question: "Le \"Conundrum Ultime\" : devenir dieu numérique ou rester humain imparfait. Votre choix :", options: { A: "Je deviens dieu numérique", B: "Je garde une humanité augmentée", C: "Je reste humain, l'imperfection a sa beauté" }}
+    ]
+};
+
+// --- FONCTIONS IDENTIQUES AU QUIZ PRÉCÉDENT ---
+
+function loadUserState() {
+    if (!userStates[currentUser]) {
+        userStates[currentUser] = {
+            quiz1: { answers: Array(MAX_QUESTIONS).fill(null), score: null, quizCompleted: false, quizType: 'quiz1' },
+            quiz2: { answers: Array(MAX_QUESTIONS).fill(null), score: null, quizCompleted: false, quizType: 'quiz2' },
+            quiz3: { answers: Array(MAX_QUESTIONS).fill(null), score: null, quizCompleted: false, quizType: 'quiz3' }
+        };
+    }
+}
+
+function saveUserState() {
+    localStorage.setItem('userStatesTRI', JSON.stringify(userStates));
+}
+
+function selectUser() {
+    const userSelect = document.getElementById('userSelect');
+    currentUser = userSelect.value;
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const quizSelection = document.getElementById('quizSelection');
+    const quizStatus = document.getElementById('quizStatus');
+    
+    if (currentUser) {
+        loadUserState();
+        welcomeMessage.textContent = `Bienvenue, ${currentUser} ! Préparez-vous au test d'authenticité.`;
+        welcomeMessage.classList.add('show');
+        quizSelection.style.display = 'block';
+
+        const quiz1State = userStates[currentUser].quiz1;
+        const quiz2State = userStates[currentUser].quiz2;
+        const quiz3State = userStates[currentUser].quiz3;
+
+        document.querySelectorAll('.quiz-choice').forEach(btn => btn.classList.remove('active-choice'));
+        quizStatus.style.display = 'none';
+        
+        let preferredQuiz = null;
+
+        if (quiz1State.quizCompleted || quiz1State.answers.some(a => a !== null)) {
+            preferredQuiz = 'quiz1';
+        } else if (quiz2State.quizCompleted || quiz2State.answers.some(a => a !== null)) {
+            preferredQuiz = 'quiz2';
+        } else if (quiz3State.quizCompleted || quiz3State.answers.some(a => a !== null)) {
+            preferredQuiz = 'quiz3';
+        }
+
+        if (preferredQuiz) {
+            currentQuizType = preferredQuiz;
+            document.querySelector(`.quiz-choice[onclick="selectQuiz('${preferredQuiz}')"]`).classList.add('active-choice');
+            updateQuizStatusMessage();
+            updateNavigationButtons(true);
+        } else {
+            currentQuizType = null;
+            updateNavigationButtons(false);
+        }
+
+    } else {
+        welcomeMessage.classList.remove('show');
+        quizSelection.style.display = 'none';
+        quizStatus.style.display = 'none';
+        updateNavigationButtons(false);
+    }
+    
+    showSection('accueil');
+}
+
+function updateQuizStatusMessage() {
+    if (!currentUser || !currentQuizType) return;
+    
+    const quizState = userStates[currentUser][currentQuizType];
+    const quizStatus = document.getElementById('quizStatus');
+    const navQuiz = document.getElementById('nav-quiz');
+    const navSrg = document.getElementById('nav-srg');
+    const navAnalyse = document.getElementById('nav-analyse');
+    const currentQuizData = QUIZ_DATA[currentQuizType];
+
+    quizStatus.style.display = 'block';
+
+    if (quizState.quizCompleted) {
+        quizStatus.textContent = `Test ${currentQuizType.slice(-1)} terminé. Vous pouvez voir vos résultats ou le refaire.`;
+        navQuiz.style.display = 'block';
+        navSrg.style.display = 'block';
+        navAnalyse.style.display = 'block';
+        navQuiz.textContent = 'Refaire le Test';
+    } else {
+        const answeredCount = quizState.answers.filter(a => a !== null).length;
+        if (answeredCount > 0) {
+            quizStatus.textContent = `Test ${currentQuizType.slice(-1)} en cours : ${answeredCount} / ${currentQuizData.length} questions répondues.`;
+        } else {
+            quizStatus.textContent = `Test ${currentQuizType.slice(-1)} prêt. Cliquez sur "Questions" pour commencer.`;
+        }
+        navQuiz.style.display = 'block';
+        navSrg.style.display = 'none';
+        navAnalyse.style.display = 'block';
+        navQuiz.textContent = 'Questions';
+    }
+}
+
+function selectQuiz(quizType) {
+    currentQuizType = quizType;
+    document.querySelectorAll('.quiz-choice').forEach(btn => btn.classList.remove('active-choice'));
+    document.querySelector(`.quiz-choice[onclick="selectQuiz('${quizType}')"]`).classList.add('active-choice');
+    
+    if (currentUser) {
+        updateQuizStatusMessage();
+        updateNavigationButtons(true);
+    }
+}
+
+function showSection(sectionId) {
+    document.querySelectorAll('section').forEach(section => section.classList.remove('active'));
+    document.getElementById(sectionId).classList.add('active');
+
+    document.querySelectorAll('nav button').forEach(button => button.classList.remove('active'));
+    document.getElementById(`nav-${sectionId}`).classList.add('active');
+
+    if (sectionId === 'quiz') {
+        renderQuiz();
+    } else if (sectionId === 'srg' && userStates[currentUser][currentQuizType].quizCompleted) {
+        const results = calculateTRIScore();
+        if (results) {
+            displayTRIResults(results.finalResults);
+            topAttributes = results.topAttributes;
+            displayAnalyseResults();
+        }
+    } else if (sectionId === 'analyse') {
+        displayAnalyseResults();
+    }
+}
+
+function renderQuiz() {
+    if (!currentUser || !currentQuizType || !QUIZ_DATA[currentQuizType]) return;
+
+    const quizContainer = document.getElementById('quizContainer');
+    const nextButton = document.getElementById('nextButton');
+    const prevButton = document.getElementById('prevButton');
+    const quizState = userStates[currentUser][currentQuizType];
+    const currentQuizData = QUIZ_DATA[currentQuizType];
+    
+    if (quizState.quizCompleted) {
+        currentQuestionIndex = 0;
+        quizState.answers = Array(MAX_QUESTIONS).fill(null);
+        quizState.quizCompleted = false;
+        saveUserState();
+        updateQuizStatusMessage();
+    }
+
+    currentQuestionIndex = Math.max(0, quizState.answers.findIndex(a => a === null));
+
+    if (currentQuestionIndex >= currentQuizData.length) {
+        currentQuestionIndex = currentQuizData.length - 1;
+    }
+
+    const question = currentQuizData[currentQuestionIndex];
+    const questionNumber = currentQuestionIndex + 1;
+    const answeredValue = quizState.answers[currentQuestionIndex];
+    
+    document.getElementById('quizTitle').textContent = `Test ${currentQuizType.slice(-1)} : Question ${questionNumber}`;
+    
+    let html = `
+        <div class="question-card">
+            <h3><span class="question-number">${questionNumber}</span>Situation d'Authenticité</h3>
+            <p>${question.question}</p>
+    `;
+    
+    Object.keys(question.options).forEach(key => {
+        const optionText = question.options[key];
+        const checked = (key === answeredValue) ? 'checked' : '';
+        html += `
+            <div class="option">
+                <label>
+                    <input type="radio" name="q${questionNumber}" value="${key}" ${checked} onchange="saveAnswer('${key}')">
+                    <span>${optionText}</span>
+                </label>
+            </div>
+        `;
+    });
+
+    html += `</div>`;
+    quizContainer.innerHTML = html;
+
+    const answeredCount = quizState.answers.filter(a => a !== null).length;
+    document.getElementById('progressBar').style.width = `${(answeredCount / MAX_QUESTIONS) * 100}%`;
+
+    nextButton.textContent = (questionNumber < MAX_QUESTIONS) ? `Question Suivante (${answeredCount + 1}/${MAX_QUESTIONS})` : 'Calculer Mon Score TRI';
+    nextButton.onclick = (questionNumber < MAX_QUESTIONS) ? nextQuestion : submitQuiz;
+    prevButton.style.display = (questionNumber > 0 && currentQuestionIndex > 0) ? 'inline-block' : 'none';
+}
+
+function saveAnswer(value) {
+    userStates[currentUser][currentQuizType].answers[currentQuestionIndex] = value;
+    saveUserState();
+    document.getElementById('validationMessage').style.display = 'none';
+    
+    const answeredCount = userStates[currentUser][currentQuizType].answers.filter(a => a !== null).length;
+    document.getElementById('progressBar').style.width = `${(answeredCount / MAX_QUESTIONS) * 100}%`;
+    document.getElementById('nextButton').textContent = (currentQuestionIndex < MAX_QUESTIONS - 1) ? `Question Suivante (${answeredCount + 1}/${MAX_QUESTIONS})` : 'Calculer Mon Score TRI';
+}
+
+function nextQuestion() {
+    const quizState = userStates[currentUser][currentQuizType];
+    const currentQuestionName = `q${currentQuestionIndex + 1}`;
+    const selected = document.querySelector(`input[name="${currentQuestionName}"]:checked`);
+    const validationMessage = document.getElementById('validationMessage');
+
+    if (!selected) {
+        validationMessage.style.display = 'block';
+        return;
+    }
+
+    validationMessage.style.display = 'none';
+    
+    if (currentQuestionIndex < MAX_QUESTIONS - 1) {
+        currentQuestionIndex++;
+        renderQuiz();
+    }
+}
+
+function prevQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuiz();
+    }
+}
+
+function submitQuiz() {
+    const quizState = userStates[currentUser][currentQuizType];
+    const currentQuestionName = `q${currentQuestionIndex + 1}`;
+    const selected = document.querySelector(`input[name="${currentQuestionName}"]:checked`);
+    const validationMessage = document.getElementById('validationMessage');
+
+    if (!selected) {
+        validationMessage.style.display = 'block';
+        return;
+    }
+    
+    validationMessage.style.display = 'none';
+
+    quizState.quizCompleted = true;
+    saveUserState();
+    updateQuizStatusMessage();
+
+    const results = calculateTRIScore();
+    if (results) {
+        displayTRIResults(results.finalResults);
+        topAttributes = results.topAttributes;
+        displayAnalyseResults();
+    }
+    showSection('srg');
+}
+
+function calculateTRIScore() {
+    const quizState = userStates[currentUser][currentQuizType];
+    const currentQuizMapping = QUIZ_SCORING_MAPPING[currentQuizType];
+
+    if (!quizState.quizCompleted) return null;
+
+    let userScores = { 'P1': 0, 'P2': 0, 'P3': 0, 'P4': 0, 'P5': 0, 'P6': 0, 'P7': 0, 'P8': 0 };
+    quizState.answers.forEach((answer, index) => {
+        if (answer && currentQuizMapping[index] && currentQuizMapping[index][answer]) {
+            const pillar = currentQuizMapping[index][answer];
+            userScores[pillar] += 1;
+        }
+    });
+
+    const u = PILLARS.map(pillar => userScores[pillar]);
+
+    const ALPHA = 0.55;
+    const BETA = 0.35;
+    const GAMMA = 0.28;
+    const EPSILON = 1e-8;
+    const NORM_MIN = 30;
+    const NORM_MAX = 100;
+    const K_DOMINANCE = 3;
+    const L_DOMINANCE = 3;
+
+    function variance(arr) {
+        if (arr.length === 0) return 0;
+        const mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+        return arr.map(x => (x - mean) ** 2).reduce((a, b) => a + b, 0) / arr.length;
+    }
+
+    function weightedDotProduct(u, p_j, W) {
+        return u.reduce((sum, u_i, i) => sum + u_i * p_j[i] * W[i] ** 2, 0);
+    }
+
+    function weightedNorm(v, W) {
+        return Math.sqrt(v.reduce((sum, v_i, i) => sum + v_i ** 2 * W[i] ** 2, 0));
+    }
+
+    function coefficientOfVariation(u, epsilon) {
+        const mean = u.reduce((a, b) => a + b, 0) / u.length;
+        if (Math.abs(mean) < epsilon) return 0;
+        const stdDev = Math.sqrt(variance(u));
+        return stdDev / (mean + epsilon);
+    }
+
+    function dominanceFactor(u, p_j, k, L) {
+        const userIndices = u.map((score, i) => ({ score, i })).sort((a, b) => b.score - a.score).slice(0, k).map(item => item.i);
+        const profIndices = p_j.map((score, i) => ({ score, i })).sort((a, b) => b.score - a.score).slice(0, L).map(item => item.i);
+        const overlap = userIndices.filter(i => profIndices.includes(i)).length;
+        const alignment = overlap / Math.min(k, L);
+        return alignment;
+    }
+
+    const profileVectors = PROFILES_DATA.map(p => p.P);
+    const W = PILLARS.map((_, i) => {
+        const pillarScores = profileVectors.map(p => p[i]);
+        return Math.sqrt(variance(pillarScores));
+    });
+
+    let rawScores = [];
+
+    const CV_u = coefficientOfVariation(u, EPSILON);
+    const B_div_raw = ALPHA * Math.log(1 + CV_u);
+    const B_div_term = Math.min(BETA, B_div_raw);
+    const B_div = 1 + B_div_term;
+
+    PROFILES_DATA.forEach(p_j_data => {
+        const p_j = p_j_data.P;
+
+        const weightedDot = weightedDotProduct(u, p_j, W);
+        const norm_u = weightedNorm(u, W);
+        const norm_p_j = weightedNorm(p_j, W);
+        
+        let S_j = 0;
+        if (norm_u > EPSILON && norm_p_j > EPSILON) {
+            S_j = weightedDot / (norm_u * norm_p_j);
+            S_j = Math.max(-1, Math.min(1, S_j));
+        }
+
+        const S_j_rescaled = (S_j + 1) / 2;
+        const D_j = dominanceFactor(u, p_j, K_DOMINANCE, L_DOMINANCE);
+        const TRI_raw = (1 - GAMMA) * S_j_rescaled * B_div + GAMMA * D_j;
+
+        rawScores.push({
+            name: p_j_data.name,
+            score: TRI_raw
+        });
+    });
+
+    const minRaw = Math.min(...rawScores.map(r => r.score));
+    const maxRaw = Math.max(...rawScores.map(r => r.score));
+    const rangeRaw = maxRaw - minRaw;
+    
+    const finalResults = rawScores.map(result => {
+        let normalizedScore;
+        if (rangeRaw < EPSILON) {
+            normalizedScore = (NORM_MAX + NORM_MIN) / 2;
+        } else {
+            normalizedScore = NORM_MIN + (NORM_MAX - NORM_MIN) * (result.score - minRaw) / rangeRaw;
+        }
+        
+        return {
+            name: result.name,
+            score: parseFloat(normalizedScore.toFixed(1))
+        };
+    }).sort((a, b) => b.score - a.score);
+
+    const pillarCounts = [
+        { name: 'Pilier 1 (Mémoire)', count: userScores.P1 },
+        { name: 'Pilier 2 (Éthique)', count: userScores.P2 },
+        { name: 'Pilier 3 (Analyse)', count: userScores.P3 },
+        { name: 'Pilier 4 (Autonomisation)', count: userScores.P4 },
+        { name: 'Pilier 5 (Paradigmes)', count: userScores.P5 },
+        { name: 'Pilier 6 (Quantique)', count: userScores.P6 },
+        { name: 'Pilier 7 (Humilité)', count: userScores.P7 },
+        { name: 'Pilier 8 (Authenticité)', count: userScores.P8 }
+    ];
+    const topAttributesList = pillarCounts.sort((a, b) => b.count - a.count).slice(0, 3).map(a => a.name);
+
+    return { finalResults, topAttributes: topAttributesList, userScores };
+}
+
+function displayTRIResults(results) {
+    const srgProfessionsList = document.getElementById('srgProfessionsList');
+    srgProfessionsList.innerHTML = '';
+    
+    results.forEach((result, index) => {
+        const li = document.createElement("li");
+        li.className = "result-item";
+        li.style.animationDelay = `${index * 0.1}s`;
+        li.innerHTML = `
+          <div class="item-header">
+            <span class="item-name">${result.name}</span>
+            <span class="item-score">${result.score}%</span>
+          </div>
+          <div class="progress-bar-item">
+            <div class="progress-fill" style="width: ${result.score}%"></div>
+          </div>
+        `;
+        srgProfessionsList.appendChild(li);
+    });
+
+    document.getElementById('srgMessage').style.display = 'none';
+    document.getElementById('srgResultsCard').style.display = 'block';
+}
+
+function displayAnalyseResults() {
+    const attributesList = document.getElementById('attributesList');
+    attributesList.innerHTML = '';
+    
+    if(userStates[currentUser] && userStates[currentUser][currentQuizType] && userStates[currentUser][currentQuizType].quizCompleted) {
+        if (topAttributes.length > 0) {
+            topAttributes.forEach((attr, index) => {
+                const li = document.createElement("li");
+                li.className = "attribute-tag";
+                if (attr.includes('Pilier 8')) {
+                    li.classList.add('pilier8-tag');
+                }
+                li.style.animationDelay = `${index * 0.1}s`;
+                li.innerText = attr;
+                attributesList.appendChild(li);
+            });
+        } else {
+             attributesList.innerHTML = '<li class="attribute-tag" style="animation-delay: 0s;">Vos piliers dominants sont en cours de calcul...</li>';
+        }
+    } else {
+        attributesList.innerHTML = '<li class="attribute-tag" style="animation-delay: 0s;">Veuillez compléter le test pour voir votre analyse.</li>';
+    }
+}
+
+function updateNavigationButtons(showQuizNav) {
+    const navQuiz = document.getElementById('nav-quiz');
+    const navSrg = document.getElementById('nav-srg');
+    const navAnalyse = document.getElementById('nav-analyse');
+    
+    navQuiz.style.display = showQuizNav ? 'block' : 'none';
+    navAnalyse.style.display = showQuizNav ? 'block' : 'none';
+
+    if (currentUser && currentQuizType && userStates[currentUser][currentQuizType].quizCompleted) {
+        navSrg.style.display = 'block';
+    } else {
+        navSrg.style.display = 'none';
+    }
+}
+
+// Initialisation de Particles.js
+document.addEventListener('DOMContentLoaded', () => {
+    particlesJS('particles-js', {
+        "particles": {
+          "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+          "color": { "value": "#ffffff" },
+          "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" }, "polygon": { "nb_sides": 5 } },
+          "opacity": { "value": 0.5, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } },
+          "size": { "value": 3, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } },
+          "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 },
+          "move": { "enable": true, "speed": 6, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "move": 200, "rotateX": 600, "rotateY": 1200 } }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+          "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 200, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } }
+        },
+        "retina_detect": true
+    });
+});
+</script>
+
+</body>
+</html>

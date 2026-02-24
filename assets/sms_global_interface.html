@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS v6.0 - Système de Modélisation Stratégique Mondiale</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --blue-400: #60a5fa;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --blue-900: #1e3a8a;
+            --slate-100: #f1f5f9;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --slate-950: #020617;
+            --purple-400: #a78bfa;
+            --purple-500: #8b5cf6;
+            --green-400: #34d399;
+            --green-500: #10b981;
+            --red-400: #f87171;
+            --orange-400: #fb923c;
+            --yellow-400: #fbbf24;
+            --cyan-400: #22d3ee;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
+            color: #f1f5f9;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .animate-slideDown {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .border-gradient {
+            border-image: linear-gradient(45deg, #3b82f6, #8b5cf6) 1;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Scrollbar personnalisée */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.8);
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: rgba(15, 23, 42, 0.95);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Sidebar -->
+    <div class="fixed left-0 top-0 bottom-0 w-56 bg-slate-900/90 backdrop-blur-xl border-r border-blue-500/20 overflow-y-auto z-50">
+        <div class="p-4 border-b border-slate-700">
+            <h1 class="text-2xl font-black flex items-center gap-2">
+                <i class="fas fa-globe-americas text-blue-400"></i>
+                SMS <span class="text-blue-400">v6.0</span>
+            </h1>
+            <p class="text-xs text-slate-500 mt-1">Ultimate Global System</p>
+        </div>
+        
+        <nav class="p-2">
+            <button onclick="setView('home')" id="nav-home" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition group bg-blue-600 text-white shadow-lg mb-2">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-home"></i>
+                    <span class="text-sm font-medium">Accueil</span>
+                </div>
+            </button>
+            
+            <button onclick="setView('simulator')" id="nav-simulator" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition group text-slate-400 hover:bg-slate-800 hover:text-white mb-2">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-bolt"></i>
+                    <span class="text-sm font-medium">Simulateur</span>
+                </div>
+                <span id="simulator-badge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 group-hover:bg-slate-600"></span>
+            </button>
+            
+            <button onclick="setView('globe')" id="nav-globe" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition group text-slate-400 hover:bg-slate-800 hover:text-white mb-2">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-map"></i>
+                    <span class="text-sm font-medium">Globe</span>
+                </div>
+                <span id="globe-badge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 group-hover:bg-slate-600">30</span>
+            </button>
+            
+            <button onclick="setView('top')" id="nav-top" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition group text-slate-400 hover:bg-slate-800 hover:text-white mb-2">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="text-sm font-medium">Top Flux</span>
+                </div>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-slate-700 group-hover:bg-slate-600">15</span>
+            </button>
+            
+            <button onclick="setView('regions')" id="nav-regions" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition group text-slate-400 hover:bg-slate-800 hover:text-white mb-2">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="text-sm font-medium">Blocs</span>
+                </div>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-slate-700 group-hover:bg-slate-600">10</span>
+            </button>
+            
+            <button onclick="setView('compare')" id="nav-compare" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition group text-slate-400 hover:bg-slate-800 hover:text-white">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-filter"></i>
+                    <span class="text-sm font-medium">Comparateur</span>
+                </div>
+                <span id="compare-badge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 group-hover:bg-slate-600"></span>
+            </button>
+        </nav>
+        
+        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-700 text-xs text-slate-600">
+            <p>© 2025 SMS v6.0</p>
+            <p id="stats-summary" class="text-slate-700">30 Pays • 435 Paires</p>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="ml-56 p-6" id="main-content">
+        <!-- Home View -->
+        <div id="home-view" class="space-y-6 animate-fadeIn">
+            <div class="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border-2 border-blue-500/30 rounded-2xl p-8 relative overflow-hidden">
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_70%)] animate-pulse"></div>
+                <div class="relative z-10">
+                    <h2 class="text-5xl font-black mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        Système de Modélisation Stratégique Mondiale
+                    </h2>
+                    <p class="text-xl text-slate-300 mb-6">
+                        Analyse géostratégique avancée • 30 pays • IA intégrée • Temps réel
+                    </p>
+                    <div class="flex gap-4">
+                        <button onclick="setView('simulator')" class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-bold hover:scale-105 transition shadow-xl">
+                            <i class="fas fa-bolt"></i>
+                            Lancer Simulation
+                        </button>
+                        <button onclick="setView('top')" class="flex items-center gap-2 px-6 py-3 bg-slate-700/80 rounded-xl font-bold hover:bg-slate-600 transition">
+                            <i class="fas fa-chart-line"></i>
+                            Top Flux
+                        </button>
+                        <button onclick="setView('compare')" class="flex items-center gap-2 px-6 py-3 bg-slate-700/80 rounded-xl font-bold hover:bg-slate-600 transition">
+                            <i class="fas fa-filter"></i>
+                            Comparateur
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-4 gap-4">
+                <div class="bg-gradient-to-br from-blue-900/20 to-blue-900/10 border border-blue-500/30 rounded-xl p-5 text-center hover:scale-105 transition cursor-pointer">
+                    <div class="text-xs text-slate-400 mb-2 uppercase tracking-wide">Pays Actifs</div>
+                    <div class="text-3xl font-black text-gradient">30</div>
+                    <div class="text-xs text-slate-500 mt-1">G20 + BRICS+ + Pivots</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-green-900/20 to-green-900/10 border border-green-500/30 rounded-xl p-5 text-center hover:scale-105 transition cursor-pointer">
+                    <div class="text-xs text-slate-400 mb-2 uppercase tracking-wide">Flux Analysés</div>
+                    <div class="text-3xl font-black bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">435</div>
+                    <div class="text-xs text-slate-500 mt-1">Paires bilatérales</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-900/20 to-purple-900/10 border border-purple-500/30 rounded-xl p-5 text-center hover:scale-105 transition cursor-pointer">
+                    <div class="text-xs text-slate-400 mb-2 uppercase tracking-wide">Synergies Détectées</div>
+                    <div class="text-3xl font-black bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">137</div>
+                    <div class="text-xs text-slate-500 mt-1">Score > 0.70</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-orange-900/20 to-orange-900/10 border border-orange-500/30 rounded-xl p-5 text-center hover:scale-105 transition cursor-pointer">
+                    <div class="text-xs text-slate-400 mb-2 uppercase tracking-wide">PIB Total</div>
+                    <div class="text-3xl font-black bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">$74.5T</div>
+                    <div class="text-xs text-slate-500 mt-1">PIB cumulé</div>
+                </div>
+            </div>
+            
+            <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+                <h3 class="text-2xl font-bold mb-4 flex items-center gap-3">
+                    <span class="text-3xl">🌍</span>
+                    Alliances Stratégiques Majeures (2025)
+                </h3>
+                
+                <div class="grid grid-cols-2 gap-4" id="top-fluxes-preview">
+                    <!-- Les flux seront chargés dynamiquement -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Simulator View -->
+        <div id="simulator-view" class="space-y-6 animate-fadeIn" style="display: none;">
+            <h2 class="text-3xl font-bold flex items-center gap-3">
+                <i class="fas fa-bolt text-yellow-400"></i>
+                Simulateur de Synergies Bilatérales
+            </h2>
+            
+            <div class="grid grid-cols-3 gap-6">
+                <div class="col-span-2 bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4 border-b border-slate-700 pb-3">
+                        Définition du Flux (Φ<sub>A→B</sub>)
+                    </h3>
+                    
+                    <div class="grid grid-cols-2 gap-6 mb-6">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block mb-2 text-blue-400 font-semibold text-sm flex items-center gap-2">
+                                    🔵 Pays Source (A)
+                                    <div class="tooltip">
+                                        <i class="fas fa-info-circle cursor-help" onmouseover="showTooltip('source')" onmouseout="hideTooltip()"></i>
+                                        <div class="tooltip-text" id="tooltip-source">Le pays qui exporte la ressource ou le service</div>
+                                    </div>
+                                </label>
+                                <select id="country-a" onchange="updateResources('a')" class="w-full bg-slate-800 border border-blue-500/30 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 transition">
+                                    <option value="">-- Sélectionner --</option>
+                                    <!-- Les pays seront chargés dynamiquement -->
+                                </select>
+                            </div>
+                            
+                            <div id="resource-a-container" style="display: none;">
+                                <label class="block mb-2 text-green-400 font-semibold text-sm">📦 Ressource / Service Offert</label>
+                                <select id="resource-a" class="w-full bg-slate-800 border border-green-500/30 rounded-lg p-3 text-white focus:ring-2 focus:ring-green-500 transition">
+                                    <option value="">-- Sélectionner --</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block mb-2 text-red-400 font-semibold text-sm flex items-center gap-2">
+                                    🔴 Pays Cible (B)
+                                    <div class="tooltip">
+                                        <i class="fas fa-info-circle cursor-help" onmouseover="showTooltip('target')" onmouseout="hideTooltip()"></i>
+                                        <div class="tooltip-text" id="tooltip-target">Le pays qui importe la ressource ou le service</div>
+                                    </div>
+                                </label>
+                                <select id="country-b" onchange="updateResources('b')" class="w-full bg-slate-800 border border-red-500/30 rounded-lg p-3 text-white focus:ring-2 focus:ring-red-500 transition">
+                                    <option value="">-- Sélectionner --</option>
+                                    <!-- Les pays seront chargés dynamiquement -->
+                                </select>
+                            </div>
+                            
+                            <div id="resource-b-container" style="display: none;">
+                                <label class="block mb-2 text-purple-400 font-semibold text-sm">📦 Ressource / Service Reçu</label>
+                                <select id="resource-b" class="w-full bg-slate-800 border border-purple-500/30 rounded-lg p-3 text-white focus:ring-2 focus:ring-purple-500 transition">
+                                    <option value="">-- Sélectionner --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center py-4 mb-6">
+                        <div class="inline-flex items-center gap-3 text-2xl font-black text-slate-500">
+                            <div class="animate-pulse">⇄</div>
+                            <span>FLUX BILATÉRAL</span>
+                            <div class="animate-pulse">⇄</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="analyze()" id="analyze-btn" disabled class="w-full py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-xl font-bold text-lg hover:scale-[1.02] transition shadow-xl opacity-50 cursor-not-allowed flex items-center justify-center gap-2">
+                        <i class="fas fa-bolt"></i>
+                        EXÉCUTER L'ANALYSE SMS v6.0
+                    </button>
+                    
+                    <div class="mt-6 p-4 bg-blue-900/20 border-l-4 border-blue-500 rounded">
+                        <h4 class="font-bold text-blue-300 mb-2 flex items-center gap-2">
+                            Modèle de Pondération SMS :
+                            <div class="tooltip">
+                                <i class="fas fa-info-circle cursor-help" onmouseover="showTooltip('formula')" onmouseout="hideTooltip()"></i>
+                                <div class="tooltip-text" id="tooltip-formula">Formule de calcul du score de synergie</div>
+                            </div>
+                        </h4>
+                        <div class="text-center text-lg font-mono text-blue-200">
+                            𝒮 = 0.5ℛ + 0.25ℐ + 0.15𝒯 + 0.10𝒜
+                        </div>
+                        <div class="mt-2 text-xs text-slate-400 space-y-1">
+                            <div>ℛ = Complémentarité Ressources (50%)</div>
+                            <div>ℐ = Infrastructure moyenne (25%)</div>
+                            <div>𝒯 = Technologie moyenne (15%)</div>
+                            <div>𝒜 = Bonus Accord régional (10%)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4 border-b border-slate-700 pb-3">Résultats</h3>
+                    
+                    <div id="results-container">
+                        <div class="text-center py-12 text-slate-500">
+                            <i class="fas fa-bolt text-4xl mx-auto mb-4 opacity-30 animate-pulse"></i>
+                            <p class="text-sm">Lancez une simulation pour voir les résultats</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="interpretation-container" style="display: none;">
+                <!-- L'interprétation sera chargée dynamiquement -->
+            </div>
+        </div>
+        
+        <!-- Globe View -->
+        <div id="globe-view" class="space-y-6 animate-fadeIn" style="display: none;">
+            <div class="flex justify-between items-center">
+                <h2 class="text-3xl font-bold flex items-center gap-3">
+                    <i class="fas fa-map text-blue-400"></i>
+                    Globe Interactif - <span id="globe-count">30</span> Pays
+                </h2>
+                
+                <div class="flex gap-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                        <input type="text" id="country-search" placeholder="Rechercher un pays..." class="pl-10 pr-4 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition">
+                        <button onclick="clearSearch()" id="clear-search" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <select id="region-filter" onchange="filterGlobe()" class="px-4 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 transition">
+                        <option value="all">🌍 Toutes régions</option>
+                        <option value="AFR">🌍 Afrique</option>
+                        <option value="ASIA">🌏 Asie</option>
+                        <option value="EUR">🇪🇺 Europe</option>
+                        <option value="AME">🌎 Amériques</option>
+                        <option value="ME">🕌 Moyen-Orient</option>
+                        <option value="OCE">🏝️ Océanie</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+                <div class="relative w-full h-[600px] bg-gradient-to-br from-blue-950/20 via-purple-950/10 to-slate-950/20 rounded-xl overflow-hidden border border-blue-500/10">
+                    <svg id="globe-svg" viewBox="0 0 100 100" class="w-full h-full">
+                        <defs>
+                            <radialGradient id="glow">
+                                <stop offset="0%" stop-color="rgba(59, 130, 246, 0.4)" />
+                                <stop offset="100%" stop-color="rgba(59, 130, 246, 0)" />
+                            </radialGradient>
+                        </defs>
+                        
+                        <rect width="100" height="100" fill="url(#glow)" opacity="0.3" />
+                        
+                        <!-- Les points du globe seront générés dynamiquement -->
+                    </svg>
+                </div>
+                
+                <div class="mt-6 grid grid-cols-2 gap-6">
+                    <div class="p-4 bg-slate-800/50 rounded-lg">
+                        <h4 class="font-bold mb-3 flex items-center gap-2">
+                            <i class="fas fa-filter text-blue-400"></i>
+                            Légende Régionale
+                        </h4>
+                        <div class="grid grid-cols-2 gap-3 text-sm" id="region-legend">
+                            <!-- La légende sera générée dynamiquement -->
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 bg-slate-800/50 rounded-lg">
+                        <h4 class="font-bold mb-3 flex items-center gap-2">
+                            <i class="fas fa-info-circle text-green-400"></i>
+                            Statistiques
+                        </h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between p-2 bg-slate-900/50 rounded">
+                                <span class="text-slate-400">Pays affichés</span>
+                                <span class="font-bold" id="displayed-count">30</span>
+                            </div>
+                            <div class="flex justify-between p-2 bg-slate-900/50 rounded">
+                                <span class="text-slate-400">PIB total</span>
+                                <span class="font-bold">$74.5T</span>
+                            </div>
+                            <div class="flex justify-between p-2 bg-slate-900/50 rounded">
+                                <span class="text-slate-400">Paires possibles</span>
+                                <span class="font-bold">435</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top Fluxes View -->
+        <div id="top-view" class="space-y-6 animate-fadeIn" style="display: none;">
+            <div class="flex justify-between items-center">
+                <h2 class="text-3xl font-bold flex items-center gap-3">
+                    <i class="fas fa-chart-line text-green-400"></i>
+                    Top 15 Flux Optimaux Mondiaux
+                </h2>
+                <button class="flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+                    <i class="fas fa-download"></i>
+                    Exporter CSV
+                </button>
+            </div>
+            
+            <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+                <div class="text-slate-400 mb-6 flex items-center gap-2">
+                    <i class="fas fa-info-circle"></i>
+                    Classement par score de synergie (S > 0.70)
+                </div>
+                
+                <div class="space-y-3" id="top-fluxes-list">
+                    <!-- Les flux seront chargés dynamiquement -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Regions View -->
+        <div id="regions-view" class="space-y-6 animate-fadeIn" style="display: none;">
+            <h2 class="text-3xl font-bold flex items-center gap-3">
+                <i class="fas fa-chart-bar text-purple-400"></i>
+                Analyse par Blocs Régionaux
+            </h2>
+            
+            <div class="grid grid-cols-3 gap-6">
+                <div class="col-span-2 bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4">Accords Commerciaux Majeurs</h3>
+                    <div class="space-y-4" id="agreements-list">
+                        <!-- Les accords seront chargés dynamiquement -->
+                    </div>
+                </div>
+                
+                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4">Régions Dominantes</h3>
+                    <div id="region-chart">
+                        <!-- Le graphique sera généré dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Compare View -->
+        <div id="compare-view" class="space-y-6 animate-fadeIn" style="display: none;">
+            <h2 class="text-3xl font-bold flex items-center gap-3">
+                <i class="fas fa-filter text-orange-400"></i>
+                Comparateur de Pays
+            </h2>
+            
+            <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+                <h3 class="text-xl font-bold mb-4">Sélectionnez jusqu'à 5 pays à comparer</h3>
+                <div class="grid grid-cols-5 gap-4 mb-6" id="compare-selection">
+                    <!-- Les sélections seront générées dynamiquement -->
+                </div>
+                
+                <div id="compare-results">
+                    <div class="text-center py-12 text-slate-500">
+                        <i class="fas fa-exchange-alt text-4xl mx-auto mb-4 opacity-30"></i>
+                        <p class="text-sm">Sélectionnez des pays pour les comparer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Database et logique JavaScript -->
+    <script>
+        // ============================================
+        // ULTRA-COMPACT WORLD DATABASE (50 Countries)
+        // ============================================
+        const DB = {
+            countries: {
+                MAR: { n: 'Maroc', f: '🇲🇦', r: 'AFR', m: { i: 78, t: 70, s: 72, g: 75, p: 142, w: 3.2 }, res: ['Phosphates', 'Solaire', 'Ports', 'Dessalement'], srv: ['Banking', 'IT', 'Tourism'], ag: ['AfCFTA', 'Abraham'], xy: [15, 45] },
+                ISR: { n: 'Israël', f: '🇮🇱', r: 'ME', m: { i: 92, t: 98, s: 65, g: 82, p: 525, w: 2.8 }, res: ['Tech_Agro', 'Cyber', 'Startup', 'Irrigation'], srv: ['FinTech', 'AI', 'Defense'], ag: ['Abraham'], xy: [55, 40] },
+                CHN: { n: 'Chine', f: '🇨🇳', r: 'ASIA', m: { i: 88, t: 85, s: 78, g: 70, p: 17963, w: 5.2 }, res: ['Terres_Rares', 'Manuf', 'EV', 'Solaire'], srv: ['5G', 'AI', 'E-Com'], ag: ['RCEP', 'BRICS', 'SCO'], xy: [80, 35] },
+                RUS: { n: 'Russie', f: '🇷🇺', r: 'EUR', m: { i: 65, t: 58, s: 60, g: 68, p: 2240, w: 2.6 }, res: ['Gaz', 'Pétrole', 'Blé', 'Nucléaire'], srv: ['Energie', 'Spatial', 'Armes'], ag: ['EAEU', 'BRICS', 'SCO'], xy: [60, 20] },
+                USA: { n: 'USA', f: '🇺🇸', r: 'AME', m: { i: 82, t: 95, s: 75, g: 72, p: 27361, w: 2.5 }, res: ['Tech', 'Gaz', 'Finance', 'Agriculture'], srv: ['Tech', 'Finance', 'Entertain'], ag: ['USMCA'], xy: [20, 38] },
+                DEU: { n: 'Allemagne', f: '🇩🇪', r: 'EUR', m: { i: 92, t: 90, s: 85, g: 65, p: 4456, w: 0.2 }, res: ['Auto', 'Industrie_4.0', 'Chimie'], srv: ['Manuf', 'Banking', 'Engineering'], ag: ['EU'], xy: [48, 28] },
+                IND: { n: 'Inde', f: '🇮🇳', r: 'ASIA', m: { i: 58, t: 72, s: 68, g: 73, p: 3732, w: 6.3 }, res: ['IT', 'Pharma', 'Textile'], srv: ['IT', 'BPO', 'FinTech'], ag: ['BRICS'], xy: [72, 42] },
+                BRA: { n: 'Brésil', f: '🇧🇷', r: 'AME', m: { i: 55, t: 62, s: 58, g: 70, p: 2127, w: 2.9 }, res: ['Soja', 'Fer', 'Pétrole', 'Ethanol'], srv: ['Agro', 'Mining', 'Aviation'], ag: ['BRICS', 'Mercosur'], xy: [30, 70] },
+                SAU: { n: 'Arabie S.', f: '🇸🇦', r: 'ME', m: { i: 78, t: 68, s: 72, g: 75, p: 1108, w: -0.8 }, res: ['Pétrole', 'Vision2030', 'NEOM'], srv: ['Energie', 'Finance', 'Construction'], ag: ['GCC'], xy: [58, 45] },
+                ARE: { n: 'EAU', f: '🇦🇪', r: 'ME', m: { i: 92, t: 82, s: 85, g: 70, p: 508, w: 3.6 }, res: ['Finance', 'Logistique', 'Pétrole'], srv: ['Finance', 'Tourism', 'Tech'], ag: ['GCC', 'Abraham'], xy: [60, 46] },
+                JPN: { n: 'Japon', f: '🇯🇵', r: 'ASIA', m: { i: 95, t: 92, s: 88, g: 62, p: 4231, w: 1.8 }, res: ['Robotique', 'Auto', 'Electronics'], srv: ['Tech', 'Finance', 'Manuf'], ag: ['RCEP'], xy: [88, 38] },
+                KOR: { n: 'Corée S.', f: '🇰🇷', r: 'ASIA', m: { i: 90, t: 95, s: 75, g: 68, p: 1713, w: 2.6 }, res: ['Semi', 'Batteries', '5G'], srv: ['Tech', 'Entertain', 'Manuf'], ag: ['RCEP'], xy: [85, 37] },
+                FRA: { n: 'France', f: '🇫🇷', r: 'EUR', m: { i: 88, t: 85, s: 78, g: 68, p: 3031, w: 0.9 }, res: ['Nucléaire', 'Luxe', 'Aero'], srv: ['Tourism', 'Finance', 'Tech'], ag: ['EU'], xy: [45, 30] },
+                GBR: { n: 'UK', f: '🇬🇧', r: 'EUR', m: { i: 85, t: 88, s: 75, g: 70, p: 3332, w: 0.5 }, res: ['Finance', 'Services', 'Pharma'], srv: ['Finance', 'FinTech', 'Education'], ag: [], xy: [43, 27] },
+                IDN: { n: 'Indonésie', f: '🇮🇩', r: 'ASIA', m: { i: 55, t: 60, s: 65, g: 72, p: 1319, w: 5.0 }, res: ['Nickel', 'Palme', 'Charbon'], srv: ['Mining', 'FinTech', 'Tourism'], ag: ['RCEP', 'ASEAN'], xy: [82, 65] },
+                TUR: { n: 'Turquie', f: '🇹🇷', r: 'ME', m: { i: 72, t: 65, s: 55, g: 78, p: 906, w: 4.5 }, res: ['Manuf', 'Textile', 'Agriculture'], srv: ['Logistics', 'Construction', 'Tourism'], ag: ['D8'], xy: [52, 35] },
+                MEX: { n: 'Mexique', f: '🇲🇽', r: 'AME', m: { i: 62, t: 58, s: 52, g: 75, p: 1789, w: 3.2 }, res: ['Manuf', 'Nearshoring', 'Pétrole'], srv: ['Manuf', 'Tourism', 'BPO'], ag: ['USMCA'], xy: [18, 45] },
+                CAN: { n: 'Canada', f: '🇨🇦', r: 'AME', m: { i: 88, t: 85, s: 90, g: 60, p: 2118, w: 1.1 }, res: ['Pétrole', 'Mining', 'Agriculture'], srv: ['Energy', 'Tech', 'Finance'], ag: ['USMCA'], xy: [22, 20] },
+                ZAF: { n: 'Afr. Sud', f: '🇿🇦', r: 'AFR', m: { i: 68, t: 65, s: 62, g: 72, p: 406, w: 0.9 }, res: ['Or', 'Platine', 'Charbon'], srv: ['Finance', 'Mining', 'Tourism'], ag: ['AfCFTA', 'BRICS'], xy: [52, 75] },
+                EGY: { n: 'Égypte', f: '🇪🇬', r: 'AFR', m: { i: 58, t: 52, s: 55, g: 78, p: 398, w: 3.8 }, res: ['Suez', 'Gaz', 'Tourism'], srv: ['Logistics', 'Construction', 'Tourism'], ag: ['AfCFTA'], xy: [50, 48] },
+                NGA: { n: 'Nigeria', f: '🇳🇬', r: 'AFR', m: { i: 42, t: 48, s: 45, g: 82, p: 574, w: 3.3 }, res: ['Pétrole', 'Gaz', 'Agriculture'], srv: ['FinTech', 'Entertainment', 'Tech'], ag: ['AfCFTA', 'ECOWAS'], xy: [38, 55] },
+                THA: { n: 'Thaïlande', f: '🇹🇭', r: 'ASIA', m: { i: 68, t: 65, s: 65, g: 70, p: 515, w: 3.6 }, res: ['Auto', 'Riz', 'Tourism'], srv: ['Manuf', 'Tourism', 'Logistics'], ag: ['RCEP', 'ASEAN'], xy: [78, 52] },
+                VNM: { n: 'Vietnam', f: '🇻🇳', r: 'ASIA', m: { i: 62, t: 68, s: 70, g: 68, p: 433, w: 6.5 }, res: ['Manuf', 'Textile', 'Electronics'], srv: ['Manuf', 'IT', 'BPO'], ag: ['RCEP', 'ASEAN'], xy: [80, 52] },
+                POL: { n: 'Pologne', f: '🇵🇱', r: 'EUR', m: { i: 75, t: 70, s: 72, g: 68, p: 688, w: 2.8 }, res: ['Manuf', 'IT', 'Agriculture'], srv: ['Manuf', 'BPO', 'Logistics'], ag: ['EU'], xy: [50, 28] },
+                ARG: { n: 'Argentine', f: '🇦🇷', r: 'AME', m: { i: 58, t: 55, s: 48, g: 72, p: 641, w: -1.6 }, res: ['Soja', 'Lithium', 'Viande'], srv: ['Agro', 'Mining', 'Tech'], ag: ['Mercosur'], xy: [32, 78] },
+                SGP: { n: 'Singapour', f: '🇸🇬', r: 'ASIA', m: { i: 98, t: 95, s: 92, g: 60, p: 497, w: 2.6 }, res: ['Hub', 'Raffinage', 'Finance'], srv: ['Finance', 'Tech', 'Logistics'], ag: ['RCEP', 'ASEAN'], xy: [80, 60] },
+                CHL: { n: 'Chili', f: '🇨🇱', r: 'AME', m: { i: 72, t: 70, s: 70, g: 68, p: 344, w: 2.5 }, res: ['Cuivre', 'Lithium', 'Agriculture'], srv: ['Mining', 'Finance', 'Tech'], ag: ['PacAlliance'], xy: [28, 76] },
+                ITA: { n: 'Italie', f: '🇮🇹', r: 'EUR', m: { i: 78, t: 75, s: 68, g: 72, p: 2256, w: 0.7 }, res: ['Luxe', 'Auto', 'Tourism'], srv: ['Tourism', 'Manuf', 'Finance'], ag: ['EU'], xy: [48, 33] },
+                ESP: { n: 'Espagne', f: '🇪🇸', r: 'EUR', m: { i: 82, t: 78, s: 75, g: 68, p: 1582, w: 2.5 }, res: ['Tourism', 'Renewable', 'Agriculture'], srv: ['Tourism', 'Banking', 'Tech'], ag: ['EU'], xy: [42, 35] },
+                AUS: { n: 'Australie', f: '🇦🇺', r: 'OCE', m: { i: 85, t: 82, s: 88, g: 62, p: 1725, w: 1.8 }, res: ['Fer', 'Gaz', 'Charbon'], srv: ['Mining', 'Finance', 'Education'], ag: ['RCEP'], xy: [88, 75] },
+                NLD: { n: 'Pays-Bas', f: '🇳🇱', r: 'EUR', m: { i: 95, t: 92, s: 88, g: 62, p: 1118, w: 0.8 }, res: ['Logistics', 'Agro_Tech', 'Gas'], srv: ['Logistics', 'Finance', 'Tech'], ag: ['EU'], xy: [46, 27] }
+            },
+            
+            comp: {
+                'Phosphates_Blé': 0.98, 'Solaire_Gaz': 0.92, 'Tech_Agro_Blé': 0.95, 'Ports_Pétrole': 0.85,
+                'IT_Finance': 0.88, 'Manuf_Terres_Rares': 0.90, 'Cyber_Finance': 0.89, 'Startup_Capital': 0.92,
+                'Gaz_Manuf': 0.87, 'Pétrole_Tech': 0.75, 'Auto_Semi': 0.85, 'Lithium_EV': 0.96,
+                'Soja_Fer': 0.78, 'Mining_Manuf': 0.88, 'Tourism_Finance': 0.72, 'BPO_IT': 0.95,
+                'Textile_Retail': 0.82, 'Agro_Logistics': 0.86, 'Nickel_Batteries': 0.94, 'Cuivre_Electronics': 0.90,
+                'Irrigation_Dessalement': 0.97, 'Nucléaire_Energie': 0.93, 'Renewable_Grid': 0.89,
+                'D': 0.18
+            },
+            
+            bonus: { EU: 0.15, RCEP: 0.12, BRICS: 0.10, AfCFTA: 0.10, USMCA: 0.14, Abraham: 0.12, GCC: 0.11, ASEAN: 0.10, SCO: 0.09, EAEU: 0.10 }
+        };
+
+        // Variables d'état globales
+        let currentView = 'home';
+        let searchQuery = '';
+        let currentFilter = 'all';
+        let selectedCountries = [];
+        let simulatorResult = null;
+        let topFluxesData = [
+            { a: 'RUS', b: 'CHN', s: 0.92, v: 85000, d: 'Gaz/Blé ⇄ Tech Agro' },
+            { a: 'MAR', b: 'ISR', s: 0.89, v: 4200, d: 'Solaire ⇄ Tech Irrigation' },
+            { a: 'CAN', b: 'USA', s: 0.88, v: 720000, d: 'Pétrole ⇄ Manufacturing' },
+            { a: 'USA', b: 'CHN', s: 0.85, v: 650000, d: 'Tech ⇄ Manufacturing' },
+            { a: 'AUS', b: 'CHN', s: 0.84, v: 180000, d: 'Fer ⇄ Manufacturing' },
+            { a: 'DEU', b: 'CHN', s: 0.82, v: 245000, d: 'Auto ⇄ Terres Rares' },
+            { a: 'JPN', b: 'USA', s: 0.82, v: 210000, d: 'Auto ⇄ Tech' },
+            { a: 'SAU', b: 'IND', s: 0.78, v: 35000, d: 'Pétrole ⇄ IT Services' },
+            { a: 'BRA', b: 'CHN', s: 0.76, v: 125000, d: 'Soja/Fer ⇄ Manufacturing' },
+            { a: 'ARE', b: 'ISR', s: 0.75, v: 3800, d: 'Finance ⇄ Tech' },
+            { a: 'DEU', b: 'FRA', s: 0.88, v: 180000, d: 'Industrie ⇄ Nucléaire' },
+            { a: 'SGP', b: 'CHN', s: 0.81, v: 95000, d: 'Finance ⇄ Manuf' },
+            { a: 'KOR', b: 'USA', s: 0.80, v: 145000, d: 'Semi/Batteries ⇄ Tech' },
+            { a: 'IND', b: 'ARE', s: 0.77, v: 42000, d: 'IT/BPO ⇄ Finance' },
+            { a: 'CHL', b: 'CHN', s: 0.79, v: 68000, d: 'Lithium/Cuivre ⇄ EV' }
+        ];
+
+        // Fonction pour changer de vue
+        function setView(view) {
+            // Masquer toutes les vues
+            const views = ['home', 'simulator', 'globe', 'top', 'regions', 'compare'];
+            views.forEach(v => {
+                document.getElementById(`${v}-view`).style.display = 'none';
+                document.getElementById(`nav-${v}`).classList.remove('bg-blue-600', 'text-white', 'shadow-lg');
+                document.getElementById(`nav-${v}`).classList.add('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
+            });
+            
+            // Afficher la vue sélectionnée
+            document.getElementById(`${view}-view`).style.display = 'block';
+            document.getElementById(`nav-${view}`).classList.add('bg-blue-600', 'text-white', 'shadow-lg');
+            document.getElementById(`nav-${view}`).classList.remove('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
+            
+            currentView = view;
+            
+            // Initialiser les composants si nécessaire
+            if (view === 'globe') {
+                renderGlobe();
+                updateGlobeCount();
+            } else if (view === 'top') {
+                renderTopFluxes();
+            } else if (view === 'home') {
+                renderHomeTopFluxes();
+            } else if (view === 'regions') {
+                renderRegions();
+            } else if (view === 'compare') {
+                renderCompare();
+            }
+        }
+
+        // Fonction pour afficher/masquer les tooltips
+        function showTooltip(type) {
+            // Implémentation simple - les tooltips CSS gèrent déjà l'affichage
+        }
+        
+        function hideTooltip() {
+            // Les tooltips CSS gèrent déjà le masquage
+        }
+
+        // Fonction pour mettre à jour les ressources disponibles
+        function updateResources(type) {
+            const countrySelect = document.getElementById(`country-${type}`);
+            const resourceSelect = document.getElementById(`resource-${type}`);
+            const resourceContainer = document.getElementById(`resource-${type}-container`);
+            
+            const countryCode = countrySelect.value;
+            
+            if (countryCode) {
+                const country = DB.countries[countryCode];
+                resourceSelect.innerHTML = '<option value="">-- Sélectionner --</option>';
+                
+                // Ajouter les ressources
+                country.res.forEach(r => {
+                    const option = document.createElement('option');
+                    option.value = r;
+                    option.textContent = r;
+                    resourceSelect.appendChild(option);
+                });
+                
+                // Ajouter les services
+                country.srv.forEach(s => {
+                    const option = document.createElement('option');
+                    option.value = s;
+                    option.textContent = s;
+                    resourceSelect.appendChild(option);
+                });
+                
+                resourceContainer.style.display = 'block';
+            } else {
+                resourceContainer.style.display = 'none';
+                resourceSelect.innerHTML = '<option value="">-- Sélectionner --</option>';
+            }
+            
+            updateAnalyzeButton();
+        }
+
+        // Fonction pour mettre à jour l'état du bouton d'analyse
+        function updateAnalyzeButton() {
+            const cA = document.getElementById('country-a').value;
+            const cB = document.getElementById('country-b').value;
+            const resA = document.getElementById('resource-a').value;
+            const resB = document.getElementById('resource-b').value;
+            const analyzeBtn = document.getElementById('analyze-btn');
+            
+            if (cA && cB && resA && resB && cA !== cB) {
+                analyzeBtn.disabled = false;
+                analyzeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                analyzeBtn.disabled = true;
+                analyzeBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        // Fonction pour calculer la synergie
+        function calc(a, b, ra, rb) {
+            const ca = DB.countries[a], cb = DB.countries[b];
+            const cleanRes = (r) => r.replace(/[^a-zA-Z]/g, '_');
+            const k = `${cleanRes(ra)}_${cleanRes(rb)}`;
+            const k2 = `${cleanRes(rb)}_${cleanRes(ra)}`;
+            const R = DB.comp[k] || DB.comp[k2] || DB.comp.D;
+            const I = (ca.m.i + cb.m.i) / 200;
+            const T = (ca.m.t + cb.m.t) / 200;
+            const ab = ca.ag.find(x => cb.ag.includes(x));
+            const A = ab ? (DB.bonus[ab] || 0) : 0;
+            const S = 0.5 * R + 0.25 * I + 0.15 * T + 0.10 * (A > 0 ? 1 : 0);
+            const st = (ca.m.s + cb.m.s) / 200;
+            const adj = S * (0.7 + st * 0.3);
+            return { s: adj, R, I, T, A: ab || 'Aucun', st, flux: Math.round(adj * 3000), vrot: adj * 100, agreement: ab };
+        }
+
+        // Fonction pour exécuter l'analyse
+        function analyze() {
+            const cA = document.getElementById('country-a').value;
+            const cB = document.getElementById('country-b').value;
+            const resA = document.getElementById('resource-a').value;
+            const resB = document.getElementById('resource-b').value;
+            
+            if (!cA || !cB || !resA || !resB || cA === cB) {
+                alert('Sélectionnez 2 pays et ressources différents');
+                return;
+            }
+            
+            simulatorResult = calc(cA, cB, resA, resB);
+            renderResults();
+            renderInterpretation(cA, cB, resA, resB);
+            
+            // Mettre à jour le badge du simulateur
+            document.getElementById('simulator-badge').textContent = '✓';
+        }
+
+        // Fonction pour rendre les résultats
+        function renderResults() {
+            if (!simulatorResult) return;
+            
+            const resultsContainer = document.getElementById('results-container');
+            const result = simulatorResult;
+            
+            let scoreClass = 'bg-green-500/20 text-green-400';
+            let scoreText = 'EXCELLENT';
+            
+            if (result.s >= 0.75) {
+                scoreClass = 'bg-green-500/20 text-green-400';
+                scoreText = 'EXCELLENT';
+            } else if (result.s >= 0.55) {
+                scoreClass = 'bg-yellow-500/20 text-yellow-400';
+                scoreText = 'BON';
+            } else {
+                scoreClass = 'bg-orange-500/20 text-orange-400';
+                scoreText = 'MODÉRÉ';
+            }
+            
+            resultsContainer.innerHTML = `
+                <div class="space-y-4 animate-slideDown">
+                    <div class="bg-gradient-to-br from-green-900/30 to-blue-900/30 border border-green-500/30 rounded-xl p-6 text-center">
+                        <div class="text-sm text-slate-400 mb-2">Score de Synergie</div>
+                        <div class="text-5xl font-black bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent animate-pulse">
+                            ${result.s.toFixed(3)}
+                        </div>
+                        <div class="mt-2 text-xs">
+                            <span class="inline-flex items-center gap-1 px-3 py-1 ${scoreClass} rounded-full">
+                                <i class="fas fa-check"></i> ${scoreText}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="space-y-1">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-blue-400">Complémentarité (ℛ)</span>
+                                <span class="font-bold">${result.R.toFixed(3)}</span>
+                            </div>
+                            <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-blue-400 to-blue-600 transition-all duration-1000" style="width: ${result.R * 100}%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-1">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-green-400">Infrastructure (ℐ)</span>
+                                <span class="font-bold">${result.I.toFixed(3)}</span>
+                            </div>
+                            <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-green-400 to-green-600 transition-all duration-1000" style="width: ${result.I * 100}%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-1">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-purple-400">Technologie (𝒯)</span>
+                                <span class="font-bold">${result.T.toFixed(3)}</span>
+                            </div>
+                            <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-purple-400 to-purple-600 transition-all duration-1000" style="width: ${result.T * 100}%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-1">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-yellow-400">Stabilité</span>
+                                <span class="font-bold">${result.st.toFixed(3)}</span>
+                            </div>
+                            <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-yellow-400 to-yellow-600 transition-all duration-1000" style="width: ${result.st * 100}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    ${result.agreement && result.agreement !== 'Aucun' ? `
+                        <div class="p-3 bg-green-900/20 border border-green-500/30 rounded-lg">
+                            <div class="text-xs text-green-400 font-semibold mb-1"><i class="fas fa-check"></i> Accord Régional</div>
+                            <div class="text-sm text-green-300">${result.agreement}</div>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="pt-4 border-t border-slate-700 space-y-3">
+                        <div>
+                            <div class="text-sm text-slate-400 mb-1">Flux Optimal (Φ*)</div>
+                            <div class="text-2xl font-bold text-cyan-400">
+                                $${result.flux.toLocaleString()} M/an
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="text-sm text-slate-400 mb-1">Réduction Friction (Vrot)</div>
+                            <div class="text-2xl font-bold text-orange-400">
+                                ${result.vrot.toFixed(1)}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Fonction pour rendre l'interprétation
+        function renderInterpretation(cA, cB, resA, resB) {
+            if (!simulatorResult) return;
+            
+            const interpretationContainer = document.getElementById('interpretation-container');
+            const result = simulatorResult;
+            const ca = DB.countries[cA];
+            const cb = DB.countries[cB];
+            
+            let scoreColor, scoreBg, scoreText;
+            
+            if (result.s >= 0.75) {
+                scoreColor = '#10b981';
+                scoreBg = 'rgba(16, 185, 129, 0.2)';
+                scoreText = '🟢 EXCELLENTE';
+            } else if (result.s >= 0.55) {
+                scoreColor = '#f59e0b';
+                scoreBg = 'rgba(245, 158, 11, 0.2)';
+                scoreText = '🟡 BONNE';
+            } else {
+                scoreColor = '#a855f7';
+                scoreBg = 'rgba(168, 85, 247, 0.2)';
+                scoreText = '🟠 MODÉRÉE';
+            }
+            
+            interpretationContainer.style.display = 'block';
+            interpretationContainer.innerHTML = `
+                <div class="bg-gradient-to-br from-green-900/20 to-blue-900/20 border border-green-500/30 rounded-xl p-6 animate-slideDown">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-3">
+                        <span class="text-3xl">🤖</span>
+                        Interprétation Stratégique IA
+                    </h3>
+                    
+                    <div class="space-y-4 text-slate-300">
+                        <div class="p-4 bg-slate-800/50 rounded-lg border-l-4 border-blue-500">
+                            <p class="text-lg font-bold mb-2">
+                                Analyse du flux ${ca.f} ${ca.n} ⇄ ${cb.f} ${cb.n}
+                            </p>
+                            <p>
+                                L'échange <strong class="text-blue-300">${resA}</strong> contre <strong class="text-purple-300">${resB}</strong> présente une synergie
+                                <span class="font-bold px-2 py-1 rounded" style="background-color: ${scoreBg}; color: ${scoreColor}">
+                                    ${scoreText}
+                                </span>.
+                            </p>
+                        </div>
+                        
+                        <div class="p-4 bg-slate-800/50 rounded-lg border-l-4 border-purple-500">
+                            <p class="font-bold text-purple-300 mb-2"><i class="fas fa-clipboard-list"></i> Recommandation Opérationnelle :</p>
+                            <p class="text-sm">
+                                ${result.s >= 0.75 
+                                    ? "<i class='fas fa-check text-green-400'></i> Mise en place immédiate recommandée. Potentiel stratégique majeur pour les deux parties. Mobiliser les cadres AfCFTA/RCEP pour accélération."
+                                    : result.s >= 0.55
+                                    ? "<i class='fas fa-exclamation-triangle text-yellow-400'></i> Opportunité significative. Nécessite des investissements ciblés en infrastructure (I) et alignement technologique (T). Phase II recommandée."
+                                    : "<i class='fas fa-pause text-orange-400'></i> Flux pilote recommandé. Frictions structurelles (Vrot) à résoudre avant déploiement à grande échelle. Consulter cellules opérationnelles nationales."}
+                            </p>
+                        </div>
+                        
+                        ${result.agreement && result.agreement !== 'Aucun' ? `
+                            <div class="p-4 bg-green-900/20 border border-green-500/50 rounded-lg">
+                                <p class="font-bold text-green-300 mb-2"><i class="fas fa-check text-green-400"></i> Bonus Accord Régional Actif (${result.agreement})</p>
+                                <p class="text-sm">Les deux pays bénéficient d'un accord commercial commun, facilitant l'intégration et réduisant les barrières tarifaires.</p>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            <div class="p-3 bg-slate-800/30 rounded-lg">
+                                <div class="text-xs text-slate-500 mb-1">SRG Initial</div>
+                                <div class="text-xl font-bold">${((ca.m.g + cb.m.g) / 2 / 100).toFixed(2)}</div>
+                            </div>
+                            <div class="p-3 bg-slate-800/30 rounded-lg">
+                                <div class="text-xs text-slate-500 mb-1">SRG Final (estimé)</div>
+                                <div class="text-xl font-bold text-green-400">
+                                    ${(((ca.m.g + cb.m.g) / 2 / 100) * (1 - result.s * 0.5)).toFixed(2)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Fonction pour rendre le globe
+        function renderGlobe() {
+            const svg = document.getElementById('globe-svg');
+            const searchQuery = document.getElementById('country-search').value.toLowerCase();
+            const filter = document.getElementById('region-filter').value;
+            
+            // Filtrer les pays
+            const filteredCountries = Object.keys(DB.countries).filter(k => {
+                const country = DB.countries[k];
+                const matchesSearch = country.n.toLowerCase().includes(searchQuery) || 
+                                     country.f.includes(searchQuery);
+                const matchesFilter = filter === 'all' || country.r === filter;
+                return matchesSearch && matchesFilter;
+            });
+            
+            // Couleurs par région
+            const colors = {
+                AFR: '#f59e0b', 
+                ASIA: '#10b981', 
+                EUR: '#3b82f6', 
+                AME: '#8b5cf6', 
+                ME: '#ef4444', 
+                OCE: '#06b6d4'
+            };
+            
+            // Nettoyer le SVG
+            while (svg.childNodes.length > 2) {
+                svg.removeChild(svg.lastChild);
+            }
+            
+            // Ajouter les points pour chaque pays
+            filteredCountries.forEach(k => {
+                const c = DB.countries[k];
+                
+                // Créer un groupe pour le pays
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                g.setAttribute('class', 'cursor-pointer hover:opacity-100 transition');
+                g.setAttribute('opacity', '0.8');
+                
+                // Créer le cercle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', c.xy[0]);
+                circle.setAttribute('cy', c.xy[1]);
+                circle.setAttribute('r', '1.5');
+                circle.setAttribute('fill', colors[c.r]);
+                circle.setAttribute('stroke', 'white');
+                circle.setAttribute('stroke-width', '0.2');
+                circle.setAttribute('class', 'animate-pulse-slow');
+                
+                // Ajouter l'événement de clic
+                circle.addEventListener('click', () => {
+                    const info = `${c.f} ${c.n}\n\nPIB: ${c.m.p}B USD\nCroissance: ${c.m.w}%\n\nInfrastructure: ${c.m.i}/100\nTechnologie: ${c.m.t}/100\nStabilité: ${c.m.s}/100\n\nAccords: ${c.ag.join(', ')}`;
+                    alert(info);
+                });
+                
+                // Créer le texte (drapeau)
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', c.xy[0]);
+                text.setAttribute('y', c.xy[1] - 2.5);
+                text.setAttribute('font-size', '2.5');
+                text.setAttribute('fill', 'white');
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('class', 'pointer-events-none font-bold');
+                text.setAttribute('style', 'text-shadow: 0 0 3px rgba(0,0,0,0.8)');
+                text.textContent = c.f;
+                
+                // Ajouter les éléments au groupe
+                g.appendChild(circle);
+                g.appendChild(text);
+                
+                // Ajouter le groupe au SVG
+                svg.appendChild(g);
+            });
+            
+            // Mettre à jour le compteur
+            document.getElementById('globe-count').textContent = filteredCountries.length;
+            document.getElementById('displayed-count').textContent = filteredCountries.length;
+            
+            // Mettre à jour la légende
+            renderRegionLegend();
+        }
+
+        // Fonction pour rendre la légende des régions
+        function renderRegionLegend() {
+            const regionLegend = document.getElementById('region-legend');
+            regionLegend.innerHTML = '';
+            
+            const regions = [
+                { c: '#3b82f6', l: 'Europe', code: 'EUR' },
+                { c: '#10b981', l: 'Asie', code: 'ASIA' },
+                { c: '#8b5cf6', l: 'Amériques', code: 'AME' },
+                { c: '#f59e0b', l: 'Afrique', code: 'AFR' },
+                { c: '#ef4444', l: 'Moyen-Orient', code: 'ME' },
+                { c: '#06b6d4', l: 'Océanie', code: 'OCE' }
+            ];
+            
+            regions.forEach(r => {
+                const count = Object.values(DB.countries).filter(c => c.r === r.code).length;
+                
+                const div = document.createElement('div');
+                div.className = 'flex items-center justify-between gap-2 p-2 bg-slate-900/50 rounded';
+                div.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full" style="background-color: ${r.c}"></div>
+                        <span>${r.l}</span>
+                    </div>
+                    <span class="text-slate-500 text-xs">${count}</span>
+                `;
+                
+                regionLegend.appendChild(div);
+            });
+        }
+
+        // Fonction pour filtrer le globe
+        function filterGlobe() {
+            renderGlobe();
+        }
+
+        // Fonction pour effacer la recherche
+        function clearSearch() {
+            document.getElementById('country-search').value = '';
+            document.getElementById('clear-search').style.display = 'none';
+            renderGlobe();
+        }
+
+        // Fonction pour mettre à jour le compteur du globe
+        function updateGlobeCount() {
+            const totalCountries = Object.keys(DB.countries).length;
+            document.getElementById('globe-badge').textContent = totalCountries;
+        }
+
+        // Fonction pour rendre les flux principaux sur la page d'accueil
+        function renderHomeTopFluxes() {
+            const container = document.getElementById('top-fluxes-preview');
+            container.innerHTML = '';
+            
+            // Prendre les 4 premiers flux
+            topFluxesData.slice(0, 4).forEach((f, i) => {
+                const ca = DB.countries[f.a];
+                const cb = DB.countries[f.b];
+                
+                const div = document.createElement('div');
+                div.className = 'bg-gradient-to-br from-blue-900/30 to-purple-900/30 border border-blue-500/30 rounded-xl p-4 hover:border-blue-500/60 transition cursor-pointer group';
+                div.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="font-bold text-lg">
+                            ${ca.f} ${ca.n} ⇄ ${cb.f} ${cb.n}
+                        </div>
+                        <i class="fas fa-arrow-up-right text-blue-400 opacity-0 group-hover:opacity-100 transition"></i>
+                    </div>
+                    <div class="text-sm text-slate-400 mb-3">${f.d}</div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-2xl font-bold text-green-400">${f.s.toFixed(2)}</div>
+                        <div class="text-xs text-slate-500">$${f.v.toLocaleString()}M</div>
+                    </div>
+                    <div class="mt-2 h-2 bg-slate-700 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-green-400 to-blue-400 transition-all duration-1000" style="width: ${f.s * 100}%"></div>
+                    </div>
+                `;
+                
+                div.addEventListener('click', () => {
+                    setView('top');
+                });
+                
+                container.appendChild(div);
+            });
+        }
+
+        // Fonction pour rendre la liste complète des flux
+        function renderTopFluxes() {
+            const container = document.getElementById('top-fluxes-list');
+            container.innerHTML = '';
+            
+            topFluxesData.forEach((f, i) => {
+                const ca = DB.countries[f.a];
+                const cb = DB.countries[f.b];
+                
+                // Trouver les accords communs
+                const commonAgreements = ca.ag.filter(a => cb.ag.includes(a));
+                
+                const div = document.createElement('div');
+                div.className = 'group bg-gradient-to-r from-blue-900/10 to-purple-900/10 hover:from-blue-900/30 hover:to-purple-900/30 border-l-4 border-green-500 rounded-lg p-4 transition cursor-pointer';
+                div.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="flex items-center justify-center w-8 h-8 bg-green-500/20 text-green-400 rounded-full font-bold text-sm">
+                                    #${i + 1}
+                                </span>
+                                <div class="font-bold text-lg">
+                                    ${ca.f} ${ca.n} ⇄ ${cb.f} ${cb.n}
+                                </div>
+                                <i class="fas fa-arrow-up-right text-blue-400 opacity-0 group-hover:opacity-100 transition"></i>
+                            </div>
+                            <div class="text-sm text-slate-400 ml-11">${f.d}</div>
+                            <div class="ml-11 mt-2 flex gap-2">
+                                ${commonAgreements.map(ag => `
+                                    <span class="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded">${ag}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="text-right ml-4">
+                            <div class="text-3xl font-bold text-green-400">${f.s.toFixed(2)}</div>
+                            <div class="text-xs text-slate-500 mt-1">$${f.v.toLocaleString()}M</div>
+                            <div class="mt-2 w-24 h-2 bg-slate-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-green-400 to-blue-400" style="width: ${f.s * 100}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(div);
+            });
+        }
+
+        // Fonction pour rendre la vue des régions
+        function renderRegions() {
+            const agreementsList = document.getElementById('agreements-list');
+            const regionChart = document.getElementById('region-chart');
+            
+            // Liste des accords
+            const agreements = [
+                { name: 'Union Européenne (EU)', bonus: '15%', members: 27, color: 'blue' },
+                { name: 'Partenariat Régional Économique Global (RCEP)', bonus: '12%', members: 15, color: 'green' },
+                { name: 'BRICS', bonus: '10%', members: 10, color: 'orange' },
+                { name: 'Zone de Libre-Échange Continentale Africaine (AfCFTA)', bonus: '10%', members: 54, color: 'yellow' },
+                { name: 'Accord Canada–États-Unis–Mexique (USMCA)', bonus: '14%', members: 3, color: 'purple' },
+                { name: 'Accords d\'Abraham', bonus: '12%', members: 4, color: 'red' },
+                { name: 'Conseil de Coopération du Golfe (GCC)', bonus: '11%', members: 6, color: 'cyan' },
+                { name: 'ASEAN', bonus: '10%', members: 10, color: 'pink' }
+            ];
+            
+            agreementsList.innerHTML = '';
+            agreements.forEach(ag => {
+                const div = document.createElement('div');
+                div.className = 'p-4 bg-slate-800/50 rounded-lg border-l-4 border-' + ag.color + '-500';
+                div.innerHTML = `
+                    <h4 class="font-bold text-lg mb-2">${ag.name}</h4>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm text-slate-400">Bonus de synergie: <span class="font-bold text-${ag.color}-400">${ag.bonus}</span></div>
+                        <div class="text-sm text-slate-400">${ag.members} membres</div>
+                    </div>
+                    <div class="mt-2 h-2 bg-slate-700 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-${ag.color}-400 to-${ag.color}-600" style="width: ${ag.members}%"></div>
+                    </div>
+                `;
+                agreementsList.appendChild(div);
+            });
+            
+            // Graphique des régions
+            const regionCounts = {
+                'Europe': Object.values(DB.countries).filter(c => c.r === 'EUR').length,
+                'Asie': Object.values(DB.countries).filter(c => c.r === 'ASIA').length,
+                'Amériques': Object.values(DB.countries).filter(c => c.r === 'AME').length,
+                'Afrique': Object.values(DB.countries).filter(c => c.r === 'AFR').length,
+                'Moyen-Orient': Object.values(DB.countries).filter(c => c.r === 'ME').length,
+                'Océanie': Object.values(DB.countries).filter(c => c.r === 'OCE').length
+            };
+            
+            regionChart.innerHTML = `
+                <div class="space-y-4">
+                    ${Object.entries(regionCounts).map(([region, count]) => {
+                        const percentage = (count / Object.keys(DB.countries).length * 100).toFixed(1);
+                        let colorClass = 'bg-blue-500';
+                        
+                        if (region === 'Asie') colorClass = 'bg-green-500';
+                        else if (region === 'Amériques') colorClass = 'bg-purple-500';
+                        else if (region === 'Afrique') colorClass = 'bg-yellow-500';
+                        else if (region === 'Moyen-Orient') colorClass = 'bg-red-500';
+                        else if (region === 'Océanie') colorClass = 'bg-cyan-500';
+                        
+                        return `
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm">${region}</span>
+                                    <span class="text-sm font-bold">${count} (${percentage}%)</span>
+                                </div>
+                                <div class="h-3 bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full ${colorClass} transition-all duration-1000" style="width: ${percentage}%"></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Fonction pour rendre la vue de comparaison
+        function renderCompare() {
+            const compareSelection = document.getElementById('compare-selection');
+            const compareResults = document.getElementById('compare-results');
+            
+            // Sélection des pays
+            compareSelection.innerHTML = '';
+            
+            for (let i = 1; i <= 5; i++) {
+                const select = document.createElement('select');
+                select.className = 'bg-slate-800 border border-slate-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 transition';
+                select.id = `compare-select-${i}`;
+                select.innerHTML = `<option value="">-- Pays ${i} --</option>`;
+                
+                Object.keys(DB.countries).forEach(k => {
+                    const country = DB.countries[k];
+                    const option = document.createElement('option');
+                    option.value = k;
+                    option.textContent = `${country.f} ${country.n}`;
+                    select.appendChild(option);
+                });
+                
+                select.addEventListener('change', () => {
+                    updateCompareResults();
+                });
+                
+                compareSelection.appendChild(select);
+            }
+            
+            // Initialiser les résultats
+            compareResults.innerHTML = `
+                <div class="text-center py-12 text-slate-500">
+                    <i class="fas fa-exchange-alt text-4xl mx-auto mb-4 opacity-30"></i>
+                    <p class="text-sm">Sélectionnez des pays pour les comparer</p>
+                </div>
+            `;
+        }
+
+        // Fonction pour mettre à jour les résultats de comparaison
+        function updateCompareResults() {
+            const selected = [];
+            for (let i = 1; i <= 5; i++) {
+                const select = document.getElementById(`compare-select-${i}`);
+                if (select.value) selected.push(select.value);
+            }
+            
+            if (selected.length < 2) {
+                document.getElementById('compare-results').innerHTML = `
+                    <div class="text-center py-12 text-slate-500">
+                        <i class="fas fa-exchange-alt text-4xl mx-auto mb-4 opacity-30"></i>
+                        <p class="text-sm">Sélectionnez au moins 2 pays pour les comparer</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Mettre à jour le badge
+            document.getElementById('compare-badge').textContent = selected.length;
+            
+            // Générer le tableau de comparaison
+            let tableHTML = `
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-700">
+                                <th class="text-left p-3">Indicateur</th>
+                                ${selected.map(code => `<th class="text-left p-3">${DB.countries[code].f} ${DB.countries[code].n}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            // Indicateurs à comparer
+            const indicators = [
+                { key: 'p', label: 'PIB (B USD)', formatter: v => v },
+                { key: 'w', label: 'Croissance (%)', formatter: v => v },
+                { key: 'i', label: 'Infrastructure', formatter: v => `${v}/100` },
+                { key: 't', label: 'Technologie', formatter: v => `${v}/100` },
+                { key: 's', label: 'Stabilité', formatter: v => `${v}/100` },
+                { key: 'g', label: 'SRG', formatter: v => `${v}/100` }
+            ];
+            
+            indicators.forEach(ind => {
+                tableHTML += `
+                    <tr class="border-b border-slate-800">
+                        <td class="p-3 font-medium">${ind.label}</td>
+                        ${selected.map(code => {
+                            const value = DB.countries[code].m[ind.key];
+                            return `<td class="p-3">${ind.formatter(value)}</td>`;
+                        }).join('')}
+                    </tr>
+                `;
+            });
+            
+            // Ressources
+            tableHTML += `
+                <tr class="border-b border-slate-800">
+                    <td class="p-3 font-medium">Ressources</td>
+                    ${selected.map(code => {
+                        const resources = DB.countries[code].res.join(', ');
+                        return `<td class="p-3 text-xs">${resources}</td>`;
+                    }).join('')}
+                </tr>
+            `;
+            
+            // Services
+            tableHTML += `
+                <tr class="border-b border-slate-800">
+                    <td class="p-3 font-medium">Services</td>
+                    ${selected.map(code => {
+                        const services = DB.countries[code].srv.join(', ');
+                        return `<td class="p-3 text-xs">${services}</td>`;
+                    }).join('')}
+                </tr>
+            `;
+            
+            // Accords
+            tableHTML += `
+                <tr>
+                    <td class="p-3 font-medium">Accords</td>
+                    ${selected.map(code => {
+                        const agreements = DB.countries[code].ag.join(', ') || 'Aucun';
+                        return `<td class="p-3 text-xs">${agreements}</td>`;
+                    }).join('')}
+                </tr>
+            `;
+            
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-6 text-center">
+                    <button onclick="calculateSynergies(['${selected.join("','")}'])" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-bold hover:scale-105 transition">
+                        <i class="fas fa-calculator mr-2"></i> Calculer les synergies entre ces pays
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('compare-results').innerHTML = tableHTML;
+        }
+
+        // Fonction pour calculer les synergies entre pays sélectionnés
+        function calculateSynergies(selectedCodes) {
+            if (selectedCodes.length < 2) return;
+            
+            let synergiesHTML = '<h4 class="text-xl font-bold mb-4 mt-6">Synergies entre les pays sélectionnés</h4><div class="space-y-4">';
+            
+            for (let i = 0; i < selectedCodes.length; i++) {
+                for (let j = i + 1; j < selectedCodes.length; j++) {
+                    const codeA = selectedCodes[i];
+                    const codeB = selectedCodes[j];
+                    const countryA = DB.countries[codeA];
+                    const countryB = DB.countries[codeB];
+                    
+                    // Trouver la meilleure combinaison de ressources
+                    let bestScore = 0;
+                    let bestResA = '';
+                    let bestResB = '';
+                    
+                    // Essayer toutes les combinaisons possibles
+                    const allResourcesA = [...countryA.res, ...countryA.srv];
+                    const allResourcesB = [...countryB.res, ...countryB.srv];
+                    
+                    for (const resA of allResourcesA) {
+                        for (const resB of allResourcesB) {
+                            const result = calc(codeA, codeB, resA, resB);
+                            if (result.s > bestScore) {
+                                bestScore = result.s;
+                                bestResA = resA;
+                                bestResB = resB;
+                            }
+                        }
+                    }
+                    
+                    if (bestScore > 0) {
+                        synergiesHTML += `
+                            <div class="p-4 bg-slate-800/50 rounded-lg">
+                                <div class="font-bold mb-2">${countryA.f} ${countryA.n} ⇄ ${countryB.f} ${countryB.n}</div>
+                                <div class="text-sm text-slate-400 mb-2">${bestResA} ⇄ ${bestResB}</div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-lg font-bold ${bestScore >= 0.75 ? 'text-green-400' : bestScore >= 0.55 ? 'text-yellow-400' : 'text-orange-400'}">
+                                        Score: ${bestScore.toFixed(3)}
+                                    </div>
+                                    <div class="text-xs text-slate-500">
+                                        ${countryA.ag.filter(a => countryB.ag.includes(a)).length > 0 
+                                            ? `<i class="fas fa-handshake text-green-400"></i> Accords communs` 
+                                            : `<i class="fas fa-times text-red-400"></i> Pas d'accords`}
+                                    </div>
+                                </div>
+                                <div class="mt-2 h-2 bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full ${bestScore >= 0.75 ? 'bg-gradient-to-r from-green-400 to-blue-400' : bestScore >= 0.55 ? 'bg-gradient-to-r from-yellow-400 to-orange-400' : 'bg-gradient-to-r from-orange-400 to-red-400'}" 
+                                         style="width: ${bestScore * 100}%"></div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            }
+            
+            synergiesHTML += '</div>';
+            document.getElementById('compare-results').innerHTML += synergiesHTML;
+        }
+
+        // Initialiser l'application au chargement
+        window.onload = function() {
+            // Initialiser les sélecteurs de pays
+            const countrySelectA = document.getElementById('country-a');
+            const countrySelectB = document.getElementById('country-b');
+            
+            Object.keys(DB.countries).forEach(k => {
+                const country = DB.countries[k];
+                
+                // Pour le simulateur
+                const optionA = document.createElement('option');
+                optionA.value = k;
+                optionA.textContent = `${country.f} ${country.n}`;
+                countrySelectA.appendChild(optionA);
+                
+                const optionB = document.createElement('option');
+                optionB.value = k;
+                optionB.textContent = `${country.f} ${country.n}`;
+                countrySelectB.appendChild(optionB);
+            });
+            
+            // Initialiser le globe
+            renderGlobe();
+            renderRegionLegend();
+            
+            // Initialiser les flux principaux
+            renderHomeTopFluxes();
+            
+            // Initialiser les événements
+            document.getElementById('country-search').addEventListener('input', function() {
+                renderGlobe();
+                document.getElementById('clear-search').style.display = this.value ? 'block' : 'none';
+            });
+            
+            // Calculer les statistiques
+            const totalCountries = Object.keys(DB.countries).length;
+            const totalPairs = (totalCountries * (totalCountries - 1)) / 2;
+            const totalGDP = Object.values(DB.countries).reduce((sum, c) => sum + c.m.p, 0);
+            
+            document.getElementById('stats-summary').textContent = `${totalCountries} Pays • ${totalPairs} Paires`;
+            
+            // Afficher la vue par défaut
+            setView('home');
+        };
+    </script>
+</body>
+</html>

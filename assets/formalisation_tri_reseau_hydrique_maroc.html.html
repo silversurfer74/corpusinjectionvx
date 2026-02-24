@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI - Réseau Hydrique Maroc - Formalisation</title>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #34a853;
+            --accent-color: #ea4335;
+            --dark-bg: rgba(15, 25, 45, 0.85);
+            --light-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --text-secondary: #b3c6e0;
+            --border-color: rgba(255, 255, 255, 0.15);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --blur: blur(10px);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #0c2461 0%, #1e3799 50%, #4a69bd 100%);
+            background-attachment: fixed;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background: var(--dark-bg);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 30px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--primary-color);
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 25px 0 10px;
+            color: var(--secondary-color);
+        }
+        
+        h4 {
+            font-size: 1.2rem;
+            margin: 20px 0 10px;
+            color: var(--text-secondary);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--light-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+        
+        th {
+            background-color: rgba(26, 115, 232, 0.2);
+            font-weight: 600;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .toc-container {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .toc-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .toc-list {
+            list-style-type: none;
+            margin-left: 0;
+        }
+        
+        .toc-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .toc-list li:before {
+            content: "•";
+            color: var(--secondary-color);
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+        
+        .toc-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .toc-list a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        .highlight {
+            background-color: rgba(234, 67, 53, 0.15);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .color-1 {
+            color: #ff6b6b;
+        }
+        
+        .color-2 {
+            color: #4ecdc4;
+        }
+        
+        .color-3 {
+            color: #ffe66d;
+        }
+        
+        .color-4 {
+            color: #1dd1a1;
+        }
+        
+        .color-5 {
+            color: #54a0ff;
+        }
+        
+        .formula {
+            font-family: 'Courier New', monospace;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary-color);
+            overflow-x: auto;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 20px;
+            margin: 25px 0;
+            color: var(--text-secondary);
+        }
+        
+        .conclusion {
+            background: rgba(52, 168, 83, 0.1);
+            border-left: 4px solid var(--secondary-color);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>THÉORIE DE LA RÉSONANCE INFORMATIONNELLE (TRI)</h1>
+            <h3>Application au Réseau Hydrique Marocain</h3>
+            <p>Formalisation • Calibration • ROI</p>
+            <p><strong>Protocole P8 → P5 → P6</strong></p>
+            <p>Février <span class="color-5">2026</span></p>
+        </header>
+        
+        <div class="toc-container">
+            <h2 class="toc-title">Table des Matières</h2>
+            <ol class="toc-list">
+                <li><a href="#section1">Formalisation de la TRI</a></li>
+                <li><a href="#section2">Calibration avec Données Réelles</a></li>
+                <li><a href="#section3">Chiffrage Budget et ROI</a></li>
+                <li><a href="#section4">Plan d'Action Opérationnel</a></li>
+                <li><a href="#section5">Recommandations Stratégiques</a></li>
+            </ol>
+        </div>
+        
+        <section id="section1">
+            <h2>1. Formalisation de la Théorie de la Résonance Informationnelle (TRI)</h2>
+            
+            <h3>1.1 Glossaire Formel des Concepts TRI</h3>
+            
+            <table>
+                <tr>
+                    <th>Concept</th>
+                    <th>Définition Opérationnelle</th>
+                </tr>
+                <tr>
+                    <td><strong>P8</strong></td>
+                    <td>Spectrométrie Informationnelle --- Phase d'observation systématique des invariants structurels à partir de données empiriques. Détecte les patterns stables, répétitifs et quantifiables sans intervention corrective.</td>
+                </tr>
+                <tr>
+                    <td><strong>P5</strong></td>
+                    <td>Rotor Paradigmatique --- Transformation conceptuelle qui pivote la compréhension du problème. Identifie le chemin de moindre résistance informationnelle et reformule le système vers sa configuration optimale naturelle.</td>
+                </tr>
+                <tr>
+                    <td><strong>P6</strong></td>
+                    <td>Solution Élégante --- Configuration finale qui émerge naturellement de P5. Caractérisée par sa simplicité, son efficacité énergétique minimale et sa stabilité systémique. Mathématiquement modélisable et prédictible.</td>
+                </tr>
+                <tr>
+                    <td><strong>Entropie Info.</strong></td>
+                    <td>Mesure du désordre et de la dispersion énergétique dans un système. Dans le contexte hydrique: H = (Pertes/Production) × E_spécifique, où E_spécifique est l'énergie consommée par m³. Plus H est élevé, plus le système est inefficient.</td>
+                </tr>
+                <tr>
+                    <td><strong>Résonance</strong></td>
+                    <td>État d'alignement optimal entre contraintes et solutions. Un système résonne quand il minimise spontanément son entropie informationnelle. Indicateur: ROI > 2, temps de retour < durée de vie technique, acceptabilité sociale élevée.</td>
+                </tr>
+            </table>
+            
+            <h3>1.2 Indicateurs Mesurables</h3>
+            
+            <p><strong>Phase P8 --- Indicateurs d'Observation</strong></p>
+            <ul>
+                <li>Taux de pertes réseau (%): Volume perdu / Volume produit × <span class="color-1">100</span></li>
+                <li>Indice Linéaire de Pertes (ILP): m³ perdus/km/jour</li>
+                <li>Rendement du réseau (%): Volume consommé / Volume introduit × <span class="color-1">100</span></li>
+                <li>Intensité énergétique: kWh consommés par m³ produit</li>
+            </ul>
+            
+            <p><strong>Phase P5 --- Indicateurs de Pivot</strong></p>
+            <ul>
+                <li>Ratio coût/m³ économisé vs coût/m³ produit neuf</li>
+                <li>Coefficient d'efficacité k dans P(x) = P₀·e⁻ᵏˣ</li>
+                <li>Réduction d'entropie: ΔH = H₀ - H(x)</li>
+            </ul>
+            
+            <p><strong>Phase P6 --- Indicateurs de Solution</strong></p>
+            <ul>
+                <li>Volume d'eau récupéré annuel (m³)</li>
+                <li>ROI (Return on Investment) = Bénéfices cumulés / Investissement</li>
+                <li>Temps de retour sur investissement (années)</li>
+                <li>Population équivalente desservie</li>
+            </ul>
+        </section>
+        
+        <section id="section2">
+            <h2>2. Calibration avec Données Réelles</h2>
+            
+            <h3>2.1 Phase P8 --- Observation du Pattern Hydrique</h3>
+            
+            <p><strong>Données Nationales (ONEE <span class="color-5">2022-2024</span>)</strong></p>
+            
+            <table>
+                <tr>
+                    <th>Indicateur</th>
+                    <th>Valeur</th>
+                </tr>
+                <tr>
+                    <td>Taux moyen de pertes réseau</td>
+                    <td><span class="highlight color-1"><strong>27-30%</strong></span></td>
+                </tr>
+                <tr>
+                    <td>Production annuelle eau potable</td>
+                    <td>≈ <span class="color-5">1,5</span> milliard m³/an</td>
+                </tr>
+                <tr>
+                    <td>Volume perdu annuel</td>
+                    <td><span class="highlight color-1"><strong>≈ 450 millions m³/an</strong></span></td>
+                </tr>
+                <tr>
+                    <td>Population équivalente perdue</td>
+                    <td><span class="highlight color-1"><strong>≈ 25 millions habitants</strong></span></td>
+                </tr>
+                <tr>
+                    <td>Budget réduction pertes (<span class="color-5">2023</span>)</td>
+                    <td><span class="color-5">6</span> milliards DH annoncés</td>
+                </tr>
+            </table>
+            
+            <p><strong>Benchmark International</strong></p>
+            
+            <table>
+                <tr>
+                    <th>Pays/Région</th>
+                    <th>Rendement</th>
+                    <th>Pertes</th>
+                </tr>
+                <tr>
+                    <td>Maroc</td>
+                    <td><span class="color-2">70-73%</span></td>
+                    <td><span class="color-1"><strong>27-30%</strong></span></td>
+                </tr>
+                <tr>
+                    <td>France</td>
+                    <td><span class="color-2">80-81%</span></td>
+                    <td><span class="color-1">19-20%</span></td>
+                </tr>
+                <tr>
+                    <td>Marseille (meilleure pratique)</td>
+                    <td><span class="color-2"><strong>90%</strong></span></td>
+                    <td><span class="color-1">10%</span></td>
+                </tr>
+                <tr>
+                    <td>SEDIF Paris (performant)</td>
+                    <td><span class="color-2"><strong>91,6%</strong></span></td>
+                    <td><span class="color-1">8,4%</span></td>
+                </tr>
+            </table>
+            
+            <div class="conclusion">
+                <p><strong>Conclusion P8:</strong> Le Maroc affiche des pertes <span class="highlight color-1">50% supérieures</span> à la moyenne française et <span class="highlight color-1">3× supérieures</span> aux meilleures pratiques. Un potentiel d'amélioration de <span class="highlight color-4">15-20 points de rendement</span> est réaliste.</p>
+            </div>
+            
+            <h3>2.2 Phase P5 --- Modélisation du Pivot</h3>
+            
+            <p><strong>Équation Canonique P6</strong></p>
+            
+            <div class="formula">
+                <strong>P(x) = P₀ · e⁻ᵏˣ</strong>
+            </div>
+            
+            <p><strong>Où:</strong></p>
+            <ul>
+                <li>P(x) = Taux de pertes après investissement cumulé x</li>
+                <li>P₀ = Pertes initiales = <span class="color-1">30%</span> = <span class="color-1">0,30</span></li>
+                <li>x = Investissement cumulé (en milliards DH)</li>
+                <li>k = Coefficient d'efficacité structurelle (à calibrer)</li>
+            </ul>
+            
+            <p><strong>Calibration de k --- Données Empiriques</strong></p>
+            
+            <p>Hypothèses basées sur expériences internationales et programme ONEE:</p>
+            <ul>
+                <li>Budget ONEE annoncé: <span class="color-5">6</span> milliards DH pour réduction des pertes</li>
+                <li>Objectif réaliste: réduire les pertes de <span class="color-1">30%</span> → <span class="color-2">15%</span> sur <span class="color-5">10</span> ans</li>
+                <li>Investissement cumulé nécessaire: ≈ <span class="color-5">60</span> milliards DH sur <span class="color-5">10</span> ans</li>
+            </ul>
+            
+            <p><strong>Résolution pour k:</strong></p>
+            
+            <p>Si P(<span class="color-5">60</span>) = <span class="color-2">0,15</span> et P₀ = <span class="color-1">0,30</span></p>
+            
+            <div class="formula">
+                <span class="color-2">0,15</span> = <span class="color-1">0,30</span> · e⁻⁶⁰ᵏ
+                <br>
+                <span class="color-2">0,5</span> = e⁻⁶⁰ᵏ
+                <br>
+                ln(0,5) = -<span class="color-5">60</span>k
+                <br>
+                <strong>k ≈ <span class="color-4">0,0116</span></strong>
+            </div>
+            
+            <p><strong>Équation Calibrée:</strong></p>
+            
+            <div class="formula">
+                <strong>P(x) = <span class="color-1">0,30</span> · e⁻<span class="color-4">⁰'⁰¹¹⁶</span>ˣ</strong>
+            </div>
+            
+            <h3>2.3 Phase P6 --- Eau Récupérée et Impact</h3>
+            
+            <p><strong>Formule d'Eau Récupérée</strong></p>
+            
+            <div class="formula">
+                <strong>W(x) = V_prod × (P₀ - P(x))</strong>
+            </div>
+            
+            <p>Où V_prod = <span class="color-5">1,5</span> milliard m³/an (production actuelle)</p>
+            
+            <p><strong>Projections sur <span class="color-5">10</span> ans</strong></p>
+            
+            <table>
+                <tr>
+                    <th>Année</th>
+                    <th>Invest. (Mrd DH)</th>
+                    <th>Pertes</th>
+                    <th>Eau réc. (Mm³)</th>
+                    <th>Pop. Equiv. (M)</th>
+                </tr>
+                <tr>
+                    <td><span class="color-5">0</span></td>
+                    <td><span class="color-5">0</span></td>
+                    <td><span class="color-1">30.0%</span></td>
+                    <td><span class="color-5">0</span></td>
+                    <td><span class="color-5">0.0</span></td>
+                </tr>
+                <tr>
+                    <td><span class="color-5">2</span></td>
+                    <td><span class="color-5">12</span></td>
+                    <td><span class="color-1">26.1%</span></td>
+                    <td><span class="color-4">58</span></td>
+                    <td><span class="color-4">3.2</span></td>
+                </tr>
+                <tr>
+                    <td><span class="color-5">4</span></td>
+                    <td><span class="color-5">24</span></td>
+                    <td><span class="color-1">22.7%</span></td>
+                    <td><span class="color-4">109</span></td>
+                    <td><span class="color-4">6.0</span></td>
+                </tr>
+                <tr>
+                    <td><span class="color-5">6</span></td>
+                    <td><span class="color-5">36</span></td>
+                    <td><span class="color-1">19.8%</span></td>
+                    <td><span class="color-4">154</span></td>
+                    <td><span class="color-4">8.4</span></td>
+                </tr>
+                <tr>
+                    <td><span class="color-5">8</span></td>
+                    <td><span class="color-5">48</span></td>
+                    <td><span class="color-1">17.2%</span></td>
+                    <td><span class="color-4">192</span></td>
+                    <td><span class="color-4">10.5</span></td>
+                </tr>
+                <tr>
+                    <td><span class="color-5">10</span></td>
+                    <td><span class="color-5">60</span></td>
+                    <td><span class="color-2">15.0%</span></td>
+                    <td><span class="color-4">226</span></td>
+                    <td><span class="color-4">12.4</span></td>
+                </tr>
+            </table>
+            
+            <div class="conclusion">
+                <p><strong>Résultat après <span class="color-5">10</span> ans:</strong> ≈ <span class="highlight color-4">225 millions m³/an</span> récupérés --- équivalent à la consommation de <span class="highlight color-4"><strong>12 millions d'habitants</strong></span>.</p>
+            </div>
+        </section>
+        
+        <section id="section3">
+            <h2>3. Chiffrage Budget et ROI Détaillé</h2>
+            
+            <h3>3.1 Structure des Coûts</h3>
+            
+            <p><strong>Coût de Rénovation du Réseau</strong></p>
+            
+            <p>Données comparatives:</p>
+            <ul>
+                <li>France (SEDIF): <span class="color-5">33M€</span> pour <span class="color-5">41</span> km → <span class="color-5">805K€/km</span> → ≈ <span class="color-5">8,8M</span> DH/km</li>
+                <li>France (renouvellement moyen): <span class="color-5">500-800€/m</span> → <span class="color-5">5,5-8,8M</span> DH/km</li>
+                <li>Maroc (estimation adaptée): <span class="color-5">4-6M</span> DH/km (coûts main d'œuvre inférieurs)</li>
+            </ul>
+            
+            <div class="conclusion">
+                <p><strong>Hypothèse Retenue pour le Maroc:</strong></p>
+                <p><strong><span class="highlight color-5">5 millions DH / km</span> de réseau rénové</strong></p>
+            </div>
+            
+            <p><strong>Comparaison: Coût du Dessalement</strong></p>
+            
+            <table>
+                <tr>
+                    <th>Paramètre</th>
+                    <th>Valeur</th>
+                </tr>
+                <tr>
+                    <td>Coût production dessalement (technologies récentes)</td>
+                    <td><span class="color-5">6-10</span> DH/m³</td>
+                </tr>
+                <tr>
+                    <td>Coût avec énergies renouvelables (futur)</td>
+                    <td><span class="color-5">1,5-2</span> DH/m³</td>
+                </tr>
+                <tr>
+                    <td>Part énergie dans coût dessalement</td>
+                    <td><span class="color-5">40-60%</span></td>
+                </tr>
+                <tr>
+                    <td>Coût production eau conventionnelle (barrages)</td>
+                    <td><span class="color-5">1-2</span> DH/m³</td>
+                </tr>
+            </table>
+            
+            <h3>3.2 Calcul du ROI</h3>
+            
+            <p><strong>Scénario de Référence: Programme <span class="color-5">10</span> ans</strong></p>
+            <ul>
+                <li>Investissement total: <span class="color-5">60</span> milliards DH sur <span class="color-5">10</span> ans (<span class="color-5">6</span> Mrd DH/an)</li>
+                <li>Objectif: réduire pertes de <span class="color-1">30%</span> → <span class="color-2">15%</span></li>
+                <li>Eau récupérée à terme: <span class="color-4">225</span> millions m³/an</li>
+            </ul>
+            
+            <p><strong>Bénéfices Économiques Annuels (année <span class="color-5">10</span>)</strong></p>
+            
+            <ol>
+                <li><strong>Économie d'énergie de pompage:</strong>
+                <br><span class="color-4">225M</span> m³ × <span class="color-5">0,5</span> kWh/m³ × <span class="color-5">1</span> DH/kWh = <span class="highlight color-4"><strong>112,5M DH/an</strong></span></li>
+                
+                <li><strong>Économie de traitement:</strong>
+                <br><span class="color-4">225M</span> m³ × <span class="color-5">0,3</span> DH/m³ = <span class="highlight color-4"><strong>67,5M DH/an</strong></span></li>
+                
+                <li><strong>Coût évité du dessalement alternatif:</strong>
+                <br><span class="color-4">225M</span> m³ × <span class="color-5">4</span> DH/m³ (coût marginal moyen) = <span class="highlight color-4"><strong>900M DH/an</strong></span></li>
+                
+                <li><strong>Réduction maintenance urgente:</strong>
+                <br>Estimation: <span class="highlight color-4"><strong>200M DH/an</strong></span></li>
+            </ol>
+            
+            <div class="conclusion">
+                <p><strong>TOTAL BÉNÉFICES ANNUELS:</strong></p>
+                <p><strong><span class="highlight color-4">≈ 1,28 milliard DH/an</span></strong></p>
+            </div>
+            
+            <p><strong>Calcul du ROI sur <span class="color-5">20</span> ans (durée de vie du réseau rénové)</strong></p>
+            <ul>
+                <li>Investissement: <span class="color-5">60</span> milliards DH</li>
+                <li>Bénéfices cumulés sur <span class="color-5">20</span> ans: <span class="color-4">1,28</span> Mrd × <span class="color-5">20</span> = <span class="color-4">25,6</span> milliards DH</li>
+                <li>Temps de retour: <span class="color-5">60</span> / <span class="color-4">1,28</span> ≈ <span class="color-5">47</span> ans (mais bénéfices substantiels dès année <span class="color-5">5</span>)</li>
+            </ul>
+            
+            <div class="formula">
+                <strong>ROI après <span class="color-5">20</span> ans:</strong>
+                <br>
+                <strong>ROI ≈ <span class="color-4">0,43</span> (<span class="color-4">43%</span> de retour)</strong>
+            </div>
+            
+            <div class="quote">
+                <p><strong>Note Importante:</strong> Le ROI < 1 sur <span class="color-5">20</span> ans semble faible, mais l'analyse doit intégrer:</p>
+                <ul>
+                    <li>Durée de vie du réseau: <span class="color-5">50-80</span> ans (pas <span class="color-5">20</span> ans)</li>
+                    <li>Bénéfices non monétisés: sécurité hydrique, résilience climatique, indépendance énergétique</li>
+                    <li>Coût d'opportunité: sans rénovation, pertes s'aggravent avec vétusté</li>
+                    <li>Comparaison favorable au dessalement (coûts opérationnels permanents)</li>
+                </ul>
+            </div>
+            
+            <h3>3.3 Analyse Comparative Rénovation vs Dessalement</h3>
+            
+            <table>
+                <tr>
+                    <th>Critère</th>
+                    <th>Rénovation Réseau</th>
+                    <th>Dessalement</th>
+                </tr>
+                <tr>
+                    <td>Coût CAPEX</td>
+                    <td><span class="color-5">60</span> Mrd DH / <span class="color-5">10</span> ans</td>
+                    <td>≈ <span class="color-5">30</span> Mrd DH pour <span class="color-4">225M</span> m³/an</td>
+                </tr>
+                <tr>
+                    <td>Coût OPEX/an</td>
+                    <td>Faible (maintenance)</td>
+                    <td>≈ <span class="color-5">900M</span> DH/an</td>
+                </tr>
+                <tr>
+                    <td>Consommation énergétique</td>
+                    <td>Réduite (moins de pompage)</td>
+                    <td>Élevée (<span class="color-5">2,5-3</span> kWh/m³)</td>
+                </tr>
+                <tr>
+                    <td>Empreinte carbone</td>
+                    <td>Faible</td>
+                    <td>Élevée (sauf EnR)</td>
+                </tr>
+                <tr>
+                    <td>Durée de vie</td>
+                    <td><span class="color-5">50-80</span> ans</td>
+                    <td><span class="color-5">25-30</span> ans</td>
+                </tr>
+                <tr>
+                    <td>Couplage géographique</td>
+                    <td>Tout le territoire</td>
+                    <td>Zones côtières uniquement</td>
+                </tr>
+            </table>
+            
+            <div class="conclusion">
+                <p><strong>Conclusion:</strong> La rénovation du réseau est complémentaire au dessalement, avec un CAPEX comparable mais des OPEX bien inférieurs et une durée de vie double.</p>
+            </div>
+        </section>
+        
+        <section id="section4">
+            <h2>4. Plan d'Action Opérationnel</h2>
+            
+            <h3>4.1 Feuille de Route <span class="color-5">2026-2035</span></h3>
+            
+            <p><strong>Phase 1 (<span class="color-5">2026-2028</span>) --- Diagnostic et Pilotes</strong></p>
+            <ul>
+                <li>Cartographie détaillée des pertes par région (système SIG + télédétection)</li>
+                <li>Projets pilotes: Casablanca (zone urbaine dense), Marrakech (zone touristique)</li>
+                <li>Technologies: détection acoustique, smart meters, gestion de pression</li>
+                <li>Budget: <span class="color-5">5</span> milliards DH (diagnostic <span class="color-5">1</span> Mrd, pilotes <span class="color-5">4</span> Mrd)</li>
+            </ul>
+            
+            <p><strong>Phase 2 (<span class="color-5">2029-2032</span>) --- Déploiement Prioritaire</strong></p>
+            <ul>
+                <li>Grandes métropoles: Casablanca, Rabat, Fès, Marrakech, Tanger</li>
+                <li>Taux de renouvellement: <span class="color-5">1,2%</span> du réseau/an</li>
+                <li>Budget: <span class="color-5">24</span> milliards DH (<span class="color-5">6</span> Mrd/an)</li>
+            </ul>
+            
+            <p><strong>Phase 3 (<span class="color-5">2033-2035</span>) --- Extension Nationale</strong></p>
+            <ul>
+                <li>Villes moyennes et réseaux ruraux structurants</li>
+                <li>Taux de renouvellement: <span class="color-5">1,5%</span> du réseau/an</li>
+                <li>Budget: <span class="color-5">18</span> milliards DH (<span class="color-5">6</span> Mrd/an)</li>
+            </ul>
+            
+            <p><strong>Phase 4 (<span class="color-5">2036+</span>) --- Maintenance Continue</strong></p>
+            <ul>
+                <li>Entretien préventif du réseau rénové</li>
+                <li>Taux de renouvellement: <span class="color-5">1%</span> du réseau/an (standard international)</li>
+                <li>Budget: <span class="color-5">4-5</span> milliards DH/an</li>
+            </ul>
+            
+            <h3>4.2 Gouvernance et Acteurs</h3>
+            <ul>
+                <li><strong>Pilotage:</strong> ONEE --- Branche Eau (coordination technique)</li>
+                <li><strong>Financement:</strong> État (<span class="color-5">40%</span>), Prêts internationaux KfW/BM (<span class="color-5">30%</span>), PPP (<span class="color-5">30%</span>)</li>
+                <li><strong>Exécution:</strong> Sociétés Régionales Multiservices + Opérateurs privés</li>
+                <li><strong>Contrôle:</strong> Observatoire National de l'Eau (KPIs trimestriels)</li>
+            </ul>
+            
+            <h3>4.3 Technologies Prioritaires</h3>
+            <ol>
+                <li><strong>Détection de fuites</strong>
+                <br>Acoustique, corrélation, caméras thermiques, drones avec capteurs</li>
+                
+                <li><strong>Smart Water Networks</strong>
+                <br>Compteurs intelligents, IoT, plateforme de supervision centralisée (en cours ONEE)</li>
+                
+                <li><strong>Gestion de pression</strong>
+                <br>Valves régulation, sectorisation réseau, réduction pression nocturne</li>
+                
+                <li><strong>Matériaux modernes</strong>
+                <br>PEHD (Polyéthylène Haute Densité), PVC résistant, fonte ductile</li>
+            </ol>
+        </section>
+        
+        <section id="section5">
+            <h2>5. Recommandations Stratégiques</h2>
+            
+            <h3>5.1 Alignement TRI avec Politiques Publiques</h3>
+            
+            <p><strong>Cohérence avec le Programme National de l'Eau <span class="color-5">2020-2027</span></strong></p>
+            <ul>
+                <li>Budget total programme: <span class="color-5">128</span> milliards DH</li>
+                <li><strong>Proposition TRI: allouer <span class="color-5">47%</span> du budget (<span class="color-5">60</span> Mrd DH) à la rénovation</strong></li>
+                <li>Rationalisation: <span class="color-5">1</span> DH investi en réseau évite <span class="color-5">1,5</span> DH en dessalement</li>
+            </ul>
+            
+            <p><strong>Intégration avec Réformes Institutionnelles</strong></p>
+            <ul>
+                <li>Sociétés Régionales Multiservices: acteurs naturels de déploiement</li>
+                <li>Plateforme digitale ONEE (<span class="color-5">2024</span>): backbone technique du suivi</li>
+                <li>Décentralisation: autonomie budgétaire régionale pour réactivité</li>
+            </ul>
+            
+            <h3>5.2 Prochaines Étapes Immédiates (<span class="color-5">2026</span>)</h3>
+            <ol>
+                <li><strong>Étude de faisabilité détaillée</strong>
+                <br>Mandat: <span class="color-5">6</span> mois, Budget: <span class="color-5">50M</span> DH, Consultant international + ONEE</li>
+                
+                <li><strong>Projet pilote Casablanca</strong>
+                <br>Zone test: Ain Chock (<span class="color-5">100</span> km réseau), Durée: <span class="color-5">18</span> mois, Budget: <span class="color-5">500M</span> DH</li>
+                
+                <li><strong>Dialogue parties prenantes</strong>
+                <br>Ateliers: ONEE, Ministère Eau, Collectivités, Banques de développement</li>
+                
+                <li><strong>Communication publique</strong>
+                <br>Campagne pédagogique: "<span class="highlight">1 DH investi = 12 litres économisés/jour</span>"</li>
+            </ol>
+            
+            <h3>5.3 Critères de Succès (KPIs)</h3>
+            
+            <table>
+                <tr>
+                    <th>KPI</th>
+                    <th>Cible <span class="color-5">2030</span></th>
+                    <th>Cible <span class="color-5">2035</span></th>
+                </tr>
+                <tr>
+                    <td>Taux de pertes national</td>
+                    <td><span class="highlight color-2"><strong>&lt; 20%</strong></span></td>
+                    <td><span class="highlight color-2"><strong>&lt; 15%</strong></span></td>
+                </tr>
+                <tr>
+                    <td>Eau récupérée (M m³/an)</td>
+                    <td><span class="highlight color-4">&gt; 150</span></td>
+                    <td><span class="highlight color-4">&gt; 225</span></td>
+                </tr>
+                <tr>
+                    <td>Renouvellement (%/an)</td>
+                    <td><span class="highlight color-4">&gt; 1,2%</span></td>
+                    <td><span class="highlight color-4">&gt; 1,5%</span></td>
+                </tr>
+                <tr>
+                    <td>Digitalisation réseau (%)</td>
+                    <td><span class="highlight color-4">&gt; 60%</span></td>
+                    <td><span class="highlight color-4"><strong>&gt; 90%</strong></span></td>
+                </tr>
+            </table>
+            
+            <div class="conclusion">
+                <h3>Conclusion</h3>
+                <p>La Théorie de la Résonance Informationnelle appliquée au réseau hydrique marocain révèle une <strong>Solution Élégante P6</strong>: la rénovation massive des canalisations constitue le levier le plus efficient pour augmenter la capacité hydraulique nationale sans accroître l'entropie énergétique.</p>
+                
+                <p>Avec un investissement de <strong><span class="highlight color-5">60 milliards DH sur 10 ans</span></strong>, le Maroc peut récupérer l'équivalent de <strong><span class="highlight color-4">225 millions m³/an</span></strong> --- soit l'eau potable de <strong><span class="highlight color-4">12 millions d'habitants</span></strong> --- tout en préservant ses ressources conventionnelles et en réduisant sa dépendance au dessalement énergétiquement coûteux.</p>
+                
+                <p>Cette approche systémique incarne parfaitement le paradigme TRI: <strong>observer l'invariant (P8)</strong>, <strong>pivoter la compréhension (P5)</strong>, et <strong>laisser cristalliser la solution naturelle (P6)</strong>.</p>
+                
+                <div class="quote">
+                    <p><strong>"Réparer le réseau, c'est produire de l'eau sans en produire."</strong></p>
+                </div>
+                
+                <p><strong>--- Manifeste TRI • Février <span class="color-5">2026</span></strong></p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Document retranscrit intégralement en HTML avec design Glassmorphism • Février 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
